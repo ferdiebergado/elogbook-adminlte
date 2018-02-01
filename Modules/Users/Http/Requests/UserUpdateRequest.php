@@ -5,6 +5,7 @@ namespace Modules\Users\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Users\Rules\EqualToCurrent;
 use Modules\Users\Policies\UserPolicy;
+use Illuminate\Validation\Rule;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -20,7 +21,7 @@ class UserUpdateRequest extends FormRequest
         if (!$this->avatar) {
             return $this->decryptPassword($this->except('_token'));
         }
-        return $this->all();
+        return $this->all('_token');
     }
 
     /**
@@ -31,11 +32,18 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'filled|max:150',            
-            'password' => 'filled|confirmed|min:6|max:32',
-            'avatar' => 'filled|max:150',            
-            'old_password' => ['filled', new EqualToCurrent],
-            'userid' => 'filled|integer'
+            'email' => [
+                'required', 
+                'max:150', 
+                Rule::unique('users')->ignore(auth()->user()->id)
+            ],            
+            'password' => 'sometimes|confirmed|min:6|max:32',
+            'avatar' => 'sometimes|max:150',            
+            'old_password' => [
+                'sometimes', 
+                new EqualToCurrent
+            ],
+            'userid' => 'sometimes|integer'
         ];
     }
 

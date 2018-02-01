@@ -4,6 +4,7 @@ namespace Modules\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Users\Rules\EqualToCurrent;
+use Modules\Users\Policies\UserPolicy;
 
 class UserCreateRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class UserCreateRequest extends FormRequest
      */
     protected function validationData()
     {
-        return $this->decryptPassword($this->all());
+        return $this->decryptPassword($this->except('_token'));
     }
 
     /**
@@ -27,7 +28,7 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|max:150',            
+            'email' => 'required|unique:users|min:8|max:150',            
             'password' => 'required|confirmed|min:6|max:32'
         ];
     }
@@ -39,6 +40,6 @@ class UserCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return new UserPolicy;
     }
 }

@@ -234,7 +234,7 @@ return [
 
     ],
 
-    'salt' => env('APP_SALT'),
+    'salt' => env('APP_SALT', 'i8ZGKfgqIeFVjPvnZrAMUWQdBIIVyUOr'),
     'author' => env('APP_AUTHOR'),
     'version' => '1.0.0',
     'release' => 'alpha',
