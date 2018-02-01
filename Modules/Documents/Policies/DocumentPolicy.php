@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Policies;
+namespace Modules\Documents\Policies;
 
 use Modules\Users\Entities\User;
-use App\Modules\Users\Entities\User;
+use App\Modules\Documents\Entities\Document;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UsersPolicy
+class DocumentPolicy
 {
     use HandlesAuthorization;
 
@@ -24,49 +24,49 @@ class UsersPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the document.
      *
      * @param  \Modules\Users\Entities\User  $user
-     * @param  \App\Modules\Users\Entities\User  $model
+     * @param  \App\Modules\Documents\Entities\Document  $document
      * @return mixed
      */
-    public function view(User $user, User $model)
+    public function view(User $user, Document $document)
     {
-        //
+        return ($user->id === $model->id);
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can create documents.
      *
      * @param  \Modules\Users\Entities\User  $user
      * @return mixed
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the document.
      *
      * @param  \Modules\Users\Entities\User  $user
-     * @param  \App\Modules\Users\Entities\User  $model
+     * @param  \App\Modules\Documents\Entities\Document  $document
      * @return mixed
      */
-    public function update(User $user, User $model)
+    public function update(User $user, Document $document)
     {
-        return $user->id === auth()->user()->id);
+        return ($user->id === auth()->user()->id);        
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete the document.
      *
      * @param  \Modules\Users\Entities\User  $user
-     * @param  \App\Modules\Users\Entities\User  $model
+     * @param  \App\Modules\Documents\Entities\Document  $document
      * @return mixed
      */
-    public function delete(User $user, User $model)
+    public function delete(User $user, Document $document)
     {
-        //
+        return false;
     }
 }

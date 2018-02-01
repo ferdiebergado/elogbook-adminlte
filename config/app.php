@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Documents\Providers\DocumentsServiceProvider;
+
 return [
 
     /*
@@ -182,6 +184,7 @@ return [
         Modules\Auth\Providers\AuthServiceProvider::class,
         Modules\Users\Providers\UsersServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
+        Modules\Documents\Providers\DocumentsServiceProvider::class,
 
     ],
 

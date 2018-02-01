@@ -226,9 +226,9 @@ return [
     |
     */
     'generator'  => [
-        'basePath'      => base_path('Modules/Users'),
-        'rootNamespace' => 'Modules\Users\\',
-        'stubsOverridePath' => base_path('Modules/Users'),
+        'basePath'      => base_path('Modules/Documents'),
+        'rootNamespace' => 'Modules\Documents\\',
+        'stubsOverridePath' => base_path('Modules/Documents'),
         'paths'         => [
             'models'       => 'Entities',
             'repositories' => 'Repositories',
@@ -238,7 +238,8 @@ return [
             'validators'   => 'Validators',
             'controllers'  => 'Http/Controllers',
             'provider'     => 'RepositoryServiceProvider',
-            'criteria'     => 'Criteria'
+            'criteria'     => 'Criteria',
+            'requests'    => 'Http/Requests'
         ]
     ]
 ];

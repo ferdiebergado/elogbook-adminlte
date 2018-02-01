@@ -1,0 +1,25 @@
+{
+    "name": "ferdiebergado/documents",
+    "description": "",
+    "authors": [
+        {
+            "name": "Ferdinand Saporas Bergado",
+            "email": "ferdiebergado@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Documents\\Providers\\DocumentsServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Documents\\": ""
+        }
+    }
+}
