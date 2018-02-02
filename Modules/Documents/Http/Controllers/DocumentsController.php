@@ -4,8 +4,8 @@ namespace Modules\Documents\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\DocumentCreateRequest;
-use App\Http\Requests\DocumentUpdateRequest;
+use Modules\Documents\Http\Requests\DocumentCreateRequest;
+use Modules\Documents\Http\Requests\DocumentUpdateRequest;
 use Modules\Documents\Repositories\DocumentRepository;
 use Illuminate\Validation\ValidationException;
 use Exception;
@@ -79,7 +79,9 @@ class DocumentsController extends Controller
             }
 
             return redirect()->back()->with('message', $response['message']);
+
         } catch (ValidationException $e) {
+            
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,

@@ -32,7 +32,7 @@ class DocumentPolicy
      */
     public function view(User $user, Document $document)
     {
-        return ($user->id === $model->id);
+        return ($user->id === auth()->user()->id);
     }
 
     /**
@@ -43,7 +43,7 @@ class DocumentPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return ($user->id === auth()->user()->id);
     }
 
     /**
@@ -55,7 +55,7 @@ class DocumentPolicy
      */
     public function update(User $user, Document $document)
     {
-        return ($user->id === auth()->user()->id);        
+        return ($user->id === auth()->user()->id) && ($document->creator === $user->id);        
     }
 
     /**

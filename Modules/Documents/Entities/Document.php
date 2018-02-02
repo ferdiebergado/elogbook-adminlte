@@ -2,24 +2,44 @@
 
 namespace Modules\Documents\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
+// use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
 /**
  * Class Document.
  *
  * @package namespace Modules\Documents\Entities;
  */
-class Document extends Model implements Transformable
+class Document extends BaseModel
 {
-    use TransformableTrait;
+    use \Wildside\Userstamps\Userstamps;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+
+            'doctype_id',
+            'details',
+            'date_received',
+            'received_from',
+            'received_to',
+            'date_released',
+            'released_from',
+            'released_to',            
+            'persons_concerned', 
+            'action_taken', 
+            'received_by'    	
+
+    ];
+
+    protected $dates = [
+
+    	'date_received',
+    	'date_released'
+
+    ];
 
 }

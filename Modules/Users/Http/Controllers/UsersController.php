@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 // use Prettus\Validator\Contracts\ValidatorInterface;
 // use Prettus\Validator\Exceptions\ValidatorException;
 use Modules\Users\Http\Requests\UserUpdateRequest;
-use Modules\Users\Interfaces\UserRepository;
+use Modules\Users\Repositories\UserRepository;
 // use Modules\Users\Validators\UserValidator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;

@@ -13,7 +13,7 @@ class DocumentUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return new \Modules\Documents\Policies\DocumentPolicy;
     }
 
     /**
@@ -24,7 +24,17 @@ class DocumentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'doctype_id'        => 'required|integer',
+            'details'           => 'required|min:3|max:250',
+            'date_received'     => 'date',
+            'received_from'     => 'max:150',
+            'received_to'       => 'max:150',
+            'date_released'     => 'date',
+            'released_from'     => 'max:150',
+            'released_to'       => 'max:150',
+            'persons_concerned' => 'required|max:250', 
+            'action_taken'      => 'required|max:250',
+            'received_by'       => 'required|max:150'
         ];
     }
 }

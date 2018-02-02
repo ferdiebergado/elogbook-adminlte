@@ -4,7 +4,7 @@ namespace Modules\Users\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Modules\Users\Interfaces\UserRepository;
+use Modules\Users\Repositories\UserRepository;
 use Modules\Users\Entities\User;
 // use Modules\Users\Validators\UserValidator;
 use Illuminate\Support\Facades\Cache;
