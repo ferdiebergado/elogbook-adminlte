@@ -3,7 +3,7 @@
 namespace Modules\Documents\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
+// use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\Documents\Repositories\DocumentRepository;
 use Modules\Documents\Entities\Document;
 // use Modules\Documents\Validators\DocumentValidator;
@@ -19,17 +19,17 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
      * @var array
      */
     protected $fieldSearchable = [
-            'doctype_id',
-            'details',
-            'date_received',
-            'received_from',
-            'received_to',
-            'date_released',
-            'released_from',
-            'released_to',            
-            'persons_concerned', 
-            'action_taken', 
-            'received_by'  
+            'id',
+            'doctype.name' => 'like',
+            'details' => 'like',
+            'received_from' => 'like',
+            'received_to' => 'like',
+            'released_from' => 'like',
+            'released_to' => 'like',            
+            'persons_concerned' => 'like', 
+            'action_taken' => 'like', 
+            'received_by' => 'like',
+            'released_by' => 'like'  
     ];
     
     /**
@@ -42,14 +42,13 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
         return Document::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */
     public function boot()
     {
-        $this->pushCriteria(app(RequestCriteria::class));
+        // $this->pushCriteria(app(RequestCriteria::class));
+        $this->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));        
     }
     
 }

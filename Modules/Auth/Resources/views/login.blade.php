@@ -2,7 +2,7 @@
 
 @section('title')
 
-    Login
+    LOGIN
 
 @endsection
 

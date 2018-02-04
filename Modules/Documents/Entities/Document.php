@@ -31,7 +31,8 @@ class Document extends BaseModel
             'released_to',            
             'persons_concerned', 
             'action_taken', 
-            'received_by'    	
+            'received_by',
+            'released_by'    	
 
     ];
 
@@ -41,5 +42,10 @@ class Document extends BaseModel
     	'date_released'
 
     ];
+
+    public function doctype()
+    {
+        return $this->belongsTo(Doctype::class)->withDefault();
+    }
 
 }

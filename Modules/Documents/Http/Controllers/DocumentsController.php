@@ -17,6 +17,8 @@ use Exception;
  */
 class DocumentsController extends Controller
 {
+    use \Modules\Documents\Http\Helpers\RequestParser;
+
     /**
      * @var DocumentRepository
      */
@@ -26,7 +28,6 @@ class DocumentsController extends Controller
      * DocumentsController constructor.
      *
      * @param DocumentRepository $repository
-     * @param DocumentValidator $validator
      */
     public function __construct(DocumentRepository $repository)
     {
@@ -40,17 +41,36 @@ class DocumentsController extends Controller
      */
     public function index()
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $documents = $this->repository->all();
+        // $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+        $this->repository->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));
+
+        $request = app()->make('request');
+
+        $perPage = $this->getRequestLength($request);    
+
+        $documents = $this->repository->paginate($perPage);
 
         if (request()->wantsJson()) {
 
             return response()->json([
+                'draw' => $request->draw,
                 'data' => $documents,
             ]);
         }
 
         return view('documents::index', compact('documents'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $document = $this->repository->makeModel();
+
+        return view('documents::create', compact('document'));
     }
 
     /**
@@ -64,13 +84,13 @@ class DocumentsController extends Controller
      */
     public function store(DocumentCreateRequest $request)
     {
-        try {
+        // try {
 
             $document = $this->repository->create($request->all());
 
             $response = [
                 'message' => 'Document created.',
-                'data'    => $document->toArray(),
+                'data'    => $document,
             ];
 
             if ($request->wantsJson()) {
@@ -80,17 +100,28 @@ class DocumentsController extends Controller
 
             return redirect()->back()->with('message', $response['message']);
 
-        } catch (ValidationException $e) {
+        // } catch (ValidationException $e) {
             
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
+        //     if ($request->wantsJson()) {
+        //         return response()->json([
+        //             'error'   => true,
+        //             'message' => $e->errorBag()
+        //         ]);
+        //     }
 
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        //     return redirect()->back()->withInput();
+
+        // } catch (Exception $e) {
+            
+        //     if ($request->wantsJson()) {
+        //         return response()->json([
+        //             'error'   => true,
+        //             'message' => $e->getMessage()
+        //         ]);
+        //     }
+
+        //     return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+        // }        
     }
 
     /**

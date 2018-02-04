@@ -28,7 +28,6 @@
 
 <body class="hold-transition skin-blue sidebar-mini">
 
-    <div id="app">
 
         <!-- Site wrapper -->
         <div class="wrapper">
@@ -70,7 +69,7 @@
 
                           <p>
                             {{ auth()->user()->name }}
-                            <small>Member since {{ auth()->user()->created_at->diffForHumans() }}</small>
+                            <small>Member since {{ auth()->user()->created_at->toFormattedDateString() }}</small>
                         </p>
                     </li>
                     <!-- Menu Footer-->
@@ -103,23 +102,29 @@
 <!-- Left side column. contains the sidebar -->
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
+
+      <!-- Sidebar user panel -->
+{{--       <div class="user-panel">
+        <div class="pull-left image">
+          <img src="{{ $avatar }}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>{{ auth()->user()->name }}</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div> --}}
+
     <section class="sidebar">
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-              </span>
+            <li>
+              <a href="/">
+                <i class="fa fa-home"></i> <span>Home</span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-        </ul>
+
     </li>
 
-<li class="treeview">
+<li class="treeview {{ Route::currentRouteNamed('documents.*') ? 'active' : '' }}">
   <a href="#">
     <i class="fa fa-edit"></i> <span>Documents</span>
     <span class="pull-right-container">
@@ -129,7 +134,7 @@
 <ul class="treeview-menu">
     <li><a href="#"><i class="fa fa-circle-o"></i> Received</a></li>
     <li><a href="#"><i class="fa fa-circle-o"></i> Released</a></li>
-    <li><a href="#"><i class="fa fa-circle-o"></i> All</a></li>
+    <li><a href="{{ route('documents.index') }}"><i class="fa fa-circle-o"></i> All</a></li>
 </ul>
 </li>
 
@@ -155,7 +160,7 @@
         <small>@yield('content-description')</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
     </ol>
 </section>
 
@@ -168,7 +173,7 @@
   <!-- Default box -->
   <div class="box box-primary">
     <div class="box-header with-border">
-      <h3 class="box-title">@yield('title')</h3>
+      <h3 class="box-title"><b>@yield('title')</b></h3>
   </div>
   <div class="box-body">
 @endunless
@@ -203,9 +208,6 @@
 
 </div>
 <!-- ./wrapper -->
-
-</div>
-<!-- #app -->
 
 <!-- Scripts -->
 <script src="{{ mix('js/app.js') }}"></script>

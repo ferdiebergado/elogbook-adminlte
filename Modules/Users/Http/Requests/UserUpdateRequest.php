@@ -32,11 +32,12 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => [
-                'required', 
-                'max:150', 
-                Rule::unique('users')->ignore(auth()->user()->id)
-            ],            
+            // 'email' => [
+            //     'required', 
+            //     'max:150', 
+            //     Rule::unique('users')->ignore(auth()->user()->id)
+            // ],            
+            'email' => 'sometimes|max:150',
             'password' => 'sometimes|confirmed|min:6|max:32',
             'avatar' => 'sometimes|max:150',            
             'old_password' => [

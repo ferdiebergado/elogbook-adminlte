@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Documents'
+    'name' => 'Documents',
+    'perpage' => 10
 ];

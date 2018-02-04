@@ -16,6 +16,25 @@ class DocumentsDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call(DoctypesTableSeeder::class);
+        $this->call(StrandsCsvSeeder::class);
+        $this->call(BureauservicesCsvSeeder::class);
+        $this->call(OfficesCsvSeeder::class);
+
+        // factory(\Modules\Documents\Entities\Document::class, 10)->states('office_all_user')->create();
+
+        // factory(\Modules\Documents\Entities\Document::class, 10)->states('office_all_nonuser')->create();
+
+        // factory(\Modules\Documents\Entities\Document::class, 10)->states('office_mix1')->create();
+
+        // factory(\Modules\Documents\Entities\Document::class, 10)->states('office_mix2')->create();
+
+        factory(\Modules\Documents\Entities\Transaction::class, 10)->states('user')->create();
+
+        factory(\Modules\Documents\Entities\Transaction::class, 10)->states('mix1')->create();
+
+        factory(\Modules\Documents\Entities\Transaction::class, 10)->states('nonuser')->create();        
+
+        factory(\Modules\Documents\Entities\Transaction::class, 10)->states('mix2')->create();
     }
 }

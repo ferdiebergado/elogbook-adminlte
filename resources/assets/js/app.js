@@ -25,14 +25,20 @@ try {
 
   window.$ = window.jQuery = require('jquery');
 
-  require('bootstrap-sass');
+  // require('bootstrap-sass');
 
 } catch (e) {}
 
+require('./bootstrap.min.js');
 
-/* Admin LTE */
-require('jquery-slimscroll/jquery.slimscroll.js');
-require('admin-lte/dist/js/adminlte.js');
+/* Load app's javascript libraries */
+require('bootstrap-datepicker');
+require('bootstrap-timepicker');
+require('select2');
+// require('jquery-slimscroll/jquery.slimscroll.js');
+require('admin-lte/dist/js/adminlte.min.js');
+
+// window.Ellipsis = require('../jquery-datatable/extensions/datatable.ellipsis.js');
 
 $.ajaxSetup({
   headers: {
@@ -191,5 +197,20 @@ $(function() {
 
   // Automatically dismiss alerts after several seconds
   $("#divAlertSuccess").delay(4000).fadeOut(600);
+
+  $('#received_date').datepicker({
+    autoclose: true
+  }); 
+
+  $('#released_date').datepicker({
+    autoclose: true
+  }); 
+
+  //Timepicker
+  $('.timepicker').timepicker({
+    showInputs: false
+  });
+
+  $('.select2').select2();
 
 });

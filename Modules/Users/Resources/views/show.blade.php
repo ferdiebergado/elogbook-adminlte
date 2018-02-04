@@ -1,11 +1,15 @@
 @extends('layouts.master')
 
 @section('page-title')
+
 	User Profile
+
 @endsection
 
 @section('title')
+
 @yield('page-title')
+
 @endsection 
 
 @section('content')
@@ -16,12 +20,15 @@
 
 		<!-- Profile Image -->
 		<div class="box box-primary">
+
 			<div class="box-body box-profile">
-				<img id="avatar" class="profile-user-img img-responsive img-circle" src="{{ url('/storage/avatars') . '/' . $user->avatar }}" alt="User profile picture" title="Avatar (Click to change.)">
+
+				<img id="avatar" class="profile-user-img img-responsive img-circle" src="{{ url('/storage/avatars') . '/'}}{{ isset($user->avatar) ? $user->avatar : 'default.png' }}" alt="User profile picture" title="Avatar (Click to change.)">
 
 				<h3 class="profile-username text-center">{{ $user->name }}</h3>
 
 				<p class="text-muted text-center">{{ $user->jobtitle }}</p>
+				<p class="text-center"><small>Member since {{ $user->created_at->toFormattedDateString() }}</small></p>
 
 				<ul class="list-group list-group-unbordered">
 					<li class="list-group-item">

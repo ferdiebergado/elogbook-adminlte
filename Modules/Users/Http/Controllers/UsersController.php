@@ -219,13 +219,11 @@ class UsersController extends Controller
 
             // $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);        
 
-            $file = request()->file('avatar')->store('avatars', 'public');
+            $file = request()->file('avatar')->store('/', 'avatars');
 
             Storage::disk('avatars')->delete(request()->user()->avatar);
 
-            $filename = str_replace('avatars/', '', $file);
-
-            $user = $this->repository->update(['avatar' => $filename], $id);       
+            $user = $this->repository->update(['avatar' => $file], $id);       
 
             Cache::forget('user_{$id}');
 

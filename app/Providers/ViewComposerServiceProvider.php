@@ -18,6 +18,9 @@ class ViewComposerServiceProvider extends ServiceProvider
         View::composer(
             ['layouts.master', 'users::show'], 'Modules\Users\Http\ViewComposers\UsersComposer'
         );         
+        View::composer(
+            ['documents::*'], 'Modules\Documents\Http\ViewComposers\DoctypeComposer'
+        );          
         // Using Closure based composers...
         //View::composer('dashboard', function ($view) {
             //

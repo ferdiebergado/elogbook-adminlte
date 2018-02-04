@@ -7,5 +7,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Modules\Users\Htt
 	Route::get('users/{user}/edit', 'UsersController@edit')->name('users.edit');
 	Route::resource('users', 'UsersController')->except(['show', 'update', 'edit'])->middleware('admin');
 	Route::post('user/{user}/avatar', 'UsersController@avatar')->name('user.avatar');
+	// ->middleware('optimizeImages');
 	Route::match(['put','patch'], 'user/{user}/changepassword', 'UsersController@updatePassword')->name('user.changepassword');	
 });
