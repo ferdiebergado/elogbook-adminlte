@@ -51,11 +51,11 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
      * @param  [integer] $id [user id]
      * @return [collection]     [user]
      */
-    public function getUserById($id)
-    {
-        return Cache::remember('user_{$id}', 60, function() use(&$id) {
-            return $this->model->find($id);
-        });
-    }
+    // public function getUserById($id)
+    // {
+    //     return Cache::remember('user_{$id}', 60, function() use(&$id) {
+    //         return $this->model->find($id);
+    //     });
+    // }
     
 }

@@ -31,7 +31,7 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'saved' => UserAmended::class,
         'deleted' => UserAmended::class,
-        'restored' => UserAmended::class,
+        'updated' => UserAmended::class,
     ];    
 
     public function setPasswordAttribute($value)

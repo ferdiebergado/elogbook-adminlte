@@ -4,8 +4,9 @@ namespace Modules\Users\Http\ViewComposers;
 
 use Illuminate\View\View;
 use Modules\Users\Entities\User;
+use Illuminate\Support\Facades\Cache;
 
-class UsersComposer
+class UserComposer
 {
     /**
      * The user repository implementation.
@@ -33,8 +34,12 @@ class UsersComposer
      */
     public function compose(View $view)
     {
-        $image = !empty(auth()->user()->avatar) ? auth()->user()->avatar : 'default.png';
-        $avatar = url('/storage/avatars') . '/' . $image;        
+        if (auth()->check()) {
+            $avatar = Cache::remember('avatar_user_'.auth()->user()->id, 30, function(){
+                $image = !empty(auth()->user()->avatar) ? auth()->user()->avatar : 'default.png';
+                return url('/storage/avatars') . '/' . $image;        
+            });
+        }
         $view->with(compact('avatar'));
     }
 }

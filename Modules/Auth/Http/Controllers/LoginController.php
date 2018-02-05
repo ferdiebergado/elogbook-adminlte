@@ -142,7 +142,8 @@ class LoginController extends Controller
         if (!$user->active) {
             auth()->logout();
             $request->session()->invalidate();
-            return back()->with('error', 'Your account has been deactivated. Contact the Website Administrator.');
+            $error = __('auth::messages.deactivated');
+            return back()->with(compact('error'));
         }
         return redirect()->intended($this->redirectPath());        
     }

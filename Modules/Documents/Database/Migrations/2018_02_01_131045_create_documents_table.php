@@ -18,10 +18,10 @@ class CreateDocumentsTable extends Migration
             $table->bigIncrements('id');    
             $table->integer('doctype_id');
             $table->string('details', 250);
-            $table->timestamp('date_received')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('date_received')->nullable()->default(null);
             $table->string('received_from', 150)->nullable()->default(null);
             $table->string('received_to', 150)->nullable()->default(null);
-            $table->timestamp('date_released')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('date_released')->nullable()->default(null);
             $table->string('released_from', 150)->nullable()->default(null);
             $table->string('released_to', 150)->nullable()->default(null);            
             $table->string('persons_concerned', 250);

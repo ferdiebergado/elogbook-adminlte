@@ -57,8 +57,9 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'emailconfirmed' => \Modules\Auth\Http\Middleware\UserEmailConfirmed::class,
+        'confirmed' => \Modules\Auth\Http\Middleware\UserEmailConfirmed::class,
         'admin' => \Modules\Auth\Http\Middleware\Admin::class,
+        'active' => \Modules\Auth\Http\Middleware\Active::class,
         // 'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,        
     ];
 }

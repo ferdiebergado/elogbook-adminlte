@@ -105,7 +105,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = $this->repository->getUserById($id);
+        // $user = $this->repository->getUserById($id);
+        $user = $this->repository->find($id);
 
         if (request()->wantsJson()) {
 
@@ -128,7 +129,7 @@ class UsersController extends Controller
     public function edit($id)
     {
 
-        $user = $this->repository->getUserById($id);
+        $user = $this->repository->find($id);
 
         return view('users::edit', compact('user'));
     }
@@ -225,7 +226,8 @@ class UsersController extends Controller
 
             $user = $this->repository->update(['avatar' => $file], $id);       
 
-            Cache::forget('user_{$id}');
+            Cache::forget('user_by_id'.$id);
+            Cache::forget('avatar_user_'.$id);
 
             $message = 'Avatar changed.';
 

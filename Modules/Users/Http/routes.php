@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Modules\Users\Http\Controllers'], function()
+Route::group(['middleware' => ['web', 'auth', 'confirmed', 'active'], 'namespace' => 'Modules\Users\Http\Controllers'], function()
 {
 	Route::get('users/{user}', 'UsersController@show')->name('users.show');
 	Route::match(['put','patch'], 'users/{user}', 'UsersController@update')->name('users.update');

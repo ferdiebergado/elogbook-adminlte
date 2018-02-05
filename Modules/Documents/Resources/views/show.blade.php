@@ -45,7 +45,7 @@ VIEW DOCUMENT
 				<tbody class="text-center">
 					<tr>
 						<td>Received</td>
-						<td>{{ $document->date_received->toFormattedDateString() }}</td>
+						<td>{{ isset($document->date_received) ? $document->date_received->toFormattedDateString() : '' }}</td>
 
 						<td>{{ $document->received_from }}</td>
 
@@ -54,7 +54,7 @@ VIEW DOCUMENT
 					</tr>
 					<tr>
 						<td>Released</td>
-						<td>{{ $document->date_released->toFormattedDateString() }}</td>
+						<td>{{ isset($document->date_released) ? $document->date_released->toFormattedDateString() : '' }}</td>
 
 						<td>{{ $document->released_from }}</td>
 
@@ -68,7 +68,8 @@ VIEW DOCUMENT
 
 <div class="col-sm-12">
 	
-	<a href="{{ URL::previous() }}" class="btn btn-primary" role="button">Back</a>
+	<a href="{{ route('documents.index') }}" class="btn btn-primary" role="button">Back</a>
+	
 </div>
 
 </div>

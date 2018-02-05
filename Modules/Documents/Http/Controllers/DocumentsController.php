@@ -86,7 +86,10 @@ class DocumentsController extends Controller
     {
         // try {
 
-            $document = $this->repository->create($request->all());
+        $date_received = $this->formatDates($request->received_date, $request->received_time);
+        $date_released = $this->formatDates($request->released_date, $request->released_time);
+
+            $document = $this->repository->create(array_merge($request->all(), ['date_received' => $date_received, 'date_released' => $date_released]));
 
             $response = [
                 'message' => 'Document created.',
@@ -98,7 +101,7 @@ class DocumentsController extends Controller
                 return response()->json($response);
             }
 
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->route('documents.index')->with('message', $response['message']);
 
         // } catch (ValidationException $e) {
             
@@ -173,7 +176,10 @@ class DocumentsController extends Controller
     {
         try {
 
-            $document = $this->repository->update($request->all(), $id);
+        $date_received = $this->formatDates($request->received_date, $request->received_time);
+        $date_released = $this->formatDates($request->released_date, $request->released_time);
+
+            $document = $this->repository->update(array_merge($request->all(), ['date_received' => $date_received, 'date_released' => $date_released]), $id);
 
             $response = [
                 'message' => 'Document updated.',
@@ -186,6 +192,7 @@ class DocumentsController extends Controller
             }
 
             return redirect()->back()->with('message', $response['message']);
+
         } catch (ValidationException $e) {
 
             if ($request->wantsJson()) {
@@ -222,4 +229,19 @@ class DocumentsController extends Controller
 
         return redirect()->back()->with('message', 'Document deleted.');
     }
+
+    private function formatDates($date, $time)
+    {
+        $formatted = null;
+
+        if (($date) && ($time)) {
+
+            $formatted = (new \Carbon\Carbon($date . ' ' . $time))->toDateTimeString();
+
+        }
+
+        return $formatted;
+
+    }
+
 }

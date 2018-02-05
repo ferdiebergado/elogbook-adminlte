@@ -3,9 +3,9 @@
 namespace Modules\Auth\Http\Middleware;
 
 use Closure;
-// use Auth;
+use Illuminate\Http\Request;
 
-class UserEmailConfirmed
+class Active
 {
     /**
      * Handle an incoming request.
@@ -14,14 +14,14 @@ class UserEmailConfirmed
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if (!empty($request->user()) && !$request->user()->confirmed) {
+        if (!empty($request->user()) && !$request->user()->active) {
             auth()->logout();
-            $request->session()->invalidate();    
-            $error = __('auth::messages.unconfirmed');
+            $request->session()->invalidate();   
+            $error = __('auth::messages.deactivated');
             return redirect()->route('login')->with(compact('error'));
-        }
+        }        
         return $next($request);
     }
 }

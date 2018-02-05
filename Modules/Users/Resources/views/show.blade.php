@@ -23,7 +23,7 @@
 
 			<div class="box-body box-profile">
 
-				<img id="avatar" class="profile-user-img img-responsive img-circle" src="{{ url('/storage/avatars') . '/'}}{{ isset($user->avatar) ? $user->avatar : 'default.png' }}" alt="User profile picture" title="Avatar (Click to change.)">
+				<img id="avatar" class="profile-user-img img-responsive img-circle" src="{{ $avatar }}" alt="User profile picture" title="Avatar (Click to change.)">
 
 				<h3 class="profile-username text-center">{{ $user->name }}</h3>
 
@@ -68,28 +68,28 @@
 							<label for="name" class="col-sm-2 control-label">Name</label>
 
 							<div class="col-sm-10">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ old('name', $user->name) }}">
+								<input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{  isset($user->name) ? $user->name : old('name') }}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="email" class="col-sm-2 control-label">Email</label>
 
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email', $user->email) }}">
+								<input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ isset($user->email) ? $user->email : old('email') }}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="jobtitle" class="col-sm-2 control-label">Job Title</label>
 
 							<div class="col-sm-10">
-								<input type="text" class="form-control" id="jobtitle"  name="jobtitle" placeholder="Job Title" value="{{ old('jobtitle', $user->jobtitle) }}">
+								<input type="text" class="form-control" id="jobtitle"  name="jobtitle" placeholder="Job Title" value="{{ isset($user->jobtitle) ? $user->jobtitle : old('jobtitle') }}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="office_id" class="col-sm-2 control-label">Office</label>
 
 							<div class="col-sm-10">
-								<input type="text" class="form-control" id="office_id" name="office_id" placeholder="Office" value="{{ old('office_id', $user->office_id) }}">
+								<input type="text" class="form-control" id="office_id" name="office_id" placeholder="Office" value="{{ isset($user->office_id) ? $user->office_id : old('office_id') }}">
 							</div>
 						</div>
 						<div class="form-group">
@@ -128,7 +128,7 @@
 
 					{{ csrf_field() }}
 
-					<input id="input_userid" type="number" name="userid" value="{{ old('userid', $user->id) }}" hidden>
+					<input id="input_userid" type="number" name="userid" value="{{ isset($user->id) ? $user->id : old('userid') }}" hidden>
 
 					<img id="avatar-preview" src="{{ $avatar }}" width="30%" height="30%">
 					<br><br>

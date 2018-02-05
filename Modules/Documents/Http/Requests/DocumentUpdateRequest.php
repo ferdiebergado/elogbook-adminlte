@@ -24,17 +24,20 @@ class DocumentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'doctype_id'        => 'required|integer',
+            'doctype_id'        => 'required|integer',            
             'details'           => 'required|min:3|max:250',
-            'date_received'     => 'date',
-            'received_from'     => 'max:150',
-            'received_to'       => 'max:150',
-            'date_released'     => 'date',
-            'released_from'     => 'max:150',
-            'released_to'       => 'max:150',
+            'received_date'     => 'required_with_all:received_by,received_date,received_time,received_from,received_to',
+            'received_time'     => 'required_with_all:received_by,received_date,received_time,received_from,received_to',
+            'received_from'     => 'required_with_all:received_by,received_date,received_time,received_from,received_to|max:150',
+            'received_to'       => 'required_with_all:received_by,received_date,received_time,received_from,received_to|max:150',
+            'released_date'     => 'required_without_all:received_by,received_date,received_time,received_from,received_to',
+            'released_time'     => 'required_without_all:received_by,received_date,received_time,received_from,received_to',
+            'released_from'     => 'required_without_all:received_by,received_date,received_time,received_from,received_to|max:150',
+            'released_to'       => 'required_without_all:received_by,received_date,received_time,received_from,received_to|max:150',
             'persons_concerned' => 'required|max:250', 
             'action_taken'      => 'required|max:250',
-            'received_by'       => 'required|max:150'
+            'received_by'       => 'required_with_all:received_by,received_date,received_time,received_from,received_to|max:150',
+            'released_by'       => 'required_without_all:received_by,received_date,received_time,received_from,received_to|max:150',
         ];
     }
 }
