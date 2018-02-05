@@ -24,20 +24,35 @@ class DocumentCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'doctype_id'        => 'required|integer',
+
+            'doctype_id'        => 'required|integer',            
+
             'details'           => 'required|min:3|max:250',
-            'received_date'     => 'required_with:received_by',
-            'received_time'     => 'required_with:received_date',
-            'received_from'     => 'required_with:received_date|max:150',
-            'received_to'       => 'required_with:received_from|max:150',
-            'released_date'     => 'required_with:released_by',
-            'released_time'     => 'required_with:released_date',
-            'released_from'     => 'required_with:released_date|max:150',
-            'released_to'       => 'required_with:released_from|max:150',
+
             'persons_concerned' => 'required|max:250', 
+
             'action_taken'      => 'required|max:250',
-            'received_by'       => 'required_without:released_by|max:150',
-            'released_by'       => 'required_without:received_by|max:150'
+
+            'received_from'     => 'required_without_all:released_by,released_date,released_time,released_from,released_to|max:150',
+
+            'received_to'       => 'required_without_all:released_by,released_date,released_time,released_from,released_to|max:150',            
+
+            'received_date'     => 'required_without_all:released_by,released_date,released_time,released_from,released_to',
+
+            'received_time'     => 'required_without_all:released_by,released_date,released_time,released_from,released_to',        
+            
+            'received_by'       => 'required_without_all:released_by,released_date,released_time,released_from,released_to|max:150',
+
+            'released_from'     => 'required_without_all:received_by,received_date,received_time,received_from,received_to|max:150',
+
+            'released_to'       => 'required_without_all:received_by,received_date,received_time,received_from,received_to|max:150',
+
+            'released_date'     => 'required_without_all:received_by,received_date,received_time,received_from,received_to',  
+            
+            'released_time'     => 'required_without_all:received_by,received_date,received_time,received_from,received_to',          
+
+            'released_by'       => 'required_without_all:received_by,received_date,received_time,received_from,received_to|max:150'
+
         ];
     }
 }

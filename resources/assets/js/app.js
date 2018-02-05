@@ -127,8 +127,12 @@ if ($('#encryptableform')) {
 
 }
 
+// Focus the first element that has an error.
+$(':input.error:first').focus();
+
 // Automatically center on screen the input element on focus
-$(':input:not(select)').focus(function () {
+// $(':input:not(select)').focus(function () {
+$('input:text,textarea,select').focus(function () {  
  var center = $(window).outerHeight() / 2;
  var top = $(this).offset().top;
  if (top > center) {
@@ -156,6 +160,7 @@ $('.data-form').on('keypress', 'input,select', function (e) {
         $canfocus.eq(index).focus();
       }
     });
+
 
 var readURL = function(input) {
 

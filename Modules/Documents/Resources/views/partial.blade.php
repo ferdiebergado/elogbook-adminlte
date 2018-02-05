@@ -6,7 +6,7 @@
 	<div class="form-group {{ $errors->has('doctype_id') ? 'has-error' : '' }}">			
 		<label>Type<sup>*</sup></label>
 
-		<select name="doctype_id" id="inputDoctype_id" class="form-control select2" required="required">
+		<select name="doctype_id" id="inputDoctype_id" class="form-control select2" required>
 			<option value=""></option>
 			@foreach ($doctypes as $type)
 			<option value="{{ $type->id }}"  
@@ -51,7 +51,7 @@
 
 				<label for="inputDetails">Details<sup>*</sup></label>
 
-				<textarea name="details" id="inputDetails" class="form-control" title="Details" rows="5"> {{ isset($document->details) ? $document->details : old('details') }}</textarea>
+				<textarea name="details" id="inputDetails" class="form-control" title="Details" rows="5" required> {{ isset($document->details) ? $document->details : old('details') }}</textarea>
 
 				@if ($errors->has('details')) 
 
@@ -71,7 +71,7 @@
 
 					<label for="inputPersonsConcerned">Persons concerned<sup>*</sup></label>
 
-					<textarea name="persons_concerned" id="inputPersonsConcerned" class="form-control" title="Persons concerned" rows="2">{{ isset($document->persons_concerned) ? $document->persons_concerned : old('persons_concerned') }}</textarea>
+					<textarea name="persons_concerned" id="inputPersonsConcerned" class="form-control" title="Persons concerned" rows="2" required>{{ isset($document->persons_concerned) ? $document->persons_concerned : old('persons_concerned') }}</textarea>
 
 					@if ($errors->has('persons_concerned')) 
 
@@ -91,7 +91,7 @@
 
 						<label for="inputActionTaken">Action taken<sup>*</sup></label>
 
-						<textarea name="action_taken" id="inputActionTaken" class="form-control" title="Action taken" rows="2">{{ isset($document->action_taken) ? $document->action_taken : old('action_taken') }}</textarea>
+						<textarea name="action_taken" id="inputActionTaken" class="form-control" title="Action taken" rows="2" required>{{ isset($document->action_taken) ? $document->action_taken : old('action_taken') }}</textarea>
 
 						@if ($errors->has('action_taken')) 
 
