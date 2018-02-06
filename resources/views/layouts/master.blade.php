@@ -173,11 +173,15 @@
   <!-- Default box -->
   <div class="box box-primary">
     <div class="box-header with-border">
-      <h3 class="box-title"><b>@yield('title')</b></h3>
+      <h3 class="box-title">&nbsp;<b>@yield('title')</b></h3>
   </div>
   <div class="box-body">
 @endunless
+    <div class="container-fluid">
+  
       @yield('content')
+
+    </div>
 @unless (Route::currentRouteName() === 'users.show')
   </div>
   <!-- /.box-body -->

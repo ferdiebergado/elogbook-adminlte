@@ -84,7 +84,7 @@ class DocumentsController extends Controller
      */
     public function store(DocumentCreateRequest $request)
     {
-        // try {
+        try {
 
         $date_received = $this->formatDates($request->received_date, $request->received_time);
         $date_released = $this->formatDates($request->released_date, $request->released_time);
@@ -103,28 +103,19 @@ class DocumentsController extends Controller
 
             return redirect()->route('documents.index')->with('message', $response['message']);
 
-        // } catch (ValidationException $e) {
+        } catch (ValidationException $e) {
             
-        //     if ($request->wantsJson()) {
-        //         return response()->json([
-        //             'error'   => true,
-        //             'message' => $e->errorBag()
-        //         ]);
-        //     }
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'error'   => true,
+                    'message' => $e->errorBag()
+                ]);
+            }
 
-        //     return redirect()->back()->withInput();
+            return redirect()->back()->withInput();
 
-        // } catch (Exception $e) {
-            
-        //     if ($request->wantsJson()) {
-        //         return response()->json([
-        //             'error'   => true,
-        //             'message' => $e->getMessage()
-        //         ]);
-        //     }
-
-        //     return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        // }        
+        }
+     
     }
 
     /**

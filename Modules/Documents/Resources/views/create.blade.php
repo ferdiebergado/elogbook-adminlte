@@ -10,7 +10,7 @@ CREATE NEW DOCUMENT
 
 <div class="content">
 	
-	<form id="document-form" class="data-form" method="POST" role="form" action="{{ route('documents.store') }}">
+	<form id="document-form" class="data-form" method="POST" role="form" action="{{ route('documents.store') }}" autocomplete>
 
 		@include('documents::partial')
 

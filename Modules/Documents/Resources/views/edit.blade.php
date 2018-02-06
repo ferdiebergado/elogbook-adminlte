@@ -10,7 +10,7 @@ EDIT DOCUMENT
 
 <div class="content">
 	
-	<form id="document-form" class="data-form" method="POST" role="form" action="{{ route('documents.update', $document->id) }}">
+	<form id="document-form" class="data-form" method="POST" role="form" action="{{ route('documents.update', $document->id) }}" autocomplete>
 
 		{{ method_field('PUT') }}
 

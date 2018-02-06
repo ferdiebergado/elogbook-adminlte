@@ -71,8 +71,6 @@
 
                 d.sortedBy = dir;
 
-                console.log(dir);
-
                 d.page = info.page + 1;                                    
 
                 d.route = function () {

@@ -11690,10 +11690,23 @@ $(function () {
 
   //Timepicker
   $('.timepicker').timepicker({
-    showInputs: false
+    // showInputs: false,
+    defaultTime: false
   });
 
   $('.select2').select2();
+
+  $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+    localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+
+  var activeTab = localStorage.getItem('activeTab');
+
+  if (activeTab) {
+
+    $('#documents-tab a[href="' + activeTab + '"]').tab('show');
+  }
 });
 
 /***/ }),

@@ -16,10 +16,6 @@ class DocumentRequestCriteria extends RequestCriteria
         $searchData = [];
 
         $search = $search['value'];
-        // var_dump($search);
-
-        // $search = str_replace('[value]', '', $search);
-        // $search = str_replace('[regex]', '', $search);
 
         if (stripos($search, ':')) {
             $fields = explode(';', $search);
