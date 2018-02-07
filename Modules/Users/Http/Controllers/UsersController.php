@@ -1,7 +1,5 @@
 <?php
-
 namespace Modules\Users\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 // use Prettus\Validator\Contracts\ValidatorInterface;
@@ -13,28 +11,22 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 use Exception;
-
 class UsersController extends Controller
 {
     use \App\Http\Helpers\PasswordHelper;
-
     /**
      * @var UserRepository
      */
     protected $repository;
-
     /**
      * @var UserValidator
      */
     // protected $validator;
-
     public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
         // $this->validator  = $validator;
     }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -44,17 +36,13 @@ class UsersController extends Controller
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $users = $this->repository->all();
-
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $users,
             ]);
         }
-
         return view('users::index', compact('users'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -64,25 +52,17 @@ class UsersController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-
         try {
-
             // $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
             $user = $this->repository->create($request->all());
-
             $response = [
                 'message' => 'User created.',
                 'data'    => $user->toArray(),
             ];
-
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
-
             return redirect()->back()->with('message', $response['message']);
-
         } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
@@ -90,12 +70,9 @@ class UsersController extends Controller
                     'message' => $e->getMessage()
                 ]);
             }
-
             return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
     }
-
-
     /**
      * Display the specified resource.
      *
@@ -107,18 +84,13 @@ class UsersController extends Controller
     {
         // $user = $this->repository->getUserById($id);
         $user = $this->repository->find($id);
-
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $user,
             ]);
         }
-
         return view('users::show', compact('user'));
     }
-
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -128,13 +100,9 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-
         $user = $this->repository->find($id);
-
         return view('users::edit', compact('user'));
     }
-
-
     /**
      * Update the specified resource in storage.
      *
@@ -146,44 +114,29 @@ class UsersController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         try {
-
             // $this->validator->with($values)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $values = $this->decryptPassword($request->all());
-            
+            $values = $this->decryptPassword($request->all());            
             $user = $this->repository->update($values, $id);
-
-            Cache::forget('user_{$id}');
-
+            // Cache::forget('user_{$id}');
             $message = 'User updated.';
-
             $response = [
                 'message' => $message,
                 'data'    => $user,
             ];
-
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
-
             return redirect()->back()->with(compact('message'));
-
         } catch (Exception $e) {
-
             if ($request->wantsJson()) {
-
                 return response()->json([
                     'error'   => true,
                     'message' => $e->getMessage()
                 ]);
             }
-
             return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
     }
-
-
     /**
      * Remove the specified resource from storage.
      *
@@ -194,18 +147,14 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $deleted = $this->repository->delete($id);
-
         if (request()->wantsJson()) {
-
             return response()->json([
                 'message' => 'User deleted.',
                 'deleted' => $deleted,
             ]);
         }
-
         return redirect()->back()->with('message', 'User deleted.');
     }
-
     /**
      * Update the user avatar in storage.
      *
@@ -217,42 +166,28 @@ class UsersController extends Controller
     public function avatar(UserUpdateRequest $request, $id)
     {
         try {
-
             // $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);        
-
             $file = request()->file('avatar')->store('/', 'avatars');
-
             Storage::disk('avatars')->delete(request()->user()->avatar);
-
             $user = $this->repository->update(['avatar' => $file], $id);       
-
             Cache::forget('user_by_id'.$id);
             Cache::forget('avatar_user_'.$id);
-
             $message = 'Avatar changed.';
-
             if (request()->wantsJson()) {
-
                 return response()->json([
                     'message' => $message,
                     'user' => $user,
                 ]);
             }
-
             return redirect()->back()->with(compact('message'));
-
         } catch (Exception $e) {
-
             if ($request->wantsJson()) {
-
                 return response()->json([
                     'error'   => true,
                     'message' => $e->getMessage()
                 ]);
             }
-
             return redirect()->back()->withErrors($e->getMessage())->withInput();        
         }
     }
-
 }

@@ -44,7 +44,8 @@ class UserUpdateRequest extends FormRequest
                 'sometimes', 
                 new EqualToCurrent
             ],
-            'userid' => 'sometimes|integer'
+            'userid' => 'sometimes|integer',
+            'office_id' => 'sometimes|integer'
         ];
     }
 

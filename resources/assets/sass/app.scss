@@ -38,20 +38,20 @@
       -moz-box-shadow: none;
       -ms-box-shadow: none;
       box-shadow: none; }
-  .dataTables_wrapper input[type="search"] {
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    -ms-border-radius: 0;
-    border-radius: 0;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    -ms-box-shadow: none;
-    box-shadow: none;
-    border: none;
-    font-size: 12px;
-    border-bottom: 1px solid #ddd; }
-    .dataTables_wrapper input[type="search"]:focus, .dataTables_wrapper input[type="search"]:active {
-      border-bottom: 2px solid #1f91f3; }
+  // .dataTables_wrapper input[type="search"] {
+  //   -webkit-border-radius: 0;
+  //   -moz-border-radius: 0;
+  //   -ms-border-radius: 0;
+  //   border-radius: 0;
+  //   -webkit-box-shadow: none;
+  //   -moz-box-shadow: none;
+  //   -ms-box-shadow: none;
+  //   box-shadow: none;
+  //   border: none;
+  //   font-size: 12px;
+  //   border-bottom: 1px solid #ddd; }
+  //   .dataTables_wrapper input[type="search"]:focus, .dataTables_wrapper input[type="search"]:active {
+  //     border-bottom: 2px solid #1f91f3; }
   .dataTables_wrapper .dt-buttons {
     float: left; }
     .dataTables_wrapper .dt-buttons a.dt-button {
@@ -92,12 +92,13 @@
     color: #777;
     margin-bottom: 20px; }
 
-@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
-@import "~bootstrap-timepicker/css/bootstrap-timepicker.css";
+// @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
+// @import "~bootstrap-timepicker/css/bootstrap-timepicker.css";
 @import "~select2/dist/css/select2.css";
 @import "../jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css";
 @import "../jquery-datatable/extensions/dataTables.searchHighlight.css";
 // @import "~admin-lte/dist/css/alt/AdminLTE-without-plugins.css";
 @import "~admin-lte/dist/css/AdminLTE.min.css";
 @import "~admin-lte/dist/css/skins/skin-blue.css";
+// @import "~flatpickr/dist/flatpickr.css";
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic");
