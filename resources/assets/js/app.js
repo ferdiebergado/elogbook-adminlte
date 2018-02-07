@@ -20,16 +20,10 @@ try {
 } catch (e) {}
 require('./bootstrap.min.js');
 /* Load app's javascript libraries */
-// require('bootstrap-datepicker');
-// require('bootstrap-timepicker');
 require('select2');
-// require('jquery-slimscroll/jquery.slimscroll.js');
 require('admin-lte/dist/js/adminlte.min.js');
-// commonjs
-// const flatpickr = require("flatpickr");
-// es modules are recommended, if available, especially for typescript
-// import flatpickr from "flatpickr";
-// window.Ellipsis = require('../jquery-datatable/extensions/datatable.ellipsis.js');
+const flatpickr = require('flatpickr');
+require('input-clear-icon');
 /**
  * @param  {input element}
  * @return {[file handle]}
@@ -159,7 +153,25 @@ $('#avatar-input').change(function() {
 });
   // Automatically dismiss alerts after several seconds
   $("#divAlertSuccess").delay(4000).fadeOut(600);
-  $('.select2').select2();
+  $('.select2').select2({
+    // width: 'element'
+    // adaptContainerCssClass,
+    // adaptDropdownCssClass
+  });
+  $('.datepickr').flatpickr({
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d"
+    // wrap: true
+  });
+  $('.timepickr').flatpickr({
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "h:i",
+    minuteIncrement: 1
+    // enableSeconds: true
+    // wrap: true
+  });
   restoreTab('documents-tab');
   restoreTab('profile-tab');
 });

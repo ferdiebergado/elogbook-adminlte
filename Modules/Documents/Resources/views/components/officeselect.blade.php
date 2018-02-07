@@ -1,4 +1,4 @@
-<select class="form-control select2" id="{{ $id }}" name="{{ $id }}" {{ $slot }}>
+<select class="form-control select2" id="{{ $id }}" name="{{ $id }}" {{ $slot }} style="width: 100%">
 	<option value="">-- Select an office --</option>
 	@foreach ($offices as $office)
 	<option value="{{ $office->id }}" 

@@ -3699,6 +3699,10 @@ inline-source-map@~0.6.0:
   dependencies:
     source-map "~0.5.3"
 
+input-clear-icon@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/input-clear-icon/-/input-clear-icon-0.0.3.tgz#5856fe2178b4affd50c6a410e95c264937062284"
+
 inputmask@^3.3.7:
   version "3.3.11"
   resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-3.3.11.tgz#1421c94ae28c3dcd1b4d26337b508bb34998e2d8"

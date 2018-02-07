@@ -1,4 +1,3 @@
-
 // Fonts
 // @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
@@ -91,14 +90,14 @@
   .dt-button-info div {
     color: #777;
     margin-bottom: 20px; }
-
-// @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
-// @import "~bootstrap-timepicker/css/bootstrap-timepicker.css";
+/* End Jquery DataTable ============================ */    
 @import "~select2/dist/css/select2.css";
 @import "../jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css";
 @import "../jquery-datatable/extensions/dataTables.searchHighlight.css";
 // @import "~admin-lte/dist/css/alt/AdminLTE-without-plugins.css";
 @import "~admin-lte/dist/css/AdminLTE.min.css";
 @import "~admin-lte/dist/css/skins/skin-blue.css";
-// @import "~flatpickr/dist/flatpickr.css";
+@import "~flatpickr/dist/flatpickr.css";
+@import "~input-clear-icon/input-clear-icon.css";
+// @import "~flatpickr/dist/themes/material_blue.css";
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic");

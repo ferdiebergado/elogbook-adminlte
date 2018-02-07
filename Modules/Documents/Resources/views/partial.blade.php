@@ -99,15 +99,13 @@
 										<div class="col-sm-6">
 											<div class="form-group {{ $errors->has('received_date') ? 'has-error' : '' }}">
 												<label>Date</label>		
-												{{-- <div class="datepickr">																 --}}
-													<div class="input-group">
-														<div class="input-group-addon">
-															<i class="fa fa-calendar"></i>
-														</div>
-														<input type="date" name="received_date" class="form-control pull-right" id="received_date" value="{{ isset($document->date_received) ? $document->date_received->toDateString() : old('received_date')  }}" >
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
 													</div>
-													<!-- /.input group -->
-												{{-- </div>														 --}}
+													<input type="text" name="received_date" class="form-control pull-right datepickr" id="received_date" value="{{ isset($document->date_received) ? $document->date_received->toDateString() : old('received_date')  }}" placeholder="Select a date">
+												</div>
+												<!-- /.input group -->
 												@if ($errors->has('received_date')) 
 												<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 													{{ $errors->first('received_date') }}</p>
@@ -118,23 +116,21 @@
 											<!-- END DATE RECEIVED -->
 											<!-- TIME RECEIVED -->
 											<div class="col-sm-6">
-												{{-- <div class="bootstrap-timepicker"> --}}
-													<div class="form-group {{ $errors->has('received_time') ? 'has-error' : '' }}">
-														<label>Time</label>
-														<div class="input-group">
-															<input type="time" name="received_time" class="form-control" value="{{ isset($document->date_received) ? $document->date_received->toTimeString() : old('received_time') }}">
-															<div class="input-group-addon">
-																<i class="fa fa-clock-o"></i>
-															</div>
+												<div class="form-group {{ $errors->has('received_time') ? 'has-error' : '' }}">
+													<label>Time</label>
+													<div class="input-group">
+														<input type="text" name="received_time" class="form-control timepickr" value="{{ isset($document->date_received) ? $document->date_received->toTimeString() : old('received_time') }}" placeholder="Set time">
+														<div class="input-group-addon">
+															<i class="fa fa-clock-o"></i>
 														</div>
-														<!-- /.input group -->
-														@if ($errors->has('received_time')) 
-														<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-															{{ $errors->first('received_time') }}</p>
-															@endif		
-														</div>
-														<!-- /.form group -->
-													{{-- </div> --}}
+													</div>
+													<!-- /.input group -->
+													@if ($errors->has('received_time')) 
+													<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+														{{ $errors->first('received_time') }}</p>
+														@endif		
+													</div>
+													<!-- /.form group -->
 												</div>
 												<!-- END TIME RECEIVED -->							
 											</div>
@@ -203,7 +199,7 @@
 																	<div class="input-group-addon">
 																		<i class="fa fa-calendar"></i>
 																	</div>
-																	<input type="date" name="released_date" class="form-control pull-right" id="released_date" value="{{ isset($document->date_released) ? $document->date_released->toDateString() : old('released_date') }}">
+																	<input type="text" name="released_date" class="form-control pull-right datepickr" id="released_date" value="{{ isset($document->date_released) ? $document->date_released->toDateString() : old('released_date') }}" placeholder="Select a date">
 																</div>
 																<!-- /.input group -->
 																@if ($errors->has('released_date')) 
@@ -216,22 +212,19 @@
 															<!-- END DATE RELEASED -->
 															<!-- TIME RELEASED -->
 															<div class="col-sm-6">
-																<div class="bootstrap-timepicker">
-																	<div class="form-group {{ $errors->has('released_time') ? 'has-error' : '' }}">
-																		<label>Time</label>
-																		<div class="input-group">
-																			<input type="time" name="released_time" class="form-control timepicker" value="{{ isset($document->date_released) ? $document->date_released->toTimeString() : old('released_time') }}">
-																			<div class="input-group-addon">
-																				<i class="fa fa-clock-o"></i>
-																			</div>
+																<div class="form-group {{ $errors->has('released_time') ? 'has-error' : '' }}">
+																	<label>Time</label>
+																	<div class="input-group">
+																		<input type="text" name="released_time" class="form-control timepickr" value="{{ isset($document->date_released) ? $document->date_released->toTimeString() : old('released_time') }}" placeholder="Set time">
+																		<div class="input-group-addon">
+																			<i class="fa fa-clock-o"></i>
 																		</div>
-																		<!-- /.input group -->
-																		@if ($errors->has('released_time')) 
-																		<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-																			{{ $errors->first('released_time') }}</p>
-																			@endif		
-																		</div>
-																		<!-- /.form group -->
+																	</div>
+																	<!-- /.input group -->
+																	@if ($errors->has('released_time')) 
+																	<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+																		{{ $errors->first('released_time') }}</p>
+																		@endif		
 																	</div>
 																	<!-- /.form group -->
 																</div>
@@ -270,7 +263,6 @@
 												</div>
 												<br><br>
 												<div class="row">
-
 													<div class="col-sm-12">
 														<fieldset>				
 															<div class="form-group">
