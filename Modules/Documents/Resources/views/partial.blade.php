@@ -59,8 +59,8 @@
 								<!-- TASK -->
 								<div class="col-sm-6">
 									<div class="form-group {{ $errors->has('task') ? 'has-error' : '' }}">
-										<label for="task">Task</label>												
-{{-- 										@component('documents::components.select2', ['field' => $transaction->task, 'name' => 'from_to_office', 'rows' => [['id' => 'I', 'name' => 'Receive'], ['id' => 'O', 'name' => 'Release']]])
+										<label for="task">Task</label>										
+										@component('documents::components.select2', ['field' => $transaction->task, 'name' => 'from_to_office', 'rows' => [['id' => 'I', 'name' => 'Receive'], ['id' => 'O', 'name' => 'Release']]])
 										@slot('id')
 										task
 										@endslot
@@ -68,7 +68,7 @@
 										a task												    
 										@endslot
 										required
-										@endcomponent	 --}}			
+										@endcomponent				
 									</div>
 								</div>							
 								<!-- END TASK-->										

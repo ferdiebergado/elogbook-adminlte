@@ -23,7 +23,7 @@ class CreateTransactionsTable extends Migration
             $table->string('by', 150);
             $table->unsignedInteger('office_id');
             $table->boolean('pending')->default(1);
-            $table->foreign('document_id')->references->('id')->on('documents');
+            $table->foreign('document_id')->references('id')->on('documents');
             $table->foreign('from_to_office')->references('id')->on('offices');
             $table->foreign('office_id')->references('id')->on('offices');
             $table->unsignedInteger('created_by')->nullable()->default(null);
