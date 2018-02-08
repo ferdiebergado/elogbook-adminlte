@@ -4,7 +4,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 		<div class="form-group {{ $errors->has('doctype_id') ? 'has-error' : '' }}">		
 			<label>Type<sup>*</sup></label>
-			<select name="doctype_id" id="inputDoctype_id" class="form-control select2" required>
+			<select name="doctype_id" id="inputDoctype_id" class="form-control select2" style="width: 100%;" required>
 				<option value="">-- Select a document type --</option>
 				@foreach ($doctypes as $type)
 				<option value="{{ $type->id }}" 
@@ -72,7 +72,7 @@
 										<!-- RECEIVED FROM -->
 										<div class="col-sm-6">
 											<div class="form-group {{ $errors->has('received_from') ? 'has-error' : '' }}">
-												<label for="received_from">From (Office)</label>
+												<label for="received_from">From</label>
 												@component('documents::components.officeselect', ['field' => $document->received_from, 'name' => 'received_from'])
 												@slot('id')
 												received_from
@@ -81,18 +81,6 @@
 											</div>
 										</div>							
 										<!-- END RECEIVED FROM-->
-										<!-- RECEIVED TO -->
-										<div class="col-sm-6">
-											<div class="form-group {{ $errors->has('received_to') ? 'has-error' : '' }}">
-												<label for="received_to">To (Office)</label>
-												@component('documents::components.officeselect', ['field' => $document->received_to, 'name' => 'received_to'])
-												@slot('id')
-												received_to
-												@endslot
-												@endcomponent		
-											</div>
-										</div>									
-										<!-- END RECEIVED TO-->
 									</div>
 									<div class="row">
 										<!-- DATE RECEIVED -->
@@ -165,22 +153,10 @@
 											<div id="release" class="tab-pane fade">
 												<fieldset>
 													<div class="row">
-														<!-- RELEASED FROM -->
-														<div class="col-sm-6">
-															<div class="form-group {{ $errors->has('released_from') ? 'has-error' : '' }}">
-																<label for="released_from">From (Office)</label>
-																@component('documents::components.officeselect', ['field' => $document->released_from, 'name' => 'released_from'])
-																@slot('id')
-																released_from
-																@endslot
-																@endcomponent					
-															</div>
-														</div>											
-														<!-- END RELEASED FROM-->
 														<!-- RELEASED TO -->
 														<div class="col-sm-6">
 															<div class="form-group {{ $errors->has('released_to') ? 'has-error' : '' }}">
-																<label for="released_to">To (Office)</label>																		
+																<label for="released_to">To</label>																		
 																@component('documents::components.officeselect', ['field' => $document->released_to, 'name' => 'released_to'])
 																@slot('id')
 																released_to
@@ -266,8 +242,8 @@
 													<div class="col-sm-12">
 														<fieldset>				
 															<div class="form-group">
-																<a href="{{ route('documents.index') }}" class="btn btn-primary"> Back</a>
-																<button type="submit" class="btn btn-primary">Save</button>
+																<a href="{{ route('documents.index') }}" class="btn btn-flat btn-primary"> Back</a>
+																<button type="submit" class="btn btn-flat btn-primary">Save</button>
 															</div>
 														</div>
 													</div>

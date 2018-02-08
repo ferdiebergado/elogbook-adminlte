@@ -42,7 +42,7 @@ User Profile
 			</ul>
 			<div class="tab-content">
 				<!-- ACCOUNT DETAILS -->
-				<div class="tab-pane" id="account">
+				<div class="tab-pane {{ Route::currentRouteName() === 'users.edit' ? 'active' : '' }}"" id="account">
 					<div class="container-fluid">						
 						<form class="form-horizontal" method="POST" action="{{ route('users.update', $user->id) }}" autocomplete>
 							{{ csrf_field() }}
@@ -51,7 +51,7 @@ User Profile
 								<div class="form-group">
 									<label for="name" class="col-sm-2 control-label">Name</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{  isset($user->name) ? $user->name : old('name') }}">
+										<input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{  isset($user->name) ? $user->name : old('name') }}" required>
 									</div>
 								</div>
 							</div>
@@ -59,7 +59,7 @@ User Profile
 								<div class="form-group">
 									<label for="email" class="col-sm-2 control-label">Email</label>
 									<div class="col-sm-6">
-										<input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ isset($user->email) ? $user->email : old('email') }}">
+										<input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ isset($user->email) ? $user->email : old('email') }}" required>
 									</div>
 								</div>
 							</div>
@@ -67,7 +67,7 @@ User Profile
 								<div class="form-group">
 									<label for="jobtitle" class="col-sm-2 control-label">Job Title</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="jobtitle"  name="jobtitle" placeholder="Job Title" value="{{ isset($user->jobtitle) ? $user->jobtitle : old('jobtitle') }}">
+										<input type="text" class="form-control" id="jobtitle"  name="jobtitle" placeholder="Job Title" value="{{ isset($user->jobtitle) ? $user->jobtitle : old('jobtitle') }}" required>
 									</div>
 								</div>
 							</div>
@@ -89,7 +89,7 @@ User Profile
 							<div class="row">										
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" class="btn btn-primary">Save</button>
+										<button type="submit" class="btn btn-flat btn-primary">Save</button>
 									</div>
 								</div>
 							</div>

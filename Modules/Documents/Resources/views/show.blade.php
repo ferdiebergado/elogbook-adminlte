@@ -32,15 +32,7 @@ VIEW DOCUMENT
 			<p>{{ $document->persons_concerned }}</p>
 		</div>
 	</div>
-	<!--- ACTION TAKEN -->
-	<div class="row">
-		<label class="control-label col-sm-2">Action Taken:</label>
-		<div class="col-sm-10">
-			<p>{{ $document->action_taken }}</p>
-		</div>
-	</div>
 	<br><br>
-	
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="table-responsive">
@@ -49,8 +41,8 @@ VIEW DOCUMENT
 						<tr>
 							<th class="text-center">Task</th>
 							<th class="text-center">Date</th>
-							<th class="text-center">From</th>
-							<th class="text-center">To</th>
+							<th class="text-center">From/To</th>
+							<th class="text-center">Action (to be) Taken</th>
 							<th class="text-center">By</th>
 						</tr>
 					</thead>
@@ -58,15 +50,15 @@ VIEW DOCUMENT
 						<tr>
 							<td>Received</td>
 							<td>{{ isset($document->date_received) ? $document->date_received->toFormattedDateString() : '' }}</td>
-							<td>{{ $document->received_from }}</td>
-							<td>{{ $document->received_to }}</td>
+							<td>{{ $document->received_from_office->name }}</td>
+							<td>{{ $document->action_to_be_taken }}</td>
 							<td>{{ $document->received_by }}</td>
 						</tr>
 						<tr>
 							<td>Released</td>
 							<td>{{ isset($document->date_released) ? $document->date_released->toFormattedDateString() : '' }}</td>
-							<td>{{ $document->released_from }}</td>
-							<td>{{ $document->released_to }}</td>
+							<td>{{ $document->released_to_office->name }}</td>
+							<td>{{ $document->action_taken }}</td>
 							<td>{{ $document->released_by }}</td>
 						</tr>    			
 					</tbody>
@@ -77,7 +69,7 @@ VIEW DOCUMENT
 	<br><br>
 	<div class="row">
 		<div class="col-sm-12">
-			<a href="{{ route('documents.index') }}" class="btn btn-primary" role="button">Back</a>
+			<a href="{{ route('documents.index') }}" class="btn btn-flat btn-primary" role="button">Back</a>
 		</div>
 	</div>
 </div>

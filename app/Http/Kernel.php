@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'confirmed' => \Modules\Auth\Http\Middleware\UserEmailConfirmed::class,
         'admin' => \Modules\Auth\Http\Middleware\Admin::class,
         'active' => \Modules\Auth\Http\Middleware\Active::class,
+        'profile_complete' => \Modules\Users\Http\Middleware\ProfileCompleted::class,
         // 'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,        
     ];
 }

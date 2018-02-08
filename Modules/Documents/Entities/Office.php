@@ -13,10 +13,15 @@ class Office extends BaseModel
     ];
     public function strand()
     {
-    	return $this->belongsTo(Strand::class)->withDefault();
+    	return $this->belongsTo(Strand::class)->withDefault(['name' => null]);
     }
     public function bureauservice()
     {
-    	return $this->belongsTo(Bureauservice::class)->withDefault();
+    	return $this->belongsTo(Bureauservice::class)->withDefault(['name' => null]);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class)->withDefault();
     }
 }

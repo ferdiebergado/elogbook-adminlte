@@ -22,12 +22,11 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
             'id',
             'doctype.name' => 'like',
             'details' => 'like',
-            'received_from' => 'like',
-            'received_to' => 'like',
-            'released_from' => 'like',
-            'released_to' => 'like',            
+            'received_from_office.name' => 'like',
+            'released_to_office.name' => 'like',            
             'persons_concerned' => 'like', 
             'action_taken' => 'like', 
+            'action_to_be_taken' => 'like',
             'received_by' => 'like',
             'released_by' => 'like'  
     ];

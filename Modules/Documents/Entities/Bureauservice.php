@@ -16,6 +16,6 @@ class Bureauservice extends BaseModel
     }
     public function strand()
     {
-        return $this->belongsTo(Strand::class)->withDefault();
+        return $this->belongsTo(Strand::class)->withDefault(['name' => null]);
     }
 }

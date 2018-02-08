@@ -101,7 +101,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = $this->repository->find($id);
-        return view('users::edit', compact('user'));
+        return view('users::show', compact('user'));
     }
     /**
      * Update the specified resource in storage.

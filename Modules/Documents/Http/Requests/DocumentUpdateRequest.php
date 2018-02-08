@@ -23,18 +23,16 @@ class DocumentUpdateRequest extends FormRequest
             'doctype_id'        => 'required|integer',            
             'details'           => 'required|min:3|max:250',
             'persons_concerned' => 'required|max:250', 
-            'received_from'     => 'required_without:released_from|max:150',
-            'received_to'       => 'required_without:released_to|max:150',
-            'received_date'     => 'required_without:released_date',
-            'received_time'     => 'required_without:released_time',            
-            'received_by'       => 'required_without:released_by|max:150',
-            'action_to_be_taken' => 'required_without:action_taken|max:250',
-            'released_from'     => 'required_without:received_from|max:150',
-            'released_to'       => 'required_with:released_from|max:150',
+            'received_from'     => 'required_without:released_to|max:150',
+            'received_date'     => 'required_with:received_from',
+            'received_time'     => 'required_with:received_from',            
+            'action_to_be_taken' => 'required_with:received_from|max:250',
+            'received_by'       => 'required_with:received_from|max:150',
+            'released_to'       => 'required_without:received_from|max:150',
             'released_date'     => 'required_with:released_to',
-            'released_time'     => 'required_with:released_date',                        
-            'action_taken'      => 'required_with:released_time|max:250',
-            'released_by'       => 'required_with:released_time|max:150'
+            'released_time'     => 'required_with:released_to',                        
+            'action_taken'      => 'required_with:released_to|max:250',
+            'released_by'       => 'required_with:released_to|max:150'
         ];
     }
 }

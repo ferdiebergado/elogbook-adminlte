@@ -37,6 +37,7 @@ class DocumentsController extends Controller
     {
         // $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $this->repository->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));
+        $this->repository->pushCriteria(\Modules\Documents\Criteria\DocumentRelationsCriteria::class);        
         $request = app()->make('request');
         $perPage = $this->getRequestLength($request);    
         $documents = $this->repository->paginate($perPage);
@@ -81,8 +82,7 @@ class DocumentsController extends Controller
                 return response()->json($response);
             }
             return redirect()->route('documents.index')->with('message', $response['message']);
-        } catch (ValidationException $e) {
-            
+        } catch (Exception $e) {            
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
@@ -102,6 +102,7 @@ class DocumentsController extends Controller
      */
     public function show($id)
     {
+        $this->repository->pushCriteria(\Modules\Documents\Criteria\DocumentRelationsCriteria::class);          
         $document = $this->repository->find($id);
         if (request()->wantsJson()) {
             return response()->json([
