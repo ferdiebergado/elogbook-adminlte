@@ -17,31 +17,15 @@ class Document extends BaseModel
      */
     protected $fillable = [
             'doctype_id',
-            'details',
-            'date_received',
-            'received_from',
-            'date_released',
-            'released_to',            
-            'persons_concerned', 
-            'action_taken', 
-            'action_to_be_taken',
-            'received_by',
-            'released_by'    	
-    ];
-    protected $dates = [
-    	'date_received',
-    	'date_released'
+            'details',       
+            'persons_concerned'	
     ];
     public function doctype()
     {
         return $this->belongsTo(Doctype::class)->withDefault(['name' => null]);
-    }
-    public function received_from_office()
+    }   
+    public function transactions()
     {
-        return $this->belongsTo(Office::class,'received_from')->withDefault(['name' => null]);
+        return $this->hasMany(Transaction::class);
     }
-    public function released_to_office()
-    {
-        return $this->belongsTo(Office::class,'released_to')->withDefault(['name' => null]);
-    }    
 }

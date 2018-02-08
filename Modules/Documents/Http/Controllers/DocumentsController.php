@@ -5,7 +5,8 @@ use Illuminate\Http\Request;
 use Modules\Documents\Http\Requests\DocumentCreateRequest;
 use Modules\Documents\Http\Requests\DocumentUpdateRequest;
 use Modules\Documents\Repositories\DocumentRepository;
-use Illuminate\Validation\ValidationException;
+use Modules\Documents\Repositories\TransactionRepository;
+// use Illuminate\Validation\ValidationException;
 use Exception;
 /**
  * Class DocumentsController.
@@ -18,15 +19,16 @@ class DocumentsController extends Controller
     /**
      * @var DocumentRepository
      */
-    protected $repository;
+    protected $repository, $transaction_repository;
     /**
      * DocumentsController constructor.
      *
      * @param DocumentRepository $repository
      */
-    public function __construct(DocumentRepository $repository)
+    public function __construct(DocumentRepository $repository, TransactionRepository $transaction_repository)
     {
         $this->repository = $repository;
+        $this->transaction_repository = $transaction_repository;
     }
     /**
      * Display a listing of the resource.
@@ -57,7 +59,8 @@ class DocumentsController extends Controller
     public function create()
     {
         $document = $this->repository->makeModel();
-        return view('documents::create', compact('document'));
+        $transaction = $this->transaction_repository->makeModel();
+        return view('documents::create', compact('document', 'transaction'));
     }
     /**
      * Store a newly created resource in storage.
