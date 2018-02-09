@@ -22,13 +22,9 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
             'id',
             'doctype.name' => 'like',
             'details' => 'like',
-            'received_from_office.name' => 'like',
-            'released_to_office.name' => 'like',            
             'persons_concerned' => 'like', 
-            'action_taken' => 'like', 
-            'action_to_be_taken' => 'like',
-            'received_by' => 'like',
-            'released_by' => 'like'  
+            'creator.name' => 'like',        
+            'editor.name' => 'like'
     ];
     
     /**
@@ -49,5 +45,4 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
         // $this->pushCriteria(app(RequestCriteria::class));
         $this->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));        
     }
-    
 }

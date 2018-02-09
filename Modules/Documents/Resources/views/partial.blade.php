@@ -60,7 +60,7 @@
 								<div class="col-sm-6">
 									<div class="form-group {{ $errors->has('task') ? 'has-error' : '' }}">
 										<label for="task">Task</label>										
-										@component('documents::components.select2', ['field' => $transaction->task, 'name' => 'from_to_office', 'rows' => [['id' => 'I', 'name' => 'Receive'], ['id' => 'O', 'name' => 'Release']]])
+										@component('documents::components.select', ['field' => $transaction->task, 'name' => 'task', 'array' => ['I' => 'Receive', 'O' => 'Release']])
 										@slot('id')
 										task
 										@endslot
@@ -75,7 +75,7 @@
 								<!-- FROM/TO OFFICE -->
 								<div class="col-sm-6">
 									<div class="form-group {{ $errors->has('from_to_office') ? 'has-error' : '' }}">
-										<label for="from_to_office">Office</label>
+										<label id="label_from_to_office" for="from_to_office">Office</label>
 										@component('documents::components.select2', ['field' => $transaction->from_to_office, 'name' => 'from_to_office', 'rows' => $offices])
 										@slot('id')
 										from_to_office
@@ -133,7 +133,7 @@
 										<!-- ACTION -->
 										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 											<div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
-												<label for="inputAction">Action</label>
+												<label id="label_action" for="inputAction">Action</label>
 												<textarea name="action" id="inputAction" class="form-control" title="Action" rows="2">{{ isset($transaction->action) ? $transaction->action : old('action') }}</textarea>
 												@if ($errors->has('action')) 
 												<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -145,7 +145,7 @@
 											<!-- BY -->
 											<div class="col-sm-6">
 												<div class="form-group {{ $errors->has('by') ? 'has-error' : '' }}">
-													<label for="inputBy">By</label>
+													<label id="label_by" for="inputBy">By</label>
 													<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : old('by') }}" title="By">
 													@if ($errors->has('by')) 
 													<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>

@@ -18,7 +18,8 @@ class Document extends BaseModel
     protected $fillable = [
             'doctype_id',
             'details',       
-            'persons_concerned'	
+            'persons_concerned'	,
+            'office_id'
     ];
     public function doctype()
     {

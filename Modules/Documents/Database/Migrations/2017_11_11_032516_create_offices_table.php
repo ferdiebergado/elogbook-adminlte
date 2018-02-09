@@ -22,8 +22,6 @@ class CreateOfficesTable extends Migration
             $table->unsignedInteger('created_by')->nullable()->default(null);
             $table->unsignedInteger('updated_by')->nullable()->default(null);
             $table->unsignedInteger('deleted_by')->nullable()->default(null);            
-            $table->foreign('bureauservice_id')->references('id')->on('bureauservices');
-            $table->foreign('strand_id')->references('id')->on('strands');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,7 +33,7 @@ class CreateOfficesTable extends Migration
      * @return void
      */
     public function down()
-    {
+    {     
         Schema::dropIfExists('offices');
     }
 }

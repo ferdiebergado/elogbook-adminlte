@@ -31,7 +31,7 @@ documents-table
 {{-- doctype --}}
 @endslot
 @slot('datatabletargetcol')
-9
+6
 @endslot
 @slot('ellipsiscol')
 2
@@ -52,34 +52,19 @@ documents-table
 	data:   'details' 
 },
 { 
-	name:   'date_received',
-	title:  'Date Received',
-	data:   'date_received' 
+	name:   'persons_concerned',
+	title:  'Persons Concerned',
+	data:   'persons_concerned' 
 },
 {  
-	name:   'received_from',
-	title:  'From',
-	data:   'received_from_office.name' 
-},
-{  
-	name:   'received_by',
-	title:  'Received By',
-	data:   'received_by' 
+	name:   'created_at',
+	title:  'Date Created',
+	data:   'created_at' 
 },
 {   
-	name:   'date_released',
-	title:  'Date Released',
-	data:   'date_released' 
-},
-{   
-	name:   'released_to',
-	title:  'To',
-	data:   'released_to_office.name' 
-},
-{   
-	name:   'released_by',
-	title:  'Released By',
-	data:   'released_by' 
+	name:   'created_by',
+	title:  'Created By',
+	data:   'created_by' 
 },
 {   
 	title: 'Actions(s)',

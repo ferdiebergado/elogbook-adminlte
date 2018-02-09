@@ -11602,7 +11602,7 @@ $(function () {
   $(':input.error:first').focus();
   // Automatically center on screen the input element on focus
   // $(':input:not(select)').focus(function () {
-  $('input:text,textarea,select').focus(function () {
+  $('input:text,textarea').focus(function () {
     var center = $(window).outerHeight() / 2;
     var top = $(this).offset().top;
     if (top > center) {
@@ -11660,6 +11660,21 @@ $(function () {
     minuteIncrement: 1
     // enableSeconds: true
     // wrap: true
+  });
+  $('#task').change(function () {
+    var office = $('#label_from_to_office');
+    var action = $('#label_action');
+    var by = $('#label_by');
+    if (this.value === 'I') {
+      office.html('From');
+      action.html('Action to be Taken');
+      by.html('Received by');
+    }
+    if (this.value === 'O') {
+      office.html('To');
+      action.html('Action Taken');
+      by.html('Released by');
+    }
   });
   restoreTab('documents-tab');
   restoreTab('profile-tab');
@@ -20258,6 +20273,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 /***/ (function(module, exports) {
 
 (function() {
+  'use strict'
   var doc = document
   var body = doc.body
   var root = doc.documentElement
@@ -20298,27 +20314,28 @@ Object.defineProperty(exports, '__esModule', { value: true });
     }
     if ((targetElement.value || (targetElement.validity || {}).badInput) && doc.activeElement === targetElement && !targetElement.readOnly && !targetElement.disabled) {
       if (clearTargetElement !== targetElement) {
-        clearTargetElement      = targetElement
+        clearTargetElement              = targetElement
         clearIcon.removeAttribute('style')
-        var targetClientRect    = targetElement.getBoundingClientRect()
-        var targetStyle         = getComputedStyle(targetElement)
-        var targetDataset       = targetElement.dataset
-        var clearIconStyle      = clearIcon.style
-        clearIcon.className     = targetDataset.inputClearIconClass || ''
-        clearIconStyle.fontSize = targetStyle.fontSize
-        clearIconStyle.zIndex   = parseInt(targetStyle.zIndex, 10) + 1
+        var targetClientRect            = targetElement.getBoundingClientRect()
+        var targetStyle                 = getComputedStyle(targetElement)
+        var targetDataset               = targetElement.dataset
+        var clearIconStyle              = clearIcon.style
+        clearIcon.className             = targetDataset.inputClearIconClass || ''
+        clearIconStyle.fontSize         = targetStyle.fontSize
+        clearIconStyle.backgroundColor  = targetStyle.backgroundColor
+        clearIconStyle.zIndex           = parseInt(targetStyle.zIndex, 10) + 1
         applyStyles(clearIconStyle, targetDataset.inputClearIconStyle)
-        var clearIconSize       = parseInt(getComputedStyle(clearIcon).fontSize, 10)
-        clearIconStyle.top      = root.scrollTop  + body.scrollTop  + targetClientRect.top + (targetClientRect.height - clearIconSize) / 2 + 'px'
-        clearIconStyle.left     = root.scrollLeft + body.scrollLeft + targetClientRect.right - clearIconSize
-                                  - parseInt(targetStyle.borderRightWidth, 10) - parseInt(targetStyle.paddingRight, 10)
-                                  - (ADDITIONAL_RIGHT_MARGINS[targetElement.type] || 0)
-                                  - 2
-                                  + 'px'
+        var clearIconSize               = parseInt(getComputedStyle(clearIcon).fontSize, 10)
+        clearIconStyle.top              = root.scrollTop  + body.scrollTop  + targetClientRect.top + (targetClientRect.height - clearIconSize) / 2 + 'px'
+        clearIconStyle.left             = root.scrollLeft + body.scrollLeft + targetClientRect.right - clearIconSize
+                                          - parseInt(targetStyle.borderRightWidth, 10) - parseInt(targetStyle.paddingRight, 10)
+                                          - (ADDITIONAL_RIGHT_MARGINS[targetElement.type] || 0)
+                                          - 2
+                                          + 'px'
       }
     } else {
-      clearIcon.style.display   = 'none'
-      clearTargetElement        = undefined
+      clearIcon.style.display           = 'none'
+      clearTargetElement                = undefined
     }
   }
 

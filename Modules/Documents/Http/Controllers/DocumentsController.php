@@ -6,8 +6,10 @@ use Modules\Documents\Http\Requests\DocumentCreateRequest;
 use Modules\Documents\Http\Requests\DocumentUpdateRequest;
 use Modules\Documents\Repositories\DocumentRepository;
 use Modules\Documents\Repositories\TransactionRepository;
+use Illuminate\Validation\ValidationException;
 // use Illuminate\Validation\ValidationException;
 use Exception;
+use Illuminate\Support\Facades\DB;
 /**
  * Class DocumentsController.
  *
@@ -73,28 +75,48 @@ class DocumentsController extends Controller
      */
     public function store(DocumentCreateRequest $request)
     {
+        $date = $this->formatDates($request->task_date, $request->task_time);
+        $office_id = auth()->user()->id;
+        DB::beginTransaction();
         try {
-        $date_received = $this->formatDates($request->received_date, $request->received_time);
-        $date_released = $this->formatDates($request->released_date, $request->released_time);
-            $document = $this->repository->create(array_merge($request->all(), ['date_received' => $date_received, 'date_released' => $date_released]));
-            $response = [
-                'message' => 'Document created.',
-                'data'    => $document,
-            ];
-            if ($request->wantsJson()) {
-                return response()->json($response);
-            }
-            return redirect()->route('documents.index')->with('message', $response['message']);
-        } catch (Exception $e) {            
+            $document = $this->repository->firstOrCreate(array_merge($request->only('doctype_id', 'details', 'persons_concerned'), ['office_id' => $office_id]));
+        } catch(ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
                     'message' => $e->errorBag()
                 ]);
             }
-            return redirect()->back()->withInput();
+            DB::rollback();
+            return redirect()->back()->withErrors($e->errorBag())->withInput();
+        } catch(Exception $e) {
+            DB::rollback();
+            throw $e;            
         }
-     
+        try {
+            $transaction = $this->transaction_repository->firstOrCreate(array_merge($request->only('from_to_office', 'action', 'by'), ['document_id' => $document->id], ['date' => $date], ['office_id' => $office_id]));
+        } catch(ValidationException $e) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'error'   => true,
+                    'message' => $e->errorBag()
+                ]);
+            }
+            DB::rollback();
+            return redirect()->back()->withErrors($e->errorBag())->withInput();
+        } catch(Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        $response = [
+            'message' => 'Document created.',
+            'data'    => collect($document)->merge($transaction),
+        ];
+        if ($request->wantsJson()) {
+            return response()->json($response);
+        }
+        DB::commit();
+        return redirect()->route('documents.index')->with('message', $response['message']);        
     }
     /**
      * Display the specified resource.
@@ -139,9 +161,7 @@ class DocumentsController extends Controller
     public function update(DocumentUpdateRequest $request, $id)
     {
         try {
-        $date_received = $this->formatDates($request->received_date, $request->received_time);
-        $date_released = $this->formatDates($request->released_date, $request->released_time);
-            $document = $this->repository->update(array_merge($request->all(), ['date_received' => $date_received, 'date_released' => $date_released]), $id);
+            $document = $this->repository->update($request->all(), $id);
             $response = [
                 'message' => 'Document updated.',
                 'data'    => $document->toArray(),
@@ -158,6 +178,8 @@ class DocumentsController extends Controller
                 ]);
             }
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+        } catch(Exception $e) {
+            throw $e;
         }
     }
     /**

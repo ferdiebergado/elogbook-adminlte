@@ -20,7 +20,12 @@ class TransactionCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'document_id'       => 'required|integer',     
+            'task'              => 'required',
+            'from_to_office'    => 'required|integer',
+            'task_date'         => 'required|date_format:dd/mm/yyyy',
+            'task_time'         => 'required',            
+            'action'            => 'required|max:250'
         ];
     }
 }

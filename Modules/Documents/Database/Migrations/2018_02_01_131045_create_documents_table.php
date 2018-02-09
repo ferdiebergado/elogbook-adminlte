@@ -20,7 +20,6 @@ class CreateDocumentsTable extends Migration
             $table->string('details', 250);
             $table->string('persons_concerned', 250);
             $table->unsignedInteger('office_id');            
-            $table->foreign('office_id')->references('id')->on('offices');
             $table->timestamps();
             $table->unsignedInteger('created_by')->nullable()->default(null);
             $table->unsignedInteger('updated_by')->nullable()->default(null);            
@@ -35,7 +34,7 @@ class CreateDocumentsTable extends Migration
      * @return void
      */
     public function down()
-    {
+    { 
         Schema::dropIfExists('documents');
     }
 }

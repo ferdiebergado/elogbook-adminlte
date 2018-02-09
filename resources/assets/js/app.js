@@ -113,7 +113,7 @@ if ($('#encryptableform')) {
 $(':input.error:first').focus();
 // Automatically center on screen the input element on focus
 // $(':input:not(select)').focus(function () {
-  $('input:text,textarea,select').focus(function () {  
+  $('input:text,textarea').focus(function () {  
    var center = $(window).outerHeight() / 2;
    var top = $(this).offset().top;
    if (top > center) {
@@ -172,6 +172,21 @@ $('#avatar-input').change(function() {
     // enableSeconds: true
     // wrap: true
   });
+  $('#task').change(function(){
+    var office = $('#label_from_to_office');
+    var action = $('#label_action');
+    var by = $('#label_by');
+    if (this.value === 'I') {
+      office.html('From');
+      action.html('Action to be Taken');
+      by.html('Received by');
+    }
+    if (this.value === 'O') {
+      office.html('To');
+      action.html('Action Taken');
+      by.html('Released by');
+    }    
+  })
   restoreTab('documents-tab');
   restoreTab('profile-tab');
 });

@@ -10,7 +10,6 @@ use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\TransactionCreateRequest;
 use App\Http\Requests\TransactionUpdateRequest;
 use Modules\Documents\Repositories\TransactionRepository;
-use Modules\Documents\Validators\TransactionValidator;
 
 /**
  * Class TransactionsController.
@@ -23,22 +22,15 @@ class TransactionsController extends Controller
      * @var TransactionRepository
      */
     protected $repository;
-
-    /**
-     * @var TransactionValidator
-     */
-    protected $validator;
-
     /**
      * TransactionsController constructor.
      *
      * @param TransactionRepository $repository
      * @param TransactionValidator $validator
      */
-    public function __construct(TransactionRepository $repository, TransactionValidator $validator)
+    public function __construct(TransactionRepository $repository)
     {
         $this->repository = $repository;
-        $this->validator  = $validator;
     }
 
     /**
@@ -73,8 +65,6 @@ class TransactionsController extends Controller
     public function store(TransactionCreateRequest $request)
     {
         try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
             $transaction = $this->repository->create($request->all());
 
@@ -149,8 +139,6 @@ class TransactionsController extends Controller
     public function update(TransactionUpdateRequest $request, $id)
     {
         try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             $transaction = $this->repository->update($request->all(), $id);
 

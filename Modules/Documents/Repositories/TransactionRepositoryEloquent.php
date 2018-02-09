@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Documents\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
+// use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\Documents\Repositories\TransactionRepository;
 use Modules\Documents\Entities\Transaction;
 /**
@@ -11,6 +11,14 @@ use Modules\Documents\Entities\Transaction;
  */
 class TransactionRepositoryEloquent extends BaseRepository implements TransactionRepository
 {
+        /**
+     * @var array
+     */
+    protected $fieldSearchable = [
+            'target_office.name' => 'like',
+            'action' => 'like',
+            'by' => 'like'
+    ];
     /**
      * Specify Model class name
      *
@@ -26,7 +34,7 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
      */
     public function boot()
     {
-        $this->pushCriteria(app(RequestCriteria::class));
+        $this->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));   
     }
     
 }

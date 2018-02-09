@@ -21,7 +21,6 @@ class CreateBureauservicesTable extends Migration
             $table->unsignedInteger('created_by')->nullable()->default(null);
             $table->unsignedInteger('updated_by')->nullable()->default(null);
             $table->unsignedInteger('deleted_by')->nullable()->default(null);                        
-            $table->foreign('strand_id')->references('id')->on('strands');
             $table->timestamps();
         });
     }
@@ -32,7 +31,7 @@ class CreateBureauservicesTable extends Migration
      * @return void
      */
     public function down()
-    {
+    { 
         Schema::dropIfExists('bureauservices');
     }
 }

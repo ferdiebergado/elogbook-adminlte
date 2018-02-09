@@ -19,7 +19,8 @@ class Transaction extends BaseModel
     	'from_to_office',
     	'date',
     	'action',
-    	'by'
+    	'by',
+        'office_id'
     ];
     protected $dates = [
     	'date'
@@ -28,4 +29,12 @@ class Transaction extends BaseModel
     {
     	return $this->belongsTo(Document::class)->withDefault();
     }
+    public function target_office()
+    {
+        return $this->belongsTo(Office::class, 'from_to_office')->withDefault(['name' => null]);
+    }
+    public function office()
+    {
+        return $this->belongsTo(Office::class)->withDefault(['name' => null]);
+    }    
 }

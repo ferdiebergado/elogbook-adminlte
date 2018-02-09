@@ -22,6 +22,6 @@ class DocumentRelationsCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->with('doctype', 'received_from_office', 'released_to_office');
+        return $model->with('doctype');
     }
 }
