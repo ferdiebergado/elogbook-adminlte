@@ -15,6 +15,11 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
      * @var array
      */
     protected $fieldSearchable = [
+            'id',
+            'document.id',
+            'document.doctype.name' => 'like',
+            'document.details' => 'like',
+            'document.persons_concerned' => 'like',
             'target_office.name' => 'like',
             'action' => 'like',
             'by' => 'like'
@@ -35,6 +40,5 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
     public function boot()
     {
         $this->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));   
-    }
-    
+    }    
 }

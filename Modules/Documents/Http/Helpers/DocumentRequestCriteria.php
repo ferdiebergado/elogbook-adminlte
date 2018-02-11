@@ -1,9 +1,6 @@
 <?php
-
 namespace Modules\Documents\Http\Helpers;
-
 use Prettus\Repository\Criteria\RequestCriteria;
-
 class DocumentRequestCriteria extends RequestCriteria 
 {
     /**
@@ -14,12 +11,9 @@ class DocumentRequestCriteria extends RequestCriteria
     protected function parserSearchData($search)
     {
         $searchData = [];
-
         $search = $search['value'];
-
         if (stripos($search, ':')) {
             $fields = explode(';', $search);
-
             foreach ($fields as $row) {
                 try {
                     list($field, $value) = explode(':', $row);
@@ -29,10 +23,8 @@ class DocumentRequestCriteria extends RequestCriteria
                 }
             }
         }
-
         return $searchData;
     }
-
     /**
      * @param $search
      *
@@ -41,7 +33,6 @@ class DocumentRequestCriteria extends RequestCriteria
     protected function parserSearchValue($search)
     {
     	$search = $search['value'];
-
         if (stripos($search, ';') || stripos($search, ':')) {
             $values = explode(';', $search);
             foreach ($values as $value) {
@@ -50,10 +41,8 @@ class DocumentRequestCriteria extends RequestCriteria
                     return $s[0];
                 }
             }
-
             return null;
         }
-
         return $search;
     }
 }

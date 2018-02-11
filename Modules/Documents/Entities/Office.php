@@ -2,6 +2,7 @@
 namespace Modules\Documents\Entities;
 // use Illuminate\Database\Eloquent\Model;
 use App\BaseModel;
+use Modules\Users\Entities\User;
 class Office extends BaseModel
 {
 	use \Wildside\Userstamps\Userstamps;
@@ -23,5 +24,9 @@ class Office extends BaseModel
     public function documents()
     {
         return $this->hasMany(Document::class)->withDefault();
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

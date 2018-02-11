@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Documents\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Documents\Policies\TransactionPolicy;
+use Illuminate\Validation\Rule;
 class TransactionUpdateRequest extends FormRequest
 {
     /**
@@ -10,7 +12,7 @@ class TransactionUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return new TransactionPolicy;
     }
     /**
      * Get the validation rules that apply to the request.
@@ -21,9 +23,12 @@ class TransactionUpdateRequest extends FormRequest
     {
         return [
             'document_id'       => 'required|integer',     
-            'task'              => 'required',
+            'task'              =>  [
+                                       'required', 
+                                        Rule::in(['I', 'O'])
+                                    ],
             'from_to_office'    => 'required|integer',
-            'task_date'         => 'required|date_format:dd/mm/yyyy',
+            'task_date'         => 'required|date',
             'task_time'         => 'required',            
             'action'            => 'required|max:250'
         ];

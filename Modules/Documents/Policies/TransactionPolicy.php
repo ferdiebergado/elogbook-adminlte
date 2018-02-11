@@ -1,9 +1,9 @@
 <?php
 namespace Modules\Documents\Policies;
 use Modules\Users\Entities\User;
-use Modules\Documents\Entities\Document;
+use Modules\Documents\Entities\Transaction;
 use Illuminate\Auth\Access\HandlesAuthorization;
-class DocumentPolicy
+class TransactionPolicy
 {
     use HandlesAuthorization;
     /**
@@ -17,47 +17,47 @@ class DocumentPolicy
         if ($user->role === 1) {
             return true;
         }
-    }
+    }    
     /**
-     * Determine whether the user can view the document.
+     * Determine whether the user can view the transaction.
      *
      * @param  \Modules\Users\Entities\User  $user
-     * @param  \App\Modules\Documents\Entities\Document  $document
+     * @param  \App\Modules\Documents\Entities\Transaction  $transaction
      * @return mixed
      */
-    public function view(User $user, Document $document)
+    public function view(User $user, Transaction $transaction)
     {
-        return ($user->id === auth()->user()->id);
+        return $user->id === auth()->user()->id;
     }
     /**
-     * Determine whether the user can create documents.
+     * Determine whether the user can create transactions.
      *
      * @param  \Modules\Users\Entities\User  $user
      * @return mixed
      */
     public function create(User $user)
     {
-        return ($user->id === auth()->user()->id);
+        return $user->id === auth()->user()->id;
     }
     /**
-     * Determine whether the user can update the document.
+     * Determine whether the user can update the transaction.
      *
      * @param  \Modules\Users\Entities\User  $user
-     * @param  \App\Modules\Documents\Entities\Document  $document
+     * @param  \App\Modules\Documents\Entities\Transaction  $transaction
      * @return mixed
      */
-    public function update(User $user, Document $document)
+    public function update(User $user, Transaction $transaction)
     {
-        return ($user->id === auth()->user()->id) && ($document->creator === $user->id);        
+        return $user->id === auth()->user()->id;
     }
     /**
-     * Determine whether the user can delete the document.
+     * Determine whether the user can delete the transaction.
      *
      * @param  \Modules\Users\Entities\User  $user
-     * @param  \App\Modules\Documents\Entities\Document  $document
+     * @param  \App\Modules\Documents\Entities\Transaction  $transaction
      * @return mixed
      */
-    public function delete(User $user, Document $document)
+    public function delete(User $user, Transaction $transaction)
     {
         return false;
     }

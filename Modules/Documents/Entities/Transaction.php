@@ -15,6 +15,7 @@ class Transaction extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'task',
     	'document_id',
     	'from_to_office',
     	'date',

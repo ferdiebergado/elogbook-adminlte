@@ -1,16 +1,15 @@
 <?php
-
 namespace Modules\Documents\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Prettus\Validator\Contracts\ValidatorInterface;
-use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\TransactionCreateRequest;
-use App\Http\Requests\TransactionUpdateRequest;
+use Modules\Documents\Http\Requests\TransactionCreateRequest;
+use Modules\Documents\Http\Requests\TransactionUpdateRequest;
 use Modules\Documents\Repositories\TransactionRepository;
-
+use Illuminate\Validation\ValidationException;
+use Exception;
+use Modules\Documents\Criteria\TransactionsByTaskCriteria;
+use Modules\Documents\Criteria\TransactionRelationsCriteria;
+use Modules\Documents\Criteria\TransactionsByOfficeCriteria;
 /**
  * Class TransactionsController.
  *
@@ -18,6 +17,7 @@ use Modules\Documents\Repositories\TransactionRepository;
  */
 class TransactionsController extends Controller
 {
+    use \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\RequestParser;
     /**
      * @var TransactionRepository
      */
@@ -26,13 +26,11 @@ class TransactionsController extends Controller
      * TransactionsController constructor.
      *
      * @param TransactionRepository $repository
-     * @param TransactionValidator $validator
      */
     public function __construct(TransactionRepository $repository)
     {
         $this->repository = $repository;
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -40,19 +38,23 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $transactions = $this->repository->all();
-
+        $this->repository->pushCriteria(TransactionsByOfficeCriteria::class);
+        $this->repository->pushCriteria(TransactionRelationsCriteria::class);
+        $request = app()->make('request');
+        $task = $request->task;
+        if (($task === 'I') || ($task === 'O')) {
+            $this->repository->pushCriteria(new TransactionsByTaskCriteria($task));
+        }
+        $perPage = $this->getRequestLength($request);    
+        $transactions = $this->repository->paginate($perPage);        
         if (request()->wantsJson()) {
-
             return response()->json([
+                'draw' => $request->draw,
                 'data' => $transactions,
             ]);
         }
-
-        return view('transactions.index', compact('transactions'));
+        return view('documents::transactions.index', compact('transactions'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -65,19 +67,14 @@ class TransactionsController extends Controller
     public function store(TransactionCreateRequest $request)
     {
         try {
-
             $transaction = $this->repository->create($request->all());
-
             $response = [
                 'message' => 'Transaction created.',
                 'data'    => $transaction->toArray(),
             ];
-
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
-
             return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
             if ($request->wantsJson()) {
@@ -86,11 +83,9 @@ class TransactionsController extends Controller
                     'message' => $e->getMessageBag()
                 ]);
             }
-
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -100,18 +95,16 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
+        // $this->repository->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));
+        $this->repository->pushCriteria(TransactionRelationsCriteria::class);        
         $transaction = $this->repository->find($id);
-
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $transaction,
             ]);
         }
-
-        return view('transactions.show', compact('transaction'));
+        return view('documents::transactions.show', compact('transaction'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -122,10 +115,8 @@ class TransactionsController extends Controller
     public function edit($id)
     {
         $transaction = $this->repository->find($id);
-
-        return view('transactions.edit', compact('transaction'));
+        return view('documents::transactions.edit', compact('transaction'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -139,35 +130,29 @@ class TransactionsController extends Controller
     public function update(TransactionUpdateRequest $request, $id)
     {
         try {
-
-            $transaction = $this->repository->update($request->all(), $id);
-
+            $date = $this->formatDates($request->task_date, $request->task_time);
+            $office_id = auth()->user()->office_id;            
+            $transaction = $this->repository->update(array_merge($request->only('task', 'document_id', 'from_to_office', 'by'), ['date' => $date], ['office_id' => $office_id]), $id);            
             $response = [
                 'message' => 'Transaction updated.',
-                'data'    => $transaction->toArray(),
+                'data'    => $transaction,
             ];
-
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
-
             return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
+        } catch (ValidationException $e) {
             if ($request->wantsJson()) {
-
                 return response()->json([
                     'error'   => true,
-                    'message' => $e->getMessageBag()
+                    'message' => $e->errorBag()
                 ]);
             }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+            return redirect()->back()->withErrors($e->errorBag())->withInput();
+        } catch(Exception $e) {
+            throw $e;
         }
     }
-
-
     /**
      * Remove the specified resource from storage.
      *
@@ -178,15 +163,12 @@ class TransactionsController extends Controller
     public function destroy($id)
     {
         $deleted = $this->repository->delete($id);
-
         if (request()->wantsJson()) {
-
             return response()->json([
                 'message' => 'Transaction deleted.',
                 'deleted' => $deleted,
             ]);
         }
-
         return redirect()->back()->with('message', 'Transaction deleted.');
     }
 }

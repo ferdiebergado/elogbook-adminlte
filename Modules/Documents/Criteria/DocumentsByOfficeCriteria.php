@@ -1,16 +1,13 @@
 <?php
-
 namespace Modules\Documents\Criteria;
-
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
-
 /**
- * Class DocumentRelationsCriteria.
+ * Class DocumentsByOfficeCriteria.
  *
  * @package namespace Modules\Documents\Criteria;
  */
-class DocumentRelationsCriteria implements CriteriaInterface
+class DocumentsByOfficeCriteria implements CriteriaInterface
 {
     /**
      * Apply criteria in query repository
@@ -22,6 +19,9 @@ class DocumentRelationsCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->with('doctype', 'transactions');
+        if (auth()->user()->role !== 1) {
+            return $model->where('office_id', auth()->user()->office_id);
+        }        
+        return $model;
     }
 }

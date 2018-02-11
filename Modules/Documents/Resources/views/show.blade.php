@@ -33,39 +33,7 @@ VIEW DOCUMENT
 		</div>
 	</div>
 	<br><br>
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="table-responsive">
-				<table class="table table-hover table-bordered">
-					<thead class="bg-blue">
-						<tr>
-							<th class="text-center">Task</th>
-							<th class="text-center">Date</th>
-							<th class="text-center">From/To</th>
-							<th class="text-center">Action (to be) Taken</th>
-							<th class="text-center">By</th>
-						</tr>
-					</thead>
-					<tbody class="text-center">
-						<tr>
-							<td>Received</td>
-							<td>{{ isset($document->date_received) ? $document->date_received->toFormattedDateString() : '' }}</td>
-							<td>{{ $document->received_from_office->name }}</td>
-							<td>{{ $document->action_to_be_taken }}</td>
-							<td>{{ $document->received_by }}</td>
-						</tr>
-						<tr>
-							<td>Released</td>
-							<td>{{ isset($document->date_released) ? $document->date_released->toFormattedDateString() : '' }}</td>
-							<td>{{ $document->released_to_office->name }}</td>
-							<td>{{ $document->action_taken }}</td>
-							<td>{{ $document->released_by }}</td>
-						</tr>    			
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+	@include('documents::transactions.list')
 	<br><br>
 	<div class="row">
 		<div class="col-sm-12">

@@ -1,23 +1,18 @@
 // Fonts
 // @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Variables
 // @import "variables";
-
 // Bootstrap
 // @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 @import "../css/bootstrap.min.css";
-
 // Bootswatch Theme
 // @import "~bootswatch-scss/yeti/variables";
 // @import "~bootswatch-scss/yeti/bootswatch";
-
 // Font Awesome
 @import "~font-awesome/scss/font-awesome";
-
+// @import "../css/font-awesome.min.css";
 // Ion Icons
 // @import "~ionicons/dist/css/ionicons.css";
-
 /* Jquery DataTable ============================ */
 .dataTables_wrapper {
   position: relative; }
@@ -69,7 +64,6 @@
       outline: none; }
       .dataTables_wrapper .dt-buttons a.dt-button:active {
         opacity: 0.8; }
-
 .dt-button-info {
   position: fixed;
   top: 50%;

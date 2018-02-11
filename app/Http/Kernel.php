@@ -36,7 +36,11 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-
+        'user' => [
+            \Modules\Auth\Http\Middleware\UserEmailConfirmed::class,
+            \Modules\Auth\Http\Middleware\Active::class,
+            \Modules\Users\Http\Middleware\ProfileCompleted::class,            
+        ],
         'api' => [
             'throttle:60,1',
             'bindings',
@@ -58,9 +62,9 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'confirmed' => \Modules\Auth\Http\Middleware\UserEmailConfirmed::class,
-        'admin' => \Modules\Auth\Http\Middleware\Admin::class,
         'active' => \Modules\Auth\Http\Middleware\Active::class,
         'profile_complete' => \Modules\Users\Http\Middleware\ProfileCompleted::class,
-        // 'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,        
+        'prevent_back_history' => \Modules\Auth\Http\Middleware\PreventBackHistory::class,
+        'admin' => \Modules\Auth\Http\Middleware\Admin::class,
     ];
 }

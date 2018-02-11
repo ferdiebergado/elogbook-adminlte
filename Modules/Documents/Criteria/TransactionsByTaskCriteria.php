@@ -1,17 +1,19 @@
 <?php
-
 namespace Modules\Documents\Criteria;
-
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
-
 /**
- * Class DocumentRelationsCriteria.
+ * Class TransactionsByTaskCriteria.
  *
  * @package namespace Modules\Documents\Criteria;
  */
-class DocumentRelationsCriteria implements CriteriaInterface
+class TransactionsByTaskCriteria implements CriteriaInterface
 {
+    private $task;
+    public function __construct($task)
+    {
+        $this->task = $task;
+    }
     /**
      * Apply criteria in query repository
      *
@@ -22,6 +24,6 @@ class DocumentRelationsCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->with('doctype', 'transactions');
+        return $model->where('task', $this->task);
     }
 }

@@ -10,14 +10,16 @@ use Illuminate\Validation\ValidationException;
 // use Illuminate\Validation\ValidationException;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Modules\Documents\Criteria\DocumentRelationsCriteria;
+use Modules\Documents\Criteria\DocumentsByOfficeCriteria;
 /**
  * Class DocumentsController.
  *
  * @package namespace Modules\Documents\Http\Controllers;
  */
 class DocumentsController extends Controller
-{
-    use \Modules\Documents\Http\Helpers\RequestParser;
+{    
+    use \Modules\Documents\Http\Helpers\RequestParser, \App\Http\Helpers\DateHelper;
     /**
      * @var DocumentRepository
      */
@@ -40,8 +42,8 @@ class DocumentsController extends Controller
     public function index()
     {
         // $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $this->repository->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));
-        $this->repository->pushCriteria(\Modules\Documents\Criteria\DocumentRelationsCriteria::class);        
+        $this->repository->pushCriteria(DocumentsByOfficeCriteria::class);
+        $this->repository->pushCriteria(DocumentRelationsCriteria::class);        
         $request = app()->make('request');
         $perPage = $this->getRequestLength($request);    
         $documents = $this->repository->paginate($perPage);
@@ -60,6 +62,7 @@ class DocumentsController extends Controller
      */
     public function create()
     {
+        $this->repository->pushCriteria(DocumentRelationsCriteria::class);        
         $document = $this->repository->makeModel();
         $transaction = $this->transaction_repository->makeModel();
         return view('documents::create', compact('document', 'transaction'));
@@ -127,7 +130,7 @@ class DocumentsController extends Controller
      */
     public function show($id)
     {
-        $this->repository->pushCriteria(\Modules\Documents\Criteria\DocumentRelationsCriteria::class);          
+        $this->repository->pushCriteria(DocumentRelationsCriteria::class);          
         $document = $this->repository->find($id);
         if (request()->wantsJson()) {
             return response()->json([
@@ -145,7 +148,8 @@ class DocumentsController extends Controller
      */
     public function edit($id)
     {
-        $document = $this->repository->find($id);
+        $this->repository->pushCriteria(DocumentRelationsCriteria::class);
+        $document = $this->repository->find($id);        
         return view('documents::edit', compact('document'));
     }
     /**
@@ -199,13 +203,5 @@ class DocumentsController extends Controller
             ]);
         }
         return redirect()->back()->with('message', 'Document deleted.');
-    }
-    private function formatDates($date, $time)
-    {
-        $formatted = null;
-        if (($date) && ($time)) {
-            $formatted = (new \Carbon\Carbon($date . ' ' . $time))->toDateTimeString();
-        }
-        return $formatted;
     }
 }

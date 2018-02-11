@@ -75,10 +75,13 @@ User Profile
 							<div class="row">			
 								<div class="form-group">
 									<label for="office_id" class="col-sm-2 control-label">Office</label>	
-									<div class="col-xs-10 col-sm-10 col-md-6 col-lg-6">										
-										@component('documents::components.officeselect', ['field' => $user->office_id, 'name' => 'office_id'])
+									<div class="col-xs-10 col-sm-10 col-md-6 col-lg-6">							
+										@component('documents::components.select2', ['field' => $user->office_id, 'name' => 'office_id', 'rows' => $offices])
 										@slot('id')
 										office_id
+										@endslot
+										@slot('prompt')
+										    an office
 										@endslot
 										required
 										@endcomponent
