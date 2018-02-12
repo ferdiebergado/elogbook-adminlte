@@ -20,8 +20,10 @@ class Transaction extends BaseModel
     	'from_to_office',
     	'date',
     	'action',
+        'action_to_be_taken',
     	'by',
-        'office_id'
+        'office_id',
+        'pending'
     ];
     protected $dates = [
     	'date'

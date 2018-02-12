@@ -8,7 +8,6 @@ use Modules\Users\Repositories\UserRepository;
 use Modules\Users\Entities\User;
 // use Modules\Users\Validators\UserValidator;
 use Illuminate\Support\Facades\Cache;
-
 /**
  * Class UserRepositoryEloquent.
  *

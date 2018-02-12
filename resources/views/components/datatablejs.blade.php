@@ -65,29 +65,53 @@
                                 render:     function ( data, type, row ) {
                                                 const viewroute =   '{{ $datatableurl }}';
                                                 const editroute =   viewroute + '/' + data + '/edit';
+                                                const receiveroute = editroute;
                                                 const buttons =     
                                                         {
-                                                            view: {
-                                                                    color: 'purple',  
-                                                                    icon: 'info-sign',
-                                                                    title: 'View'
+                                                            view:   {
+                                                                        color: 'purple',  
+                                                                        icon: 'info-sign',
+                                                                        title: 'View'
                                                                     },
-                                                            edit:       {
-                                                                color: 'maroon',  
-                                                                icon: 'edit',
-                                                                title: 'Update'
-                                                            },                                             
+                                                            edit:   {
+                                                                        color: 'maroon',  
+                                                                        icon: 'edit',
+                                                                        title: 'Update'
+                                                                    },                                             
+                                                            receive:   {
+                                                                        color: 'blue',  
+                                                                        icon: 'circle-arrow-down',
+                                                                        title: 'Receive'
+                                                                    },                                             
+                                                            release:   {
+                                                                        color: 'teal',  
+                                                                        icon: 'circle-arrow-up',
+                                                                        title: 'Release'
+                                                                    },  
                                                         };
                                                     var viewlink = viewroute + '/' + data;
                                                     var editlink = editroute;
+                                                    var receivelink = receiveroute;
+                                                    var releaselink = receiveroute;
                                                     var editbtn = generateBtn(buttons.edit.color, editlink, buttons.edit.icon, buttons.edit.title);
                                                     var viewbtn = generateBtn(buttons.view.color, viewlink, buttons.view.icon, buttons.view.title);
+                                                    var receivebtn = generateBtn(buttons.receive.color, receivelink, buttons.receive.icon, buttons.receive.title);            
+                                                    var releasebtn = generateBtn(buttons.release.color, releaselink, buttons.release.icon, buttons.release.title);        
+                                                    var links;
                                                     function generateBtn(color, link, icon, title) {
                                                         let head = `<a class="btn btn-flat btn-sm bg-${color}" href="`;
                                                         let end = `" title="${title}" style="margin-top: 3px; margin-left: 3px" role="button"><i class="glyphicon glyphicon-${icon}"></i></a>`;   
                                                         return head + link + end;
                                                     }
-                                                    return viewbtn {{ auth()->user()->role !== 4 ? '+ editbtn':'' }};
+                                                    links = viewbtn {{ auth()->user()->role !== 4 ? '+ editbtn':'' }};
+                                                    if (row.pending) {
+                                                        links += receivebtn;                  
+                                                    } else {
+                                                        if (row.task == 'I') {
+                                                            links += releasebtn;       
+                                                        }
+                                                    }
+                                                    return links;
                                             },
                                 targets:    {{ $datatabletargetcol }}
                             },
@@ -103,9 +127,15 @@
                                                 var tskcolor = '';
                                                 if (data == 'I') {
                                                     task = 'Received';
+                                                    if (row.pending) {
+                                                        task = 'Receive';
+                                                    }
                                                     tskcolor = 'primary';
                                                 } else if (data == 'O') {
                                                     task = 'Released';
+                                                    if (row.pending) {
+                                                        task = 'Release';
+                                                    }
                                                     tskcolor = 'success';
                                                 } else {
                                                     return data;
@@ -116,7 +146,7 @@
                             {
                                 targets:    0,
                                 render:     function (data, type, row) {
-                                                return `<span class=\"label bg-teal\">${data}</span>`;
+                                                return `<span class=\"label bg-gray\">${data}</span>`;
                                             }
                             }                            
                 // { visible: false,  "targets": [ 3 ] }

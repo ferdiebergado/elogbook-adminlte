@@ -3,12 +3,12 @@
 TRANSACTIONS
 @endsection
 @section('content')
-<div class="clearfix">	
+{{-- <div class="clearfix">	
 	<div class="col-sm-12">
 		<a class="btn btn-flat btn-success pull-right" href={{ route('transactions.create') }} role="button" title="Create New Transaction">Create New</a>
 	</div>
 </div>
-<br>
+<br> --}}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	
 	<div class="table-responsive">
 		<table id="transactions-table" class="table table-hover table-condensed dataTable js-exportable" style="font-size: 1.3rem;"></table>
@@ -29,14 +29,14 @@ transactions-table
 @slot('datatablewith')
 @endslot
 @slot('datatabletargetcol')
-8
+9
 @endslot
 @slot('ellipsiscol')
 [3, 4]
 @endslot
 {
 	name:   'id',
-	title:  'Trans. No.',
+	title:  'No.',
 	data:   'id'
 },
 {
@@ -71,11 +71,16 @@ transactions-table
 },
 {
 	name:   'action',
-	title:  'Action',
+	title:  'Action Taken',
 	data:   'action'
 },
+{
+	name:   'action_to_be_taken',
+	title:  'Action To Be Taken',
+	data:   'action_to_be_taken'
+},
 {   
-	title: 'Actions(s)',
+	title: 'Task(s)',
 	data: 'id' 
 }   
 @endcomponent

@@ -30,7 +30,10 @@ class TransactionUpdateRequest extends FormRequest
             'from_to_office'    => 'required|integer',
             'task_date'         => 'required|date',
             'task_time'         => 'required',            
-            'action'            => 'required|max:250'
+            'action'            => 'required|max:250',
+            'action_to_be_taken' => 'required|max:250',
+            'by'                => 'required|max:150',
+            'pending'           => 'required|boolean'
         ];
     }
 }

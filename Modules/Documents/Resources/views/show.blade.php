@@ -32,7 +32,7 @@ VIEW DOCUMENT
 			<p>{{ $document->persons_concerned }}</p>
 		</div>
 	</div>
-	<br><br>
+	<br>
 	@include('documents::transactions.list')
 	<br><br>
 	<div class="row">

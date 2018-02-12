@@ -6,11 +6,11 @@ use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Class DocumentRelationsCriteria.
+ * Class PendingTransactionsCriteria.
  *
  * @package namespace Modules\Documents\Criteria;
  */
-class DocumentRelationsCriteria implements CriteriaInterface
+class PendingTransactionsCriteria implements CriteriaInterface
 {
     /**
      * Apply criteria in query repository
@@ -22,6 +22,6 @@ class DocumentRelationsCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->with('doctype', 'transactions', 'user');
+        return $model->where('pending', 1);
     }
 }

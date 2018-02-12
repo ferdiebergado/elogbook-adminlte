@@ -11,7 +11,7 @@ use Modules\Documents\Entities\Transaction;
  */
 class TransactionRepositoryEloquent extends BaseRepository implements TransactionRepository
 {
-        /**
+    /**
      * @var array
      */
     protected $fieldSearchable = [

@@ -10,6 +10,7 @@ use Exception;
 use Modules\Documents\Criteria\TransactionsByTaskCriteria;
 use Modules\Documents\Criteria\TransactionRelationsCriteria;
 use Modules\Documents\Criteria\TransactionsByOfficeCriteria;
+use Modules\Documents\Criteria\PendingTransactionsCriteria;
 /**
  * Class TransactionsController.
  *
@@ -44,6 +45,9 @@ class TransactionsController extends Controller
         $task = $request->task;
         if (($task === 'I') || ($task === 'O')) {
             $this->repository->pushCriteria(new TransactionsByTaskCriteria($task));
+        }
+        if ($task === 'P') {
+            $this->repository->pushCriteria(PendingTransactionsCriteria::class);
         }
         $perPage = $this->getRequestLength($request);    
         $transactions = $this->repository->paginate($perPage);        
@@ -131,8 +135,12 @@ class TransactionsController extends Controller
     {
         try {
             $date = $this->formatDates($request->task_date, $request->task_time);
-            $office_id = auth()->user()->office_id;            
-            $transaction = $this->repository->update(array_merge($request->only('task', 'document_id', 'from_to_office', 'by'), ['date' => $date], ['office_id' => $office_id]), $id);            
+            $office_id = auth()->user()->office_id;
+            $pending = $request->pending;
+            if ($request->release) {
+                $pending = 1;                            
+            }
+            $transaction = $this->repository->update(array_merge($request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by'), ['date' => $date], ['office_id' => $office_id], ['pending' => $pending]), $id);            
             $response = [
                 'message' => 'Transaction updated.',
                 'data'    => $transaction,

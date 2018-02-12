@@ -1,13 +1,12 @@
 <?php
-
 namespace Modules\Documents\Repositories;
-
 use Prettus\Repository\Eloquent\BaseRepository;
 // use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\Documents\Repositories\DocumentRepository;
 use Modules\Documents\Entities\Document;
 // use Modules\Documents\Validators\DocumentValidator;
-
+// use Prettus\Repository\Contracts\CacheableInterface;
+// use Prettus\Repository\Traits\CacheableRepository;
 /**
  * Class DocumentRepositoryEloquent.
  *
@@ -36,7 +35,6 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
     {
         return Document::class;
     }
-
     /**
      * Boot up the repository, pushing criteria
      */

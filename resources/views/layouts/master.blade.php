@@ -102,7 +102,10 @@
           </li>
           <li class="{{ Route::currentRouteNamed('documents.*') ? 'active' : '' }}">
             <a href="{{ route('documents.index') }}">
-              <i class="fa fa-edit"></i> <span>Documents</span>
+              <i class="fa fa-book"></i> <span>Documents</span>
+              <span class="pull-right-container">
+                <span class="label label-primary pull-right">{{ $document_count }}</span>
+              </span>              
             </a>
           </li>
           <li class="treeview {{ Route::currentRouteNamed('transactions.*') ? 'active' : '' }}">
@@ -113,75 +116,87 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{ route('transactions.index', ['task' => 'I']) }}"><i class="fa fa-circle-o"></i>Received</a></li>
-              <li><a href="{{ route('transactions.index', ['task' => 'O']) }}"><i class="fa fa-circle-o"></i>Released</a></li>
-              <li><a href="{{ route('transactions.index', ['task' => null]) }}"><i class="fa fa-circle-o"></i>All</a></li>
-            </ul>
-          </li>
-        </ul>
-      </section>
-      <!-- /.sidebar -->
-    </aside>
-    @endauth
-    <!-- =============================================== -->
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-      <section class="content-header">
-        @include('sections.messages')
-      </section>
-      @auth
-      <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <h1>
-          @yield('content-header')
-          <small>@yield('content-description')</small>
-        </h1>
-        <ol class="breadcrumb">
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        </ol>
-      </section>
-      @endauth
-      <!-- Main content -->
-      <section class="content">
-        @unless (Route::currentRouteName() === 'users.show')
-        <!-- Default box -->
-        <div class="box box-primary">
-          <div class="box-header with-border">
-            <h3 class="box-title">&nbsp;<b>@yield('title')</b></h3>
-          </div>
-          <div class="box-body">
-            @endunless
-            <div class="container-fluid">
-              
-              @yield('content')
-            </div>
-            @unless (Route::currentRouteName() === 'users.show')
-          </div>
-          <!-- /.box-body -->
-          <div class="box-footer">
-            @yield('box-footer')
-          </div>
-          <!-- /.box-footer-->
-        </div>
-        <!-- /.box -->
-        @endunless
-      </section>
-      <!-- /.content -->
+              <li><a href="{{ route('transactions.index', ['task' => 'P']) }}"><i class="fa fa-circle-o"></i>Pending
+                <div class="label label-warning pull-right">{{ $transaction_pending }}</div>
+              </a></li>              
+              <li><a href="{{ route('transactions.index', ['task' => 'I']) }}"><i class="fa fa-circle-o"></i>Received
+                <div class="label label-primary pull-right">{{ $transaction_received }}</div>
+              </a></li>
+              <li><a href="{{ route('transactions.index', ['task' => 'O']) }}"><i class="fa fa-circle-o"></i>Released
+                <div class="label label-success pull-right">{{ $transaction_released }}</div>
+              </a></li>
+              <li><a href="{{ route('transactions.index', ['task' => null]) }}"><i class="fa fa-circle-o"></i>All
+                <div class="label label-info pull-right">{{ $transaction_count }}</div>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+  @endauth
+  <!-- =============================================== -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <section class="content-header">
+      @include('sections.messages')
+    </section>
+    @auth
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ auth()->user()->office->name }}
+        <small>{{ (strpos(auth()->user()->office->name,'Office of the Director') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
+{{--           @yield('content-header')
+<small>@yield('content-description')</small> --}}
+</h1>
+<ol class="breadcrumb">
+  <li><a href="/"><i class="fa fa-home"></i> Home</a>@yield('breadcrumb')</li>
+</ol>
+</section>
+@endauth
+<!-- Main content -->
+<section class="content">
+  @unless (Route::currentRouteName() === 'users.show')
+  <!-- Default box -->
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">&nbsp;<b>@yield('title')</b></h3>
     </div>
-    <!-- /.content-wrapper -->
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-      {{ csrf_field() }}
-    </form>
-    <footer class="main-footer">
-      <b>{{ config('app.name') }}</b> <small> v. {{ config('app.version') }} </small><small class="label label-info">{{ config('app.release') }}</small>
-      <div class="pull-right hidden-xs">
-        <small><strong>Copyright &copy; {{ \Carbon\Carbon::now()->year }} <a href="https://www.facebook.com/ferdie.bergado">{{ config('app.author') }}</a></strong>, <a href="https://www.pup.edu.ph/gs/msit.aspx">MSIT</a></small>
+    <div class="box-body">
+      @endunless
+      <div class="container-fluid">
+
+        @yield('content')
       </div>
-    </footer>
+      @unless (Route::currentRouteName() === 'users.show')
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+      @yield('box-footer')
+    </div>
+    <!-- /.box-footer-->
   </div>
-  <!-- ./wrapper -->
-  <!-- Scripts -->
-  <script src="{{ mix('js/app.js') }}"></script>
-  @stack('scripts')
+  <!-- /.box -->
+  @endunless
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+  {{ csrf_field() }}
+</form>
+<footer class="main-footer">
+  <a href="{{ config('app.pages.github') }}"><b>{{ config('app.name') }}</b></a> <small> v. {{ config('app.version') }} </small><small class="label label-info">{{ config('app.release') }}</small>
+  <div class="pull-right hidden-xs">
+    <small><strong>Copyright &copy; {{ \Carbon\Carbon::now()->year }} <a href="{{ config('app.pages.facebook') }}">{{ config('app.author') }}</a></strong>, <a href="{{ config('app.pages.msit') }}">MSIT</a></small>
+  </div>
+</footer>
+</div>
+<!-- ./wrapper -->
+<!-- Scripts -->
+<script src="{{ mix('js/app.js') }}"></script>
+@stack('scripts')
 </body>
 </html>

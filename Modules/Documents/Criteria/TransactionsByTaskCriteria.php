@@ -24,6 +24,6 @@ class TransactionsByTaskCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where('task', $this->task);
+        return $model->where('task', $this->task)->where('pending', 0);
     }
 }

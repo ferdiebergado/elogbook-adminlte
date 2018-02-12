@@ -19,6 +19,6 @@ class TransactionRelationsCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->with(['document', 'document.doctype', 'target_office']);
+        return $model->with(['document', 'document.doctype', 'target_office', 'office']);
     }
 }

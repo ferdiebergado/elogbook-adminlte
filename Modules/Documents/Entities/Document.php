@@ -2,6 +2,7 @@
 namespace Modules\Documents\Entities;
 // use Illuminate\Database\Eloquent\Model;
 use App\BaseModel;
+use Modules\Users\Entities\User;
 /**
  * Class Document.
  *
@@ -28,5 +29,9 @@ class Document extends BaseModel
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by')->withDefault(['name' => null]);
     }
 }

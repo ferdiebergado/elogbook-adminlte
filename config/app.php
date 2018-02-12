@@ -238,8 +238,12 @@ return [
     ],
 
     'salt' => env('APP_SALT', 'i8ZGKfgqIeFVjPvnZrAMUWQdBIIVyUOr'),
-    'author' => env('APP_AUTHOR'),
+    'author' => 'Ferdinand Saporas Bergado',
     'version' => '1.0.0',
     'release' => 'alpha',
-
+    'pages' => [
+                    'github'    =>  'https://ferdiebergado.github.io/elogbook-adminlte/',
+                    'facebook'  =>  'https://www.facebook.com/ferdie.bergado',
+                    'msit'      =>  'https://www.pup.edu.ph/gs/msit.aspx'
+                ],
 ];

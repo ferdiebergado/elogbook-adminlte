@@ -20,6 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedInteger('from_to_office');                
             $table->timestamp('date');
             $table->string('action', 250);
+            $table->string('action_to_be_taken', 250);
             $table->string('by', 150);
             $table->unsignedInteger('office_id');
             $table->boolean('pending')->default(0);

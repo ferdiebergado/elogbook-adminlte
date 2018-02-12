@@ -18,29 +18,6 @@ try {
   window.$ = window.jQuery = require('jquery');
   // require('bootstrap-sass');
 } catch (e) {}
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-window.axios = require('axios');
-
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
-
-let token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
 require('./admin-lte/bootstrap.min.js');
 // require('./admin-lte/jquery.slimscroll.min.js');
 /* Load app's javascript libraries */
@@ -200,16 +177,13 @@ $('#avatar-input').change(function() {
   });
   $('#task').change(function(){
     var office = $('#label_from_to_office');
-    var action = $('#label_action');
     var by = $('#label_by');
     if (this.value === 'I') {
       office.html('From');
-      action.html('Action to be Taken');
       by.html('Received by');
     }
     if (this.value === 'O') {
       office.html('To');
-      action.html('Action Taken');
       by.html('Released by');
     }
     console.log(this.value);    

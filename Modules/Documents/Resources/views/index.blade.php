@@ -38,7 +38,7 @@ documents-table
 @endslot
 {
 	name:   'id',
-	title:  'Doc. No.',
+	title:  'No.',
 	data:   'id'
 },
 {   
@@ -64,10 +64,10 @@ documents-table
 {   
 	name:   'created_by',
 	title:  'Created By',
-	data:   'created_by' 
+	data:   'user.name' 
 },
 {   
-	title: 'Actions(s)',
+	title: 'Task(s)',
 	data: 'id' 
 }   
 @endcomponent

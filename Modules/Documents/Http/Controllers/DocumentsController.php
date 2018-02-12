@@ -7,11 +7,11 @@ use Modules\Documents\Http\Requests\DocumentUpdateRequest;
 use Modules\Documents\Repositories\DocumentRepository;
 use Modules\Documents\Repositories\TransactionRepository;
 use Illuminate\Validation\ValidationException;
-// use Illuminate\Validation\ValidationException;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Modules\Documents\Criteria\DocumentRelationsCriteria;
 use Modules\Documents\Criteria\DocumentsByOfficeCriteria;
+use Modules\Documents\Entities\Office;
 /**
  * Class DocumentsController.
  *
@@ -78,8 +78,9 @@ class DocumentsController extends Controller
      */
     public function store(DocumentCreateRequest $request)
     {
+        define("PENDING", '(Pending)');
         $date = $this->formatDates($request->task_date, $request->task_time);
-        $office_id = auth()->user()->id;
+        $office_id = auth()->user()->office_id;
         DB::beginTransaction();
         try {
             $document = $this->repository->firstOrCreate(array_merge($request->only('doctype_id', 'details', 'persons_concerned'), ['office_id' => $office_id]));
@@ -97,7 +98,39 @@ class DocumentsController extends Controller
             throw $e;            
         }
         try {
-            $transaction = $this->transaction_repository->firstOrCreate(array_merge($request->only('from_to_office', 'action', 'by'), ['document_id' => $document->id], ['date' => $date], ['office_id' => $office_id]));
+            $transaction = $this->transaction_repository->firstOrCreate(array_merge(
+                $request->only('task', 'from_to_office', 'action', 'action_to_be_taken', 'by'), 
+                ['document_id' => $document->id], 
+                ['date' => $date], 
+                ['office_id' => $office_id]
+            ));
+            if ($request->task === 'O') {                
+                if (Office::find($request->from_to_office)->has('users')) {
+                    switch ($request->task) {
+                        case 'I':
+                        $task = 'O';
+                        break;
+                        case 'O':
+                        $task = 'I';
+                        break;
+                    }
+                    $from_to_office = auth()->user()->office_id;
+                    $office_id = $request->from_to_office;
+                    $action = PENDING;
+                    $by = PENDING;
+                    $transaction = $this->transaction_repository->firstOrCreate(array_merge(
+                        ['task' => $task], 
+                        ['document_id' => $document->id], 
+                        ['from_to_office' => $from_to_office], 
+                        ['date' => $date], 
+                        ['action' => $action], 
+                        $request->only('action_to_be_taken'),
+                        ['by' => $by], 
+                        ['office_id' => $office_id], 
+                        ['pending' => 1]
+                    ));
+                }
+            }
         } catch(ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([

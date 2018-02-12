@@ -86,7 +86,7 @@
 								<!-- ACTION -->
 								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 									<div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
-										<label id="label_action" for="inputAction">Action</label>
+										<label id="label_action" for="inputAction">Action Taken<sup>*</sup></label>
 										<textarea name="action" id="inputAction" class="form-control" title="Action" rows="2">{{ isset($transaction->action) ? $transaction->action : old('action') }}</textarea>
 										@if ($errors->has('action')) 
 										<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -95,21 +95,40 @@
 										</div>
 									</div>
 									<!-- END ACTION -->
-									<!-- BY -->
-									<div class="col-sm-6">
-										<div class="form-group {{ $errors->has('by') ? 'has-error' : '' }}">
-											<label id="label_by" for="inputBy">By</label>
-											<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : old('by') }}" title="By">
-											@if ($errors->has('by')) 
+									<!-- ACTION TO BE TAKEN -->
+									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+										<div class="form-group {{ $errors->has('action_to_be_taken') ? 'has-error' : '' }}">
+											<label id="label_action_to_be_taken" for="inputActionActionToBeTaken">Action To Be Taken</label>
+											<textarea name="action_to_be_taken" id="inputActionToBeTaken" class="form-control" title="Action To Be Taken" rows="2">{{ isset($transaction->action_to_be_taken) ? $transaction->action_to_be_taken : old('action_to_taken') }}</textarea>
+											@if ($errors->has('action_to_be_taken')) 
 											<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-												{{ $errors->first('by') }}</p>
+												{{ $errors->first('action_to_be_taken') }}</p>
 												@endif
 											</div>
 										</div>
-										<!-- END BY-->
+										<!-- END ACTION TO BE TAKEN -->									
 									</div>
-								</fieldset>
+									<div class="row">										
+										<!-- BY -->
+										<div class="col-sm-6">
+											<div class="form-group {{ $errors->has('by') ? 'has-error' : '' }}">
+												<label id="label_by" for="inputBy">By</label>
+												<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : $transaction->by === '[Unspecified]' ? auth()->user()->name : old('by') }}" title="By">
+												@if ($errors->has('by')) 
+												<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+													{{ $errors->first('by') }}</p>
+													@endif
+												</div>
+												<!-- END BY-->
+											</div>
+										</div>
+										<input type="hidden" id="pending" name="pending" value="{{ isset($transaction->pending) ? $transaction->pending : old('pending') }}">
+										<input type="hidden" id="document_id" name="document_id" value="{{ isset($transaction->document_id) ? $transaction->document_id : old('document_id') }}">	
+										@if(Request::query('task') === 'I')
+										<input type="hidden" id="release" name="release" value="true">				
+										@endif															
+									</fieldset>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>

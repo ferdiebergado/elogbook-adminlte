@@ -4,6 +4,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\Users\Events\UserAmended;
 use Modules\Documents\Entities\Office;
+use Modules\Documents\Entities\Document;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -35,5 +36,9 @@ class User extends Authenticatable
     public function office()
     {
         return $this->belongsTo(Office::class)->withDefault(['name' => null]);
+    }
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 }
