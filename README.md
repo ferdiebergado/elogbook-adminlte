@@ -1,17 +1,18 @@
 # elogbook-adminlte
-A document recording system made with Laravel 5.5.
+A document recording system made with Laravel 5.5 with Admin-LTE Template.
+
 ## Installation
 1. Clone the repository.
 
 	`git clone https://github.com/ferdiebergado/elogbook-adminlte.git`
 
-2. Generate application key.
-
-	`php artisan key:generate`
-
-3. Setup .env.
+2. Setup .env.
 
 	`mv .env.example .env`
+
+3. Generate application key.
+
+	`php artisan key:generate`
 
 4. Install php dependencies.
 
@@ -33,10 +34,12 @@ A document recording system made with Laravel 5.5.
 
 	`php artisan module:seed Documents`
 
-7. Start development server.
+9. Start development server.
 
 	`php artisan serve`
 
-## Configuration.
+## Configuration
+
 1. Edit config/app.php.
+
 2. Modify CSV seeder files in Modules/Documents/Database/Seeder/csvs folder to match your needs then rerun the migrations and seeders.
