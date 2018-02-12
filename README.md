@@ -1,5 +1,5 @@
 # elogbook-adminlte
-A document recording system made with Laravel 5.5 with Admin-LTE Template.
+A document recording system made with Laravel 5.5 using Admin-LTE Template and custom datatables from AdminBSB.
 
 ## Installation
 1. Clone the repository.
@@ -30,7 +30,7 @@ A document recording system made with Laravel 5.5 with Admin-LTE Template.
 
 	`php artisan migrate && php artisan module:migrate Documents Users Auth`
 
-8. Seed the document database.
+8. Seed the documents database.
 
 	`php artisan module:seed Documents`
 
@@ -43,3 +43,8 @@ A document recording system made with Laravel 5.5 with Admin-LTE Template.
 1. Edit config/app.php.
 
 2. Modify CSV seeder files in Modules/Documents/Database/Seeder/csvs folder to match your needs then rerun the migrations and seeders.
+## Credits
+- [Admin-LTE](https://adminlte.io)
+- [AdminBSB](https://gurayyarar.github.io/AdminBSBMaterialDesign/)
+## License
+This is open source software licensed under the [MIT LICENSE](LICENSE.md).
