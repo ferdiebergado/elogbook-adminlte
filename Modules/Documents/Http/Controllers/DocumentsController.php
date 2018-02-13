@@ -78,7 +78,6 @@ class DocumentsController extends Controller
      */
     public function store(DocumentCreateRequest $request)
     {
-        define("PENDING", '(Pending)');
         $date = $this->formatDates($request->task_date, $request->task_time);
         $office_id = auth()->user()->office_id;
         DB::beginTransaction();
@@ -116,8 +115,8 @@ class DocumentsController extends Controller
                     }
                     $from_to_office = auth()->user()->office_id;
                     $office_id = $request->from_to_office;
-                    $action = PENDING;
-                    $by = PENDING;
+                    $action = config('documents.PENDING');
+                    $by = config('documents.PENDING');
                     $transaction = $this->transaction_repository->firstOrCreate(array_merge(
                         ['task' => $task], 
                         ['document_id' => $document->id], 

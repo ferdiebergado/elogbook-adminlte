@@ -11,6 +11,7 @@ use Modules\Documents\Criteria\TransactionsByTaskCriteria;
 use Modules\Documents\Criteria\TransactionRelationsCriteria;
 use Modules\Documents\Criteria\TransactionsByOfficeCriteria;
 use Modules\Documents\Criteria\PendingTransactionsCriteria;
+use Illuminate\Support\Facades\DB;
 /**
  * Class TransactionsController.
  *
@@ -70,14 +71,29 @@ class TransactionsController extends Controller
      */
     public function store(TransactionCreateRequest $request)
     {
+        DB::beginTransaction();
         try {
             $date = $this->formatDates($request->task_date, $request->task_time);
-            $office_id = $request->from_to_office;            
+            $office_id = auth()->user()->office_id;
             $transaction = $this->repository->create(array_merge(
                 $request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), 
                 ['date' => $date], 
                 ['office_id' => $office_id]
             ));
+            if ($request->release) {
+                $received = [
+                    'task'              =>  'I',
+                    'document_id'       =>  $transaction->document_id,
+                    'from_to_office'    =>  $office_id,
+                    'date'              =>  $transaction->date->addMinute(),
+                    'action'            =>  config('documents.PENDING'),
+                    'action_to_be_taken' => $transaction->action_to_be_taken,
+                    'by'                =>  config('documents.PENDING'),
+                    'office_id'         =>  $transaction->from_to_office,
+                    'pending'           =>  1
+                ];
+                $this->repository->create($received);
+            }
             $response = [
                 'message' => 'Transaction created.',
                 'data'    => $transaction->toArray(),
@@ -85,6 +101,7 @@ class TransactionsController extends Controller
             if ($request->wantsJson()) {
                 return response()->json($response);
             }
+            DB::commit();
             return redirect()->back()->with('message', $response['message']);
         } catch (ValidationException $e) {
             if ($request->wantsJson()) {
@@ -93,8 +110,10 @@ class TransactionsController extends Controller
                     'message' => $e->errorBag()
                 ]);
             }
+            DB::rollback();
             return redirect()->back()->withErrors($e->errorBag())->withInput();
         } catch (Exception $e) {
+            DB::rollback();
             throw $e;
         }
     }
@@ -209,7 +228,7 @@ class TransactionsController extends Controller
         $transaction = $this->repository->find($id);
         $transaction->task = 'O';   
         $transaction->date = $transaction->date->addMinute();
-        $transaction->pending = 1;     
-        return view('documents::transactions.create', compact('transaction'));
+        $release = true;
+        return view('documents::transactions.create', compact('transaction', 'release'));
     }      
 }

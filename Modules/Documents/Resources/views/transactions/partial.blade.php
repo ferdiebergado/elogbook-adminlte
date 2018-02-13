@@ -124,6 +124,7 @@
 										</div>
 										<input type="hidden" id="pending" name="pending" value="{{ isset($transaction->pending) ? $transaction->pending : old('pending') }}">
 										<input type="hidden" id="document_id" name="document_id" value="{{ isset($transaction->document_id) ? $transaction->document_id : old('document_id') }}">
+										<input type="hidden" id="release" name="release" value="{{ isset($release) ? $release : old('release') }}">										
 										@unless (Route::is('documents.*'))
 										@include('includes.formbutton')
 										@endunless
