@@ -46,18 +46,10 @@
 			<!-- END PERSONS CONCERNED -->
 		</div>
 		@if (Route::currentRouteName() === 'documents.create')
-			@include('documents::transactions.partial')
+		@include('documents::transactions.partial')
 		@endif
 		@if (Route::currentRouteName() === 'documents.edit')
-			@include('documents::transactions.list')
+		@include('documents::transactions.list')
 		@endif
 		<br><br>
-		<div class="row">
-			<div class="col-sm-12">
-				<fieldset>				
-					<div class="form-group">
-						<a href="{{ URL::previous() }}" class="btn btn-flat btn-primary"> Back</a>
-						<button type="submit" class="btn btn-flat btn-primary">Save</button>
-					</div>
-				</div>
-			</div>
+		@include('includes.formbutton')

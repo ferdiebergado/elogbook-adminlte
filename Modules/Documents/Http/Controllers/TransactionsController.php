@@ -71,7 +71,13 @@ class TransactionsController extends Controller
     public function store(TransactionCreateRequest $request)
     {
         try {
-            $transaction = $this->repository->create($request->all());
+            $date = $this->formatDates($request->task_date, $request->task_time);
+            $office_id = $request->from_to_office;            
+            $transaction = $this->repository->create(array_merge(
+                $request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), 
+                ['date' => $date], 
+                ['office_id' => $office_id]
+            ));
             $response = [
                 'message' => 'Transaction created.',
                 'data'    => $transaction->toArray(),
@@ -80,14 +86,16 @@ class TransactionsController extends Controller
                 return response()->json($response);
             }
             return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
+        } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
-                    'message' => $e->getMessageBag()
+                    'message' => $e->errorBag()
                 ]);
             }
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+            return redirect()->back()->withErrors($e->errorBag())->withInput();
+        } catch (Exception $e) {
+            throw $e;
         }
     }
     /**
@@ -129,18 +137,14 @@ class TransactionsController extends Controller
      *
      * @return Response
      *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws ValidationException, Exception
      */
     public function update(TransactionUpdateRequest $request, $id)
     {
         try {
             $date = $this->formatDates($request->task_date, $request->task_time);
             $office_id = auth()->user()->office_id;
-            $pending = $request->pending;
-            if ($request->release) {
-                $pending = 1;                            
-            }
-            $transaction = $this->repository->update(array_merge($request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by'), ['date' => $date], ['office_id' => $office_id], ['pending' => $pending]), $id);            
+            $transaction = $this->repository->update(array_merge($request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), ['date' => $date], ['office_id' => $office_id]), $id);            
             $response = [
                 'message' => 'Transaction updated.',
                 'data'    => $transaction,
@@ -179,4 +183,33 @@ class TransactionsController extends Controller
         }
         return redirect()->back()->with('message', 'Transaction deleted.');
     }
+    /**
+     * Show the form for receiving a document.
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function receive($id)
+    {
+        $transaction = $this->repository->find($id);
+        $transaction->date = $transaction->date->addMinute();
+        $transaction->pending = 0;             
+        return view('documents::transactions.edit', compact('transaction'));
+    }    
+    /**
+     * Show the form for releasing a document.
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function release($id)
+    {
+        $transaction = $this->repository->find($id);
+        $transaction->task = 'O';   
+        $transaction->date = $transaction->date->addMinute();
+        $transaction->pending = 1;     
+        return view('documents::transactions.create', compact('transaction'));
+    }      
 }

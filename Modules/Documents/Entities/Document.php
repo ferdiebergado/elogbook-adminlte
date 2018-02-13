@@ -28,7 +28,7 @@ class Document extends BaseModel
     }   
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class)->latest();
     }
     public function user()
     {

@@ -123,10 +123,10 @@
 											</div>
 										</div>
 										<input type="hidden" id="pending" name="pending" value="{{ isset($transaction->pending) ? $transaction->pending : old('pending') }}">
-										<input type="hidden" id="document_id" name="document_id" value="{{ isset($transaction->document_id) ? $transaction->document_id : old('document_id') }}">	
-										@if(Request::query('task') === 'I')
-										<input type="hidden" id="release" name="release" value="true">				
-										@endif															
+										<input type="hidden" id="document_id" name="document_id" value="{{ isset($transaction->document_id) ? $transaction->document_id : old('document_id') }}">
+										@unless (Route::is('documents.*'))
+										@include('includes.formbutton')
+										@endunless
 									</fieldset>
 								</div>
 							</div>

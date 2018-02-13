@@ -64,8 +64,10 @@
                                 // this case `data: 0`.
                                 render:     function ( data, type, row ) {
                                                 const viewroute =   '{{ $datatableurl }}';
-                                                const editroute =   viewroute + '/' + data + '/edit';
-                                                const receiveroute = editroute;
+                                                const initial_link = viewroute + '/' + data;
+                                                const editroute =   initial_link + '/edit';
+                                                const receiveroute = initial_link + '/receive';
+                                                const releaseroute = initial_link + '/release';
                                                 const buttons =     
                                                         {
                                                             view:   {
@@ -89,10 +91,10 @@
                                                                         title: 'Release'
                                                                     },  
                                                         };
-                                                    var viewlink = viewroute + '/' + data;
+                                                    var viewlink = initial_link;
                                                     var editlink = editroute;
                                                     var receivelink = receiveroute;
-                                                    var releaselink = receiveroute;
+                                                    var releaselink = releaseroute;
                                                     var editbtn = generateBtn(buttons.edit.color, editlink, buttons.edit.icon, buttons.edit.title);
                                                     var viewbtn = generateBtn(buttons.view.color, viewlink, buttons.view.icon, buttons.view.title);
                                                     var receivebtn = generateBtn(buttons.receive.color, receivelink, buttons.receive.icon, buttons.receive.title);            

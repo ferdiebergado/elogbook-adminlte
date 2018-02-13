@@ -32,7 +32,8 @@ class TransactionCreateRequest extends FormRequest
             'task_time'         => 'required',            
             'action'            => 'required|max:250',
             'action_to_be_taken' => 'required|max:250',
-            'by'                => 'required|max:150'
+            'by'                => 'required|max:150',
+            'pending'           => 'required|boolean'
         ];
     }
 }
