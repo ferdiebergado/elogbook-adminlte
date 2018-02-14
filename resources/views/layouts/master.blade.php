@@ -147,11 +147,12 @@
     <section class="content-header">
       <h1>
         {{ auth()->user()->office->name }}
-        <small>{{ (strpos(auth()->user()->office->name,'Office of the Director') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
+        <br><small>{{ (strpos(auth()->user()->office->name,'Office of the Director') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
 {{--           @yield('content-header')
 <small>@yield('content-description')</small> --}}
 </h1>
 <ol class="breadcrumb">
+  <br><br>
   <li><a href="/" title="Home"><i class="fa fa-home"></i> Home</a></li>
   @yield('breadcrumb')
 </ol>
@@ -168,7 +169,6 @@
     <div class="box-body">
       @endunless
       <div class="container-fluid">
-
         @yield('content')
       </div>
       @unless (Route::currentRouteName() === 'users.show')

@@ -82,12 +82,12 @@
                                                                     },                                             
                                                             receive:   {
                                                                         color: 'blue',  
-                                                                        icon: 'circle-arrow-down',
+                                                                        icon: 'arrow-right',
                                                                         title: 'Receive'
                                                                     },                                             
                                                             release:   {
                                                                         color: 'teal',  
-                                                                        icon: 'circle-arrow-up',
+                                                                        icon: 'arrow-left',
                                                                         title: 'Release'
                                                                     },  
                                                         };
@@ -105,9 +105,9 @@
                                                         let end = `" title="${title}" style="margin-top: 3px; margin-left: 3px" role="button"><i class="glyphicon glyphicon-${icon}"></i></a>`;   
                                                         return head + link + end;
                                                     }
-                                                    links = viewbtn {{ auth()->user()->role !== 4 ? '+ editbtn':'' }};
+                                                    links = viewbtn {{ auth()->user()->role === 1 ? '+ editbtn':'' }};
                                                     if (row.pending) {
-                                                        links += receivebtn;                  
+                                                        links = viewbtn + receivebtn;                  
                                                     } else {
                                                         if (row.task == 'I') {
                                                             links += releasebtn;       

@@ -15,7 +15,7 @@
 							<th class="text-center">Action To Be Taken</th>
 							<th class="text-center">By</th>
 							<th class="text-center">Status</th>
-							@if (Route::currentRouteName() === 'documents.edit')
+							@if ((Route::currentRouteName() === 'documents.edit') && (auth()->user()->role === 1))
 							<th class="text-center">Action(s)</th>
 							@endif
 						</tr>
@@ -32,8 +32,8 @@
 							<td>{{ $transaction->action_to_be_taken }}</td>
 							<td>{{ $transaction->by }}</td>
 							<td><span class="label label-{{ $transaction->pending ? 'warning' : 'success' }}">{{ $transaction->pending ? 'Pending' : 'OK' }}</span></td>
-							@if (Route::currentRouteName() === 'documents.edit')
-							<td><a class="btn btn-sm btn-warning" href="{{ route('transactions.edit', $transaction->id) }}" role="button" title="Edit"><i class="fa fa-edit"></i></a></td>
+							@if ((Route::currentRouteName() === 'documents.edit') && (auth()->user()->role === 1))
+							<td><a class="btn btn-sm bg-maroon" href="{{ route('transactions.edit', $transaction->id) }}" role="button" title="Edit"><i class="fa fa-edit"></i></a></td>
 							@endif
 						</tr>
 						@endforeach			

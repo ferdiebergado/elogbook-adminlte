@@ -29,33 +29,7 @@ VIEW TRANSACTION
 			@endswitch
 		</div>
 	</div>	
-
-	<div class="well well-sm">
-		<fieldset>
-			<h4> DOCUMENT</h4>
-			<!-- DOCTYPE -->
-			<div class="row">
-				<label class="control-label col-sm-2">Type:</label>
-				<div class="col-sm-10">
-					<p>{{ $transaction->document->doctype->name }}</p>
-				</div>
-			</div>
-			<!-- DETAILS -->
-			<div class="row">
-				<label class="control-label col-sm-2">Details:</label>
-				<div class="col-sm-4">
-					<p>{{ $transaction->document->details }}</p>
-				</div>
-			</div>
-			<!-- PERSONS CONCERNED -->
-			<div class="row">
-				<label class="control-label col-sm-2">Person(s) Concerned:</label>
-				<div class="col-sm-10">
-					<p>{{ $transaction->document->persons_concerned }}</p>
-				</div>
-			</div>
-		</fieldset>
-	</div>	
+	@include('documents::transactions.document')	
 	<!-- OFFICE -->
 	<div class="row">
 		<label class="control-label col-sm-2">Office:</label>

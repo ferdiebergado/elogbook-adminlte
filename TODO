@@ -1,5 +1,12 @@
-- breadcrumbs
-- fix receive release box-title
+- breadcrumbs (OK)
+- fix receive release box-title (OK)
 - fix Edit trans list action button for edit
 - activities (document news)
+- gitignore .phpintel
+- autocomplete fields
+- ERROR messages
+- add shortcut buttons
+- add from/to office in show view
+- add modal confirmation for save
+- fix receive/release redirect on save
 - 
