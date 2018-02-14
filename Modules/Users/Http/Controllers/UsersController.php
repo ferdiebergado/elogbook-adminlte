@@ -67,10 +67,12 @@ class UsersController extends Controller
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
-                    'message' => $e->getMessage()
+                    'message' => $e->errorBag()
                 ]);
             }
             return redirect()->back()->withErrors($e->getMessage())->withInput();
+        } catch (Exception $e) {
+            throw $e;
         }
     }
     /**
@@ -114,10 +116,8 @@ class UsersController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         try {
-            // $this->validator->with($values)->passesOrFail(ValidatorInterface::RULE_UPDATE);
             $values = $this->decryptPassword($request->all());            
             $user = $this->repository->update($values, $id);
-            // Cache::forget('user_{$id}');
             $message = 'User updated.';
             $response = [
                 'message' => $message,
@@ -127,14 +127,16 @@ class UsersController extends Controller
                 return response()->json($response);
             }
             return redirect()->back()->with(compact('message'));
-        } catch (Exception $e) {
+        } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
-                    'message' => $e->getMessage()
+                    'message' => $e->errorBag()
                 ]);
             }
             return redirect()->back()->withErrors($e->getMessage())->withInput();
+        } catch (Exception $e) {
+            throw $e;
         }
     }
     /**
@@ -180,14 +182,16 @@ class UsersController extends Controller
                 ]);
             }
             return redirect()->back()->with(compact('message'));
-        } catch (Exception $e) {
+        } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
-                    'message' => $e->getMessage()
+                    'message' => $e->errorBag()
                 ]);
             }
             return redirect()->back()->withErrors($e->getMessage())->withInput();        
+        } catch (Exception $e) {
+            throw $e;            
         }
     }
 }

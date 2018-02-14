@@ -2,6 +2,10 @@
 @section('title')
 VIEW DOCUMENT 
 @endsection
+@section('breadcrumb')
+	@include('documents::includes.breadcrumbs.documents') 
+	@include('documents::includes.breadcrumbs.show')
+@endsection
 @section('content')
 <div class="content">
 	<!-- DOC. NO. -->

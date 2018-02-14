@@ -2,6 +2,9 @@
 @section('title')
 DOCUMENTS
 @endsection
+@section('breadcrumb')
+	@include('documents::includes.breadcrumbs.documents')
+@endsection
 @section('content')
 <div class="clearfix">	
 	<div class="col-sm-12">

@@ -6,8 +6,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\Users\Repositories\UserRepository;
 use Modules\Users\Entities\User;
-// use Modules\Users\Validators\UserValidator;
-use Illuminate\Support\Facades\Cache;
+// use Illuminate\Support\Facades\Cache;
 /**
  * Class UserRepositoryEloquent.
  *
@@ -24,19 +23,6 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         return User::class;
     }
-
-    /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    public function validator()
-    {
-
-        // return UserValidator::class;
-    }
-
-
     /**
      * Boot up the repository, pushing criteria
      */

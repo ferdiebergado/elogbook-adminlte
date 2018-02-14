@@ -85,7 +85,7 @@
 							<div class="row">
 								<!-- ACTION -->
 								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-									<div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
+									<div id="divAction" class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
 										<label id="label_action" for="inputAction">Action Taken<sup>*</sup></label>
 										<textarea name="action" id="inputAction" class="form-control" title="Action" rows="2">{{ isset($transaction->action) ? $transaction->action : old('action') }}</textarea>
 										@if ($errors->has('action')) 

@@ -2,6 +2,10 @@
 @section('title')
 VIEW TRANSACTION 
 @endsection
+@section('breadcrumb')
+	@include('documents::includes.breadcrumbs.transactions')
+	@include('documents::includes.breadcrumbs.show')
+@endsection
 @section('content')
 <div class="content">
 	<!-- TRANS. NO. -->

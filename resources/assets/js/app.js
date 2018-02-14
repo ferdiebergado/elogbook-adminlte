@@ -186,8 +186,13 @@ $('#avatar-input').change(function() {
       office.html('To');
       by.html('Released by');
     }
-    console.log(this.value);    
-  })
+  });
+  var inputAction = $('#action');
+  if (inputAction.val() == '(Pending)') {
+    console.log(inputAction.val());
+    $('#divAction').css('background', 'yellow');
+    inputAction.focus();
+  }
   restoreTab('documents-tab');
   restoreTab('profile-tab');
 });

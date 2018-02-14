@@ -2,13 +2,10 @@
 @section('title')
 TRANSACTIONS
 @endsection
+@section('breadcrumb')
+	@include('documents::includes.breadcrumbs.transactions')
+@endsection
 @section('content')
-{{-- <div class="clearfix">	
-	<div class="col-sm-12">
-		<a class="btn btn-flat btn-success pull-right" href={{ route('transactions.create') }} role="button" title="Create New Transaction">Create New</a>
-	</div>
-</div>
-<br> --}}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	
 	<div class="table-responsive">
 		<table id="transactions-table" class="table table-hover table-condensed dataTable js-exportable" style="font-size: 1.3rem;"></table>
@@ -41,7 +38,7 @@ transactions-table
 },
 {
 	name:   'task',
-	title:  'Task',
+	title:  'Status',
 	data:   'task'
 },
 {   

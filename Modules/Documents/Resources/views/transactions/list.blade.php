@@ -24,7 +24,7 @@
 						@foreach ($document->transactions as $transaction)
 						<tr>
 							<td><span class="label label-info">{{ $transaction->id }}</span></td>
-							<td><span class="label label-{{ $transaction->task === 'I' ? 'primary' : 'success' }}">{{ $transaction->task === 'O' ? 'Released' : 'Received' }}</span></td>
+							<td><span class="label label-{{ $transaction->task === 'I' ? 'primary' : 'success' }}">{{ $transaction->task === 'O' ? 'Release' : 'Receive' }}</span></td>
 							<td>{{ $transaction->date }}</td>
 							<td>{{ $transaction->task === 'I' ? $transaction->target_office->name : $transaction->office->name }}</td>
 							<td>{{ $transaction->action }}</td>

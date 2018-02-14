@@ -5,6 +5,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\Users\Events\UserAmended;
 use Modules\Documents\Entities\Office;
 use Modules\Documents\Entities\Document;
+use Modules\Users\Entities\Jobtitle;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -14,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'jobtitle', 'avatar', 'office_id'
+        'name', 'email', 'password', 'jobtitle_id', 'avatar', 'office_id'
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -40,5 +41,9 @@ class User extends Authenticatable
     public function documents()
     {
         return $this->hasMany(Document::class);
+    }
+    public function jobtitle()
+    {
+        return $this->belongsTo(Jobtitle::class)->withDefault(['name' => null]);
     }
 }

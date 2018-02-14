@@ -116,16 +116,16 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{ route('transactions.index', ['task' => 'P']) }}"><i class="fa fa-circle-o"></i>Pending
+              <li><a href="{{ route('transactions.index', ['task' => 'P']) }}"><i class="fa fa-history"></i>Pending
                 <div class="label label-warning pull-right">{{ $transaction_pending }}</div>
               </a></li>              
-              <li><a href="{{ route('transactions.index', ['task' => 'I']) }}"><i class="fa fa-circle-o"></i>Received
+              <li><a href="{{ route('transactions.index', ['task' => 'I']) }}"><i class="fa fa-arrow-right"></i>Received
                 <div class="label label-primary pull-right">{{ $transaction_received }}</div>
               </a></li>
-              <li><a href="{{ route('transactions.index', ['task' => 'O']) }}"><i class="fa fa-circle-o"></i>Released
+              <li><a href="{{ route('transactions.index', ['task' => 'O']) }}"><i class="fa fa-arrow-left"></i>Released
                 <div class="label label-success pull-right">{{ $transaction_released }}</div>
               </a></li>
-              <li><a href="{{ route('transactions.index', ['task' => null]) }}"><i class="fa fa-circle-o"></i>All
+              <li><a href="{{ route('transactions.index', ['task' => null]) }}"><i class="fa fa-exchange"></i>All
                 <div class="label label-info pull-right">{{ $transaction_count }}</div>
               </a>
             </li>
@@ -152,7 +152,8 @@
 <small>@yield('content-description')</small> --}}
 </h1>
 <ol class="breadcrumb">
-  <li><a href="/"><i class="fa fa-home"></i> Home</a>@yield('breadcrumb')</li>
+  <li><a href="/" title="Home"><i class="fa fa-home"></i> Home</a></li>
+  @yield('breadcrumb')
 </ol>
 </section>
 @endauth

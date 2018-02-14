@@ -2,6 +2,10 @@
 @section('title')
 EDIT TRANSACTION
 @endsection
+@section('breadcrumb')
+	@include('documents::includes.breadcrumbs.transactions') 
+	@include('documents::includes.breadcrumbs.edit')
+@endsection
 @section('content')
 <div class="content">
 	<form id="transaction-form" class="data-form" method="POST" role="form" action="{{ route('transactions.update', $transaction->id) }}" autocomplete>

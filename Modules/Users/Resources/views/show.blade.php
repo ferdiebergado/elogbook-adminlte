@@ -13,7 +13,7 @@ User Profile
 			<div class="box-body box-profile">
 				<img id="avatar" class="profile-user-img img-responsive img-circle" src="{{ $avatar }}" alt="User profile picture" title="Avatar (Click to change.)">
 				<h3 class="profile-username text-center">{{ $user->name }}</h3>
-				<p class="text-muted text-center">{{ $user->jobtitle }}</p>
+				<p class="text-muted text-center">{{ $user->jobtitle->name }}</p>
 				<p class="text-center"><small>Member since {{ $user->created_at->toFormattedDateString() }}</small></p>
 				<ul class="list-group list-group-unbordered">
 					<li class="list-group-item">
@@ -65,9 +65,17 @@ User Profile
 							</div>
 							<div class="row">								
 								<div class="form-group">
-									<label for="jobtitle" class="col-sm-2 control-label">Job Title</label>
+									<label for="jobtitle_id" class="col-sm-2 control-label">Job Title</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="jobtitle"  name="jobtitle" placeholder="Job Title" value="{{ isset($user->jobtitle) ? $user->jobtitle : old('jobtitle') }}" required>
+										@component('documents::components.select2', ['field' => $user->jobtitle_id, 'name' => 'jobtitle_id', 'rows' => $jobtitles])
+										@slot('id')
+										jobtitle_id
+										@endslot
+										@slot('prompt')
+										    a Job Title
+										@endslot
+										required
+										@endcomponent
 									</div>
 								</div>
 							</div>

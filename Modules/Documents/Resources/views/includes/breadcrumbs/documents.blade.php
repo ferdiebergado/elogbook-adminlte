@@ -1,0 +1,1 @@
+<li><a href="{{ route('documents.index') }}" title="Documents"><i class="fa fa-book"></i> Documents</a></li>

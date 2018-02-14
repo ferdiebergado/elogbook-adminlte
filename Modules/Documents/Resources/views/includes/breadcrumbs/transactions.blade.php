@@ -1,0 +1,1 @@
+<li><a href="{{ route('transactions.index') }}" title="transactions"><i class="fa fa-table"></i> Transactions</a></li>

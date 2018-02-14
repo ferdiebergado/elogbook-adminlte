@@ -1,16 +1,12 @@
 <?php
-
 namespace Modules\Users\Http\Requests;
-
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Users\Rules\EqualToCurrent;
 use Modules\Users\Policies\UserPolicy;
 use Illuminate\Validation\Rule;
-
 class UserUpdateRequest extends FormRequest
 {
     use \App\Http\Helpers\PasswordHelper;
-
     /**
      * Get data to be validated from the request.
      *
@@ -23,7 +19,6 @@ class UserUpdateRequest extends FormRequest
         }
         return $this->all('_token');
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -45,10 +40,10 @@ class UserUpdateRequest extends FormRequest
                 new EqualToCurrent
             ],
             'userid' => 'sometimes|integer',
+            'jobtitle_id' => 'sometimes|integer',
             'office_id' => 'sometimes|integer'
         ];
     }
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -56,7 +51,6 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-
         return new UserPolicy;
         
     }

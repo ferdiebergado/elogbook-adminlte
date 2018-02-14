@@ -127,17 +127,14 @@
                                 render:     function (data, type, row) {
                                                 var task = '';
                                                 var tskcolor = '';
-                                                if (data == 'I') {
+                                                if (row.pending == 1) {
+                                                    task = 'Pending';
+                                                    tskcolor = 'warning';                                                    
+                                                } else if (data == 'I') {
                                                     task = 'Received';
-                                                    if (row.pending) {
-                                                        task = 'Receive';
-                                                    }
                                                     tskcolor = 'primary';
                                                 } else if (data == 'O') {
                                                     task = 'Released';
-                                                    if (row.pending) {
-                                                        task = 'Release';
-                                                    }
                                                     tskcolor = 'success';
                                                 } else {
                                                     return data;

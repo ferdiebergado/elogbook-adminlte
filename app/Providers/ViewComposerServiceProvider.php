@@ -17,7 +17,10 @@ class ViewComposerServiceProvider extends ServiceProvider
         // Using class based composers...
         View::composer(
             ['layouts.master', 'users::show'], 'Modules\Users\Http\ViewComposers\UserComposer'
-        );         
+        );     
+        View::composer(
+            ['users::show'], 'Modules\Users\Http\ViewComposers\JobtitleComposer'
+        );              
         View::composer(
             ['documents::*'], 'Modules\Documents\Http\ViewComposers\DoctypeComposer'
         );          

@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('name', 50);
             $table->string('email', 150)->unique();
             $table->string('password', 150);
-            $table->string('jobtitle', 150)->nullable()->default(null);
-            $table->integer('office_id')->nullable()->default(null);
+            $table->unsignedInteger('jobtitle_id')->nullable()->default(null);
+            $table->unsignedInteger('office_id')->nullable()->default(null);
             $table->boolean('active')->default(1);
             $table->integer('role')->default(3);
             $table->string('avatar', 150)->nullable()->default(null);
