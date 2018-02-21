@@ -11,6 +11,7 @@ use Modules\Documents\Criteria\TransactionsByTaskCriteria;
 use Modules\Documents\Criteria\TransactionRelationsCriteria;
 use Modules\Documents\Criteria\TransactionsByOfficeCriteria;
 use Modules\Documents\Criteria\PendingTransactionsCriteria;
+use Modules\Documents\Criteria\MultiSortCriteria;
 use Illuminate\Support\Facades\DB;
 /**
  * Class TransactionsController.
@@ -50,12 +51,13 @@ class TransactionsController extends Controller
         if ($task === 'P') {
             $this->repository->pushCriteria(PendingTransactionsCriteria::class);
         }
+        $this->repository->pushCriteria(MultiSortCriteria::class);
         $perPage = $this->getRequestLength($request);    
         $transactions = $this->repository->paginate($perPage);        
         if (request()->wantsJson()) {
             return response()->json([
                 'draw' => $request->draw,
-                'data' => $transactions,
+                'data' => $transactions
             ]);
         }
         return view('documents::transactions.index', compact('transactions'));
@@ -128,12 +130,17 @@ class TransactionsController extends Controller
     {
         // $this->repository->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));
         $this->repository->pushCriteria(TransactionRelationsCriteria::class);        
-        $transaction = $this->repository->find($id);
+        $transaction = $this->repository->find($id);        
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $transaction,
             ]);
         }
+        // $transaction = collect($transaction)->each(function($transaction) {
+        //     return (object) $transaction;
+        // });
+        // $transaction = CustomCollection::make($transaction)->collectArrayItems();
+        // dd($transaction);
         return view('documents::transactions.show', compact('transaction'));
     }
     /**

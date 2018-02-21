@@ -1,14 +1,18 @@
 <?php
+
 namespace Modules\Documents\Criteria;
+
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
+
 /**
- * Class TransactionRelationsCriteria.
+ * Class MultiSortCriteria.
  *
  * @package namespace Modules\Documents\Criteria;
  */
-class TransactionRelationsCriteria implements CriteriaInterface
+class MultiSortCriteria implements CriteriaInterface
 {
+    use \Modules\Documents\Http\Helpers\RequestParser;
     /**
      * Apply criteria in query repository
      *
@@ -19,6 +23,7 @@ class TransactionRelationsCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->with(['document', 'document.doctype', 'target_office', 'office', 'creator', 'editor']);
+        $request = app()->make('request');
+        return $this->getRequestFields($request, $model);
     }
 }

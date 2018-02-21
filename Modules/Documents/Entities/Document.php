@@ -30,6 +30,10 @@ class Document extends BaseModel
     {
         return $this->hasMany(Transaction::class)->latest();
     }
+    public function office()
+    {
+        return $this->belongsTo(Office::class)->withDefault(['name' => null]);
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by')->withDefault(['name' => null]);

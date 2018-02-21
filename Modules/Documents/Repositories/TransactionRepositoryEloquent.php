@@ -33,7 +33,10 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
     {
         return Transaction::class;
     }
-    
+    // public function presenter()
+    // {
+    //     return 'Modules\\Documents\\Presenters\\TransactionPresenter';
+    // }
     /**
      * Boot up the repository, pushing criteria
      */

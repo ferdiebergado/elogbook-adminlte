@@ -23,7 +23,7 @@ class Office extends BaseModel
     }
     public function documents()
     {
-        return $this->hasMany(Document::class)->withDefault();
+        return $this->hasMany(Document::class);
     }
     public function users()
     {

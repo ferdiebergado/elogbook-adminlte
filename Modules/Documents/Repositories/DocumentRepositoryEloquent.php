@@ -35,6 +35,10 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
     {
         return Document::class;
     }
+    // public function presenter()
+    // {
+    //     return 'Modules\\Documents\\Presenters\\DocumentPresenter';
+    // }
     /**
      * Boot up the repository, pushing criteria
      */

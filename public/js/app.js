@@ -11682,6 +11682,13 @@ $(function () {
     $('#divAction').css('background', 'yellow');
     inputAction.focus();
   }
+  $('#btnShowModal').click(function () {
+    $('#modalConfirm').modal();
+  });
+  $('#btnSave').click(function (event) {
+    event.preventDefault();
+    $('#transaction-form').submit();
+  });
   restoreTab('documents-tab');
   restoreTab('profile-tab');
 });

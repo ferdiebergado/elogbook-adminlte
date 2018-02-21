@@ -126,7 +126,7 @@
 										<input type="hidden" id="document_id" name="document_id" value="{{ isset($transaction->document_id) ? $transaction->document_id : old('document_id') }}">
 										<input type="hidden" id="release" name="release" value="{{ isset($release) ? $release : old('release') }}">										
 										@unless (Route::is('documents.*'))
-										@include('includes.formbutton')
+											@include('includes.formbutton')
 										@endunless
 									</fieldset>
 								</div>

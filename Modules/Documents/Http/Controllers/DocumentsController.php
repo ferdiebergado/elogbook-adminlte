@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Modules\Documents\Criteria\DocumentRelationsCriteria;
 use Modules\Documents\Criteria\DocumentsByOfficeCriteria;
+use Modules\Documents\Criteria\MultiSortCriteria;
 use Modules\Documents\Entities\Office;
 /**
  * Class DocumentsController.
@@ -44,6 +45,7 @@ class DocumentsController extends Controller
         // $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $this->repository->pushCriteria(DocumentsByOfficeCriteria::class);
         $this->repository->pushCriteria(DocumentRelationsCriteria::class);        
+        $this->repository->pushCriteria(MultiSortCriteria::class);
         $request = app()->make('request');
         $perPage = $this->getRequestLength($request);    
         $documents = $this->repository->paginate($perPage);

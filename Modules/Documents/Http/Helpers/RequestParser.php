@@ -1,17 +1,12 @@
 <?php  
-
 namespace Modules\Documents\Http\Helpers;
-
 Trait RequestParser
-
 {
-    private $perPage;
-
-    public function __construct() {
-        parent::__construct;
-        $this->perPage = config('documents.perpage');
-    }
-
+    // private $perPage;
+    // public function __construct() {
+    //     parent::__construct;
+    //     $this->perPage = config('documents.perpage');
+    // }
     /**
      * @param $search
      *
@@ -19,19 +14,13 @@ Trait RequestParser
      */
     protected function getRequestLength($request)
     {
-        $perPage = $this->perPage;
-
+        $perPage = config('documents.perpage');
         $length = (integer) $request->length;
-
         if ($length) {
-
             $perPage = $length;
-
         }
-
         return $perPage;
     }
-
     protected function getRequestFields($request, $model)
     {
         if ($request->has('orderByMulti')) {
@@ -39,14 +28,14 @@ Trait RequestParser
             $fields = explode(';', $request);
             $dirs = explode(';', $request);
             $i = 0;
-
             foreach($fields as $field) {
                 $model->orderBy($field, $dirs[$i]);
                 $i++;
             }
+        } 
+        if (empty($request->sortBy))  {
+            $model = $model->latest('updated_at');
         }
-
         return $model;      
     }
-
 }

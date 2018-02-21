@@ -3,12 +3,12 @@
 {{ (Route::currentRouteName() === 'transactions.receive') || (Route::currentRouteName() === 'transactions.receive') ? 'NEW' : 'EDIT' }} TRANSACTION
 @endsection
 @section('breadcrumb')
-	@include('documents::includes.breadcrumbs.transactions') 
-	@if ((Route::currentRouteName() === 'transactions.receive') || (Route::currentRouteName() === 'transactions.release'))
-		@include('documents::includes.breadcrumbs.create')
-	@else	
-		@include('documents::includes.breadcrumbs.edit')
-	@endif
+@include('documents::includes.breadcrumbs.transactions') 
+@if ((Route::currentRouteName() === 'transactions.receive') || (Route::currentRouteName() === 'transactions.release'))
+@include('documents::includes.breadcrumbs.create')
+@else	
+@include('documents::includes.breadcrumbs.edit')
+@endif
 @endsection
 @section('content')
 <div class="content">
