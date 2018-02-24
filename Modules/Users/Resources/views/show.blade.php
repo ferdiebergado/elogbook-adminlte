@@ -2,6 +2,9 @@
 @section('page-title')
 User Profile
 @endsection
+@section('breadcrumb')
+	@include('users::includes.breadcrumbs.user')
+@endsection
 @section('title')
 @yield('page-title')
 @endsection 
@@ -17,13 +20,13 @@ User Profile
 				<p class="text-center"><small>Member since {{ $user->created_at->toFormattedDateString() }}</small></p>
 				<ul class="list-group list-group-unbordered">
 					<li class="list-group-item">
-						<b>Received</b> <a class="pull-right">1,322</a>
+						<b>Received</b> <a class="pull-right"><span class="label label-primary">{{ $received }}</span></a>
 					</li>
 					<li class="list-group-item">
-						<b>Released</b> <a class="pull-right">543</a>
+						<b>Released</b> <a class="pull-right"><span class="label label-success">{{ $released }}</span></a>
 					</li>
 					<li class="list-group-item">
-						<b>Total</b> <a class="pull-right">13,287</a>
+						<b>Total</b> <a class="pull-right"><span class="label label-default">{{ $total }}</span></a>
 					</li>
 				</ul>
 				<a id="change-password" href="#" class="btn btn-primary btn-block"><b>Change Password</b></a>
@@ -123,18 +126,20 @@ User Profile
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">CHANGE AVATAR</h4>
+				<h4 class="modal-title"><b>CHANGE AVATAR</b></h4>
 			</div>
 			<div class="modal-body">
 				<form id="avatar-form" method="POST" action="{{ route('user.avatar', $user->id) }}" enctype="multipart/form-data">
 					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 					<input id="input_userid" type="number" name="userid" value="{{ isset($user->id) ? $user->id : old('userid') }}" hidden>
 					<img id="avatar-preview" src="{{ $avatar }}" width="30%" height="30%">
 					<br><br>
-					<input id="avatar-input" type="file" name="avatar" accept="image/*" value="{{ old('avatar') }}" required></input>
+					<input id="avatar-input" type="file" name="avatar" accept=".jpg,.jpeg,.png" value="{{ old('avatar') }}" required></input>
+					<p class="help-block">Upload .jpeg, .jpg or .png files only. File size should be less than 512 kb.</p>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Save</button>
+					<button id="btnAvatar" type="submit" class="btn btn-primary">Save</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</form>        
 			</div>
@@ -148,7 +153,7 @@ User Profile
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">CHANGE PASSWORD</h4>
+				<h4 class="modal-title"><b>CHANGE PASSWORD</b></h4>
 			</div>
 			<div class="modal-body">
 				<form id="encryptableform" class="form-horizontal" method="POST" action="{{ route('users.update', $user->id) }}" >

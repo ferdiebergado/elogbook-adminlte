@@ -2,6 +2,9 @@
 @section('title')
 DOCUMENTS
 @endsection
+@section('subtitle')
+	Documents that originated from this Office.
+@endsection
 @section('breadcrumb')
 	@include('documents::includes.breadcrumbs.documents')
 @endsection

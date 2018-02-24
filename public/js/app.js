@@ -11683,12 +11683,12 @@ $(function () {
     inputAction.focus();
   }
   $('#btnShowModal').click(function () {
-    $('#modalConfirm').modal();
+    $('#modalConfirm').modal("show");
   });
-  $('#btnSave').click(function (event) {
-    event.preventDefault();
-    $('#transaction-form').submit();
-  });
+  // $('#btnSave').click(function(event) {
+  //   event.preventDefault();
+  //   this.form.submit();
+  // });
   restoreTab('documents-tab');
   restoreTab('profile-tab');
 });

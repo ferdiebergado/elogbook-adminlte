@@ -164,14 +164,14 @@
   <!-- Default box -->
   <div class="box box-primary">
     <div class="box-header with-border">
-      <h3 class="box-title">&nbsp;<b>@yield('title')</b></h3>
+      <h3 class="box-title">&nbsp;<b>@yield('title')</b><br><small>&nbsp;@yield('subtitle')</small></h3>
     </div>
     <div class="box-body">
-      @endunless
       <div class="container-fluid">
+      @endunless
         @yield('content')
-      </div>
       @unless (Route::currentRouteName() === 'users.show')
+      </div>
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
@@ -191,7 +191,7 @@
 <footer class="main-footer">
   <a href="{{ config('app.pages.github') }}"><b>{{ config('app.name') }}</b></a> <small> v. {{ config('app.version') }} </small><small class="label label-info">{{ config('app.release') }}</small>
   <div class="pull-right hidden-xs">
-    <small><strong>Copyright &copy; {{ \Carbon\Carbon::now()->year }} <a href="{{ config('app.pages.facebook') }}">{{ config('app.author') }}</a></strong>, <a href="{{ config('app.pages.msit') }}">MSIT</a></small>
+    <small><strong>Copyright &copy; {{ \Carbon\Carbon::now()->year }} <a href="{{ config('app.pages.facebook') }}">{{ config('app.author') }}</a></strong>, <a href="{{ config('app.pages.msit') }}">MSITc</a></small>
   </div>
 </footer>
 </div>

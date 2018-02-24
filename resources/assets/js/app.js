@@ -189,17 +189,12 @@ $('#avatar-input').change(function() {
   });
   var inputAction = $('#action');
   if (inputAction.val() == '(Pending)') {
-    console.log(inputAction.val());
     $('#divAction').css('background', 'yellow');
     inputAction.focus();
   }
   $('#btnShowModal').click(function() {
-    $('#modalConfirm').modal();
+    $('#modalConfirm').modal("show");
   });
-  $('#btnSave').click(function(event) {
-    event.preventDefault();
-    $('.data-form').submit();
-  })
   restoreTab('documents-tab');
   restoreTab('profile-tab');
 });

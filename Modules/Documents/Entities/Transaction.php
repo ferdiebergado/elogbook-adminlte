@@ -40,6 +40,10 @@ class Transaction extends BaseModel
     {
         return $this->belongsTo(Office::class)->withDefault(['name' => null]);
     }    
+    public function user()
+    {
+        return $this->belongsTo(\Modules\Users\Entities\User::class)->withDefault(['name' => null]);
+    }
     // public function getDateAttribute($value)
     // {
     //     return \Carbon\Carbon::parse($value)->format('M j, Y g:i A');

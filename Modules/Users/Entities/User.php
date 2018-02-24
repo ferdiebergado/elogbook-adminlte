@@ -6,6 +6,7 @@ use Modules\Users\Events\UserAmended;
 use Modules\Documents\Entities\Office;
 use Modules\Documents\Entities\Document;
 use Modules\Users\Entities\Jobtitle;
+use Modules\Documents\Entities\Transaction;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -45,5 +46,9 @@ class User extends Authenticatable
     public function jobtitle()
     {
         return $this->belongsTo(Jobtitle::class)->withDefault(['name' => null]);
+    }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'updated_by');
     }
 }

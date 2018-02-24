@@ -3,12 +3,12 @@
 	<div class="col-sm-12">
 		<div class="form-group">
 			<a href="{{ URL::previous() }}" class="btn btn-flat btn-primary"> Back</a>
-			<button id="btnShowModal" class="btn btn-flat btn-primary"> Save</button>
+			<button id="btnShowModal" type="button" class="btn btn-flat btn-primary"> Save</button>
 		</div>
 	</div>
 </div>
 <!-- modal -->
-<div id="modalConfirm" class="modal modal-primary fade" id="modal-primary">
+<div id="modalConfirm" class="modal modal-default fade" id="modal-primary">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -20,8 +20,8 @@
 					<p>Are you sure you want to save this?</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-					<button id="btnSave" class="btn btn-outline">Save changes</button>
+					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->

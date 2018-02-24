@@ -3,7 +3,7 @@ namespace Modules\Users\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Users\Rules\EqualToCurrent;
 use Modules\Users\Policies\UserPolicy;
-use Illuminate\Validation\Rule;
+// use Illuminate\Validation\Rule;
 class UserUpdateRequest extends FormRequest
 {
     use \App\Http\Helpers\PasswordHelper;
@@ -32,16 +32,16 @@ class UserUpdateRequest extends FormRequest
             //     'max:150', 
             //     Rule::unique('users')->ignore(auth()->user()->id)
             // ],            
-            'email' => 'sometimes|max:150',
-            'password' => 'sometimes|confirmed|min:6|max:32',
-            'avatar' => 'sometimes|max:150',            
+            'email' => 'filled|max:150',
+            'password' => 'filled|confirmed|min:6|max:32',
             'old_password' => [
-                'sometimes', 
+                'filled', 
                 new EqualToCurrent
             ],
-            'userid' => 'sometimes|integer',
-            'jobtitle_id' => 'sometimes|integer',
-            'office_id' => 'sometimes|integer'
+            'userid' => 'filled|integer',
+            'jobtitle_id' => 'filled|integer',
+            'office_id' => 'filled|integer'
+            // 'avatar' => 'filled|file|image|mimes:jpeg,png|max:512'
         ];
     }
     /**
@@ -52,6 +52,5 @@ class UserUpdateRequest extends FormRequest
     public function authorize()
     {
         return new UserPolicy;
-        
     }
 }

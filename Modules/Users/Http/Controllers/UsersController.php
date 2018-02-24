@@ -134,7 +134,7 @@ class UsersController extends Controller
                     'message' => $e->errorBag()
                 ]);
             }
-            return redirect()->back()->withErrors($e->getMessage())->withInput();
+            return redirect()->back()->withErrors($e->errorBag())->withInput();
         } catch (Exception $e) {
             throw $e;
         }
@@ -165,14 +165,19 @@ class UsersController extends Controller
      *
      * @return Response
      */
-    public function avatar(UserUpdateRequest $request, $id)
+    public function avatar(Request $request, $id)
     {
         try {
             // $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);        
-            $file = request()->file('avatar')->store('/', 'avatars');
-            Storage::disk('avatars')->delete(request()->user()->avatar);
-            $user = $this->repository->update(['avatar' => $file], $id);       
-            Cache::forget('user_by_id'.$id);
+            $this->validate($request, [
+                'avatar' => 'required|file|image|mimes:jpeg,jpg,png|max:512'
+            ]);
+            $file = $request->file('avatar')->store('/', 'avatars');
+            if (!empty(request()->user()->avatar)) {
+                Storage::disk('avatars')->delete(request()->user()->avatar);                
+            }
+            $user = $this->repository->update(['avatar' => $file], $id);
+            // Cache::forget('user_by_id'.$id);
             Cache::forget('avatar_user_'.$id);
             $message = 'Avatar changed.';
             if (request()->wantsJson()) {
@@ -186,10 +191,10 @@ class UsersController extends Controller
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
-                    'message' => $e->errorBag()
+                    'message' => $e->errors()
                 ]);
             }
-            return redirect()->back()->withErrors($e->getMessage())->withInput();        
+            return redirect()->back()->withErrors($e->errors());        
         } catch (Exception $e) {
             throw $e;            
         }
