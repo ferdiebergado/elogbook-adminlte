@@ -35,6 +35,18 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+    public function getNameAttribute()
+    {
+        return ucwords($this->attributes['name']);
+    }
+    public function getAvatarAttribute()
+    {
+        $avatar = $this->attributes['avatar'];
+        if (empty($avatar)) {
+            $avatar = config('users.default_avatar');
+        }
+        return $avatar;
+    }
     public function office()
     {
         return $this->belongsTo(Office::class)->withDefault(['name' => null]);

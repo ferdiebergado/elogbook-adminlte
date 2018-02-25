@@ -27,7 +27,7 @@ class Transaction extends BaseModel
     ];
     protected $dates = [
     	'date'
-    ];
+    ];    
     public function document()
     {
     	return $this->belongsTo(Document::class)->withDefault();

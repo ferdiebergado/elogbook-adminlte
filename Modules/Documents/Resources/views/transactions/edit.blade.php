@@ -2,6 +2,9 @@
 @section('title')
 {{ (Route::currentRouteName() === 'transactions.receive') || (Route::currentRouteName() === 'transactions.receive') ? 'NEW' : 'EDIT' }} TRANSACTION
 @endsection
+@section('subtitle')
+	Create or edit a transaction.
+@endsection
 @section('breadcrumb')
 @include('documents::includes.breadcrumbs.transactions') 
 @if ((Route::currentRouteName() === 'transactions.receive') || (Route::currentRouteName() === 'transactions.release'))

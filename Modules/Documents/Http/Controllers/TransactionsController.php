@@ -12,6 +12,8 @@ use Modules\Documents\Criteria\TransactionRelationsCriteria;
 use Modules\Documents\Criteria\TransactionsByOfficeCriteria;
 use Modules\Documents\Criteria\PendingTransactionsCriteria;
 use Modules\Documents\Criteria\MultiSortCriteria;
+use Modules\Documents\Criteria\TransactionsNotPendingCriteria;
+use Modules\Documents\Criteria\TransactionsByUserCriteria;
 use Illuminate\Support\Facades\DB;
 /**
  * Class TransactionsController.
@@ -33,6 +35,15 @@ class TransactionsController extends Controller
     public function __construct(TransactionRepository $repository)
     {
         $this->repository = $repository;
+    }
+    public function home()
+    {
+        // $this->repository->pushCriteria(TransactionsByOfficeCriteria::class);
+        $this->repository->pushCriteria(TransactionRelationsCriteria::class);
+        $this->repository->pushCriteria(TransactionsByUserCriteria::class);
+        $this->repository->pushCriteria(TransactionsNotPendingCriteria::class);
+        $transactions = $this->repository->orderBy('updated_at', 'desc')->paginate(10);
+        return view('documents::home', compact('transactions'));        
     }
     /**
      * Display a listing of the resource.

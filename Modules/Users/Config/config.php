@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Users'
+    'name' => 'Users',
+    'default_avatar' => 'default.png'
 ];

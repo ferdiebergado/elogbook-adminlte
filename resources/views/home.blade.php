@@ -1,13 +1,4 @@
-@extends('layouts.master')
-
-@section('title')
-
-    Home
-
-@endsection
-
+@extends('layouts.app')
 @section('content')
-{{-- <div class="container"> --}}
-<h4>Welcome!</h4>
-{{-- </div> --}}
+<p>Welcome!</p>
 @endsection

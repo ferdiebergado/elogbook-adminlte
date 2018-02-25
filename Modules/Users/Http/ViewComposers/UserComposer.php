@@ -32,10 +32,10 @@ class UserComposer
     {
         if (auth()->check()) {
             $avatar = Cache::remember('avatar_user_'.auth()->user()->id, 30, function(){
-                $image = !empty(auth()->user()->avatar) ? auth()->user()->avatar : 'default.png';
-                return url('/storage/avatars') . '/' . $image;        
+                // $image = !empty(auth()->user()->avatar) ? auth()->user()->avatar : 'default.png';
+                return url('/storage/avatars') . '/' . auth()->user()->avatar;        
             });
-            $all= Transaction::where('updated_by', auth()->user()->id)->get(['id', 'task']);
+            $all = Transaction::where('created_by', auth()->user()->id)->get(['id', 'task', 'created_by']);
             $received = $all->where('task', 'I')->count();
             $released = $all->where('task', 'O')->count();
             $total = count($all);

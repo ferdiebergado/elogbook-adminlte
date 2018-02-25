@@ -5,11 +5,13 @@
 - add from/to office in show view (OK)
 - add modal confirmation for save (OK)
 - File upload validation (OK)
-- activities (document news)
+- activities (document news) (OK)
+- use presenter (not feasible)
+- auditing (not necessary)
 - gitignore .phpintel
 - autocomplete fields
 - add shortcut buttons
 - fix receive/release redirect on save
-- use presenter (not feasible)
-- auditing
-- 
+- help text on action taken
+- list of offices
+- admin

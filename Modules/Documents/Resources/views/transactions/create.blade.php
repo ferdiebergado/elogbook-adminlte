@@ -2,6 +2,9 @@
 @section('title')
 CREATE NEW TRANSACTION
 @endsection
+@section('subtitle')
+	Receive/Release a document.
+@endsection
 @section('breadcrumb')
 	@include('documents::includes.breadcrumbs.transactions')
 	@include('documents::includes.breadcrumbs.create')

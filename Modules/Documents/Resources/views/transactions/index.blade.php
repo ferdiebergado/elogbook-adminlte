@@ -2,13 +2,16 @@
 @section('title')
 TRANSACTIONS
 @endsection
+@section('subtitle')
+	Received, Released, and Pending Transactions.
+@endsection
 @section('breadcrumb')
 	@include('documents::includes.breadcrumbs.transactions')
 @endsection
 @section('content')
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	
 	<div class="table-responsive">
-		<table id="transactions-table" class="table table-hover table-condensed dataTable js-exportable" style="font-size: 1.3rem;"></table>
+		<table id="transactions-table" class="table table-hover table-striped table-condensed dataTable js-exportable" style="font-size: 1.3rem;"></table>
 	</div>
 </div>
 @stop
