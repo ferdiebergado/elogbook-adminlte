@@ -7,4 +7,5 @@ Route::group(['middleware' => ['web', 'auth', 'user', 'prevent_back_history'], '
 	Route::get('transactions/{transactions}/release', 'TransactionsController@release')->name('transactions.release');
 	Route::resource('transactions', 'TransactionsController')->except(['destroy']);
 	Route::delete('transactions/{transactions}', 'TransactionsController@destroy')->name('transactions.destroy')->middleware('admin');	
+	Route::view('offices', 'documents::offices')->name('offices.active');
 });

@@ -20,6 +20,6 @@ class Admin
             return $next($request);
         }
         $error = __('auth::messages.unauthorized');
-        return redirect('/')->with(compact('error'));
+        return redirect('/')->withErrors($error);
     }
 }

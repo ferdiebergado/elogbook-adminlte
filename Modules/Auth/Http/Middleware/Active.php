@@ -20,7 +20,7 @@ class Active
             auth()->logout();
             $request->session()->invalidate();   
             $error = __('auth::messages.deactivated');
-            return redirect()->route('login')->with(compact('error'));
+            return redirect()->route('login')->withErrors($error);
         }        
         return $next($request);
     }

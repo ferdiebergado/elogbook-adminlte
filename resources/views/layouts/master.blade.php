@@ -131,6 +131,11 @@
             </li>
           </ul>
         </li>
+          <li>
+            <a href="{{ route('offices.active') }}">
+              <i class="fa fa-building"></i> <span>Offices</span>
+            </a>
+          </li>        
       </ul>
     </section>
     <!-- /.sidebar -->

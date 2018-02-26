@@ -6,6 +6,7 @@
 - add modal confirmation for save (OK)
 - File upload validation (OK)
 - activities (document news) (OK)
+- list of offices (OK)
 - use presenter (not feasible)
 - auditing (not necessary)
 - gitignore .phpintel
@@ -13,5 +14,5 @@
 - add shortcut buttons
 - fix receive/release redirect on save
 - help text on action taken
-- list of offices
+- Revamp datatable (Receive: From/By; Release: To/To)
 - admin

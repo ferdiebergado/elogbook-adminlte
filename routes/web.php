@@ -11,5 +11,5 @@
 |
 */
 
-Route::get('/home', '\\Modules\\Documents\\Http\\Controllers\\TransactionsController@home')->middleware(['user', 'prevent_back_history'])->name('home');
+Route::get('/home', '\\Modules\\Documents\\Http\\Controllers\\TransactionsController@home')->middleware(['auth', 'user', 'prevent_back_history'])->name('home');
 Route::redirect('/', '/home');

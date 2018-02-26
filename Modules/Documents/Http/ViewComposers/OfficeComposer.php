@@ -29,6 +29,7 @@ class OfficeComposer
     public function compose(View $view)
     {
         $offices = $this->offices->all()->sortBy('name');
-        $view->with(compact('offices'));
+        $active_offices = $this->offices->with(['bureauservice', 'strand'])->has('users')->orderBy('name')->paginate(10);
+        $view->with(compact('offices', 'active_offices'));
     }
 }

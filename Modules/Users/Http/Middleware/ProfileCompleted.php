@@ -18,7 +18,7 @@ class ProfileCompleted
     {
         if (!empty($request->user()) && (!$request->user()->jobtitle_id || !$request->user()->office_id)) {
             $error = __('users::messages.profile_incomplete');
-            return redirect()->route('users.edit', $request->user()->id)->with(compact('error'));
+            return redirect()->route('users.edit', $request->user()->id)->withErrors($error);
         }        
         return $next($request);
     }
