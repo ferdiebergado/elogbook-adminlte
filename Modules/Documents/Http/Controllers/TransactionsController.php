@@ -53,6 +53,7 @@ class TransactionsController extends Controller
     {
         $this->repository->pushCriteria(TransactionsByOfficeCriteria::class);
         $this->repository->pushCriteria(TransactionRelationsCriteria::class);
+        $this->repository->pushCriteria(MultiSortCriteria::class);
         $request = app()->make('request');
         $task = $request->task;
         if (($task === 'I') || ($task === 'O')) {
@@ -111,7 +112,7 @@ class TransactionsController extends Controller
             ));
             if ($request->task === 'O') {
                 $office = \Modules\Documents\Entities\Office::find($request->from_to_office);
-                if ($office->has('users')) {                    
+                if ($office->users()->where('name', '<>', null)->count() >= 1) {                    
                     $received = [
                         'task'              =>  'I',
                         'document_id'       =>  $transaction->document_id,
@@ -128,13 +129,13 @@ class TransactionsController extends Controller
             }
             $response = [
                 'message' => 'Transaction created.',
-                'data'    => $transaction->toArray(),
+                'data'    => $transaction,
             ];
             if ($request->wantsJson()) {
                 return response()->json($response);
             }
             DB::commit();
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->route('transactions.index')->with('message', $response['message']);
         } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([

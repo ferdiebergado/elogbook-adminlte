@@ -9,10 +9,9 @@
 - list of offices (OK)
 - help text on action taken (OK)
 - gitignore .phpintel (OK)
-- Revamp datatable (Receive: From/By; Release: To/To) (OK)
 - use presenter (not feasible)
 - auditing (not necessary)
 - autocomplete fields
-- add shortcut buttons (NEW TRANSACTION ON VIEW DOCUMENT) + fix redirect back
+- add shortcut buttons (NEW TRANSACTION ON VIEW DOCUMENT) + fix redirect back (PARTIAL)
 - fix receive/release redirect on save
 - admin
