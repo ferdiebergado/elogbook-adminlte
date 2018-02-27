@@ -25,7 +25,10 @@ class ViewComposerServiceProvider extends ServiceProvider
             ['documents::*'], 'Modules\Documents\Http\ViewComposers\DoctypeComposer'
         );          
         View::composer(
-            ['documents::*', 'users::*'], 'Modules\Documents\Http\ViewComposers\OfficeComposer'
+            ['documents::transactions.*', 'users::*'], 'Modules\Documents\Http\ViewComposers\OfficeComposer'
+        );          
+        View::composer(
+            [ 'documents::offices'], 'Modules\Documents\Http\ViewComposers\ActiveOfficesComposer'
         );          
         View::composer(
             ['layouts.master'], 'Modules\Documents\Http\ViewComposers\DocumentComposer'

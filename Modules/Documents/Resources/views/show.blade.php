@@ -37,11 +37,13 @@ VIEW DOCUMENT
 		</div>
 	</div>
 	<br>
+	{{-- <input type="hidden" id="document_id" name="document_id" value="{{ $document->id }}"> --}}
 	@include('documents::transactions.list')
 	<br><br>
 	<div class="row">
 		<div class="col-sm-12">
-			<a href="{{ route('documents.index') }}" class="btn btn-flat btn-primary" role="button">Back</a>
+			@include('documents::includes.backbutton')
+			<a href="{{ route('transactions.create', ['document_id' => $document->id]) }}" class="btn btn-flat btn-success pull-right" role="button">Add New Transaction</a>			
 		</div>
 	</div>
 </div>

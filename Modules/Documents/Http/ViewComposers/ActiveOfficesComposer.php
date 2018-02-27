@@ -2,7 +2,7 @@
 namespace Modules\Documents\Http\ViewComposers;
 use Illuminate\View\View;
 use Modules\Documents\Entities\Office;
-class OfficeComposer
+class ActiveOfficesComposer
 {
     /**
      * The user repository implementation.
@@ -28,7 +28,7 @@ class OfficeComposer
      */
     public function compose(View $view)
     {
-        $offices = $this->offices->all()->sortBy('name');
-        $view->with(compact('offices'));
+        $active_offices = $this->offices->with(['bureauservice', 'strand'])->has('users')->orderBy('name')->paginate(10);
+        $view->with(compact('active_offices'));
     }
 }

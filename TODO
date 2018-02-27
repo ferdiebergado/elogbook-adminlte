@@ -7,12 +7,12 @@
 - File upload validation (OK)
 - activities (document news) (OK)
 - list of offices (OK)
+- help text on action taken (OK)
+- gitignore .phpintel (OK)
+- Revamp datatable (Receive: From/By; Release: To/To) (OK)
 - use presenter (not feasible)
 - auditing (not necessary)
-- gitignore .phpintel
 - autocomplete fields
-- add shortcut buttons
+- add shortcut buttons (NEW TRANSACTION ON VIEW DOCUMENT) + fix redirect back
 - fix receive/release redirect on save
-- help text on action taken
-- Revamp datatable (Receive: From/By; Release: To/To)
 - admin

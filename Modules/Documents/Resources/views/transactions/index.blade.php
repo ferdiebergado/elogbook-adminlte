@@ -57,7 +57,7 @@ transactions-table
 { 
 	name:   'from_to_office',
 	title:  'Office',
-	data:   'office.name' 
+	data:   'target_office.name' 
 },
 {  
 	name:   'date',

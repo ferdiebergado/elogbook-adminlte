@@ -12,7 +12,7 @@
 						<!-- TASK -->
 						<div class="col-sm-6">
 							<div class="form-group {{ $errors->has('task') ? 'has-error' : '' }}">
-								<label for="task">Task</label>	
+								<label for="task">Task<sup>*</sup></label>	
 								@component('documents::components.select', ['field' => $transaction->task, 'name' => 'task', 'array' => ['I' => 'Receive', 'O' => 'Release']])
 								@slot('id')
 								task
@@ -28,7 +28,7 @@
 						<!-- FROM/TO OFFICE -->
 						<div class="col-sm-6">
 							<div class="form-group {{ $errors->has('from_to_office') ? 'has-error' : '' }}">
-								<label id="label_from_to_office" for="from_to_office">Office</label>
+								<label id="label_from_to_office" for="from_to_office">Office<sup>*</sup></label>
 								@component('documents::components.select2', ['field' => $transaction->from_to_office, 'name' => 'from_to_office', 'rows' => $offices])
 								@slot('id')
 								from_to_office
@@ -46,7 +46,7 @@
 						<!-- DATE -->
 						<div class="col-sm-6">
 							<div class="form-group {{ $errors->has('task_date') ? 'has-error' : '' }}">
-								<label>Date</label>		
+								<label>Date<sup>*</sup></label>		
 								<div class="input-group">
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i>
@@ -65,7 +65,7 @@
 							<!-- TIME -->
 							<div class="col-sm-6">
 								<div class="form-group {{ $errors->has('task_time') ? 'has-error' : '' }}">
-									<label>Time</label>
+									<label>Time<sup>*</sup></label>
 									<div class="input-group">
 										<input type="text" name="task_time" class="form-control timepickr" value="{{ isset($transaction->date) ? $transaction->date->toTimeString() : old('task_time') }}" placeholder="Set time">
 										<div class="input-group-addon">
@@ -86,8 +86,8 @@
 								<!-- ACTION -->
 								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 									<div id="divAction" class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
-										<label id="label_action" for="inputAction">Action Taken (By Origin Office)<sup>*</sup></label>
-										<textarea name="action" id="inputAction" class="form-control" title="Action" rows="2" placeholder="(Ex: Signed by the Chief/Director, Complied, Comments provided, Endorsed/Referred to the Chief/Directory, etc.)">{{ isset($transaction->action) ? $transaction->action : old('action') }}</textarea>
+										<label id="label_action" for="inputAction">Action Taken (By this Office)<sup>*</sup></label>
+										<textarea name="action" id="inputAction" class="form-control" title="Action" rows="2" placeholder="(Ex: Signed/Approved by the Chief/Director, Complied, Comments provided, Endorsed/Referred to the Chief/Director, etc.)">{{ isset($transaction->action) ? $transaction->action : old('action') }}</textarea>
 										@if ($errors->has('action')) 
 										<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 											{{ $errors->first('action') }}</p>
@@ -99,7 +99,7 @@
 									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 										<div class="form-group {{ $errors->has('action_to_be_taken') ? 'has-error' : '' }}">
 											<label id="label_action_to_be_taken" for="inputActionActionToBeTaken">Action To Be Taken (By Destination Office)<sup>*</sup></label>
-											<textarea name="action_to_be_taken" id="inputActionToBeTaken" class="form-control" title="Action To Be Taken" rows="2" placeholder="(Ex: For approval/signature/comments/compliance/processing/etc.)">{{ isset($transaction->action_to_be_taken) ? $transaction->action_to_be_taken : old('action_to_taken') }}</textarea>
+											<textarea name="action_to_be_taken" id="inputActionToBeTaken" class="form-control" title="Action To Be Taken" rows="2" placeholder="(Ex: For approval/signature/comments/compliance/processing/etc.)">{{ isset($transaction->action_to_be_taken) ? $transaction->action_to_be_taken : old('action_to_be_taken') }}</textarea>
 											@if ($errors->has('action_to_be_taken')) 
 											<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 												{{ $errors->first('action_to_be_taken') }}</p>
@@ -112,7 +112,7 @@
 										<!-- BY -->
 										<div class="col-sm-6">
 											<div class="form-group {{ $errors->has('by') ? 'has-error' : '' }}">
-												<label id="label_by" for="inputBy">By</label>
+												<label id="label_by" for="inputBy">Received by/Released to<sup>*</sup></label>
 												<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : $transaction->by === '[Unspecified]' ? auth()->user()->name : old('by') }}" title="By" placeholder="Name of Receiver/Releaser">
 												@if ($errors->has('by')) 
 												<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -124,7 +124,7 @@
 										</div>
 										<input type="hidden" id="pending" name="pending" value="{{ isset($transaction->pending) ? $transaction->pending : old('pending') }}">
 										<input type="hidden" id="document_id" name="document_id" value="{{ isset($transaction->document_id) ? $transaction->document_id : old('document_id') }}">
-										<input type="hidden" id="release" name="release" value="{{ isset($release) ? $release : old('release') }}">										
+										{{-- <input type="hidden" id="release" name="release" value="{{ isset($release) ? $release : old('release') }}">										 --}}
 										@unless (Route::is('documents.*'))
 											@include('includes.formbutton')
 										@endunless

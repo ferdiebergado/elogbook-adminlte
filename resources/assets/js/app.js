@@ -180,11 +180,11 @@ $('#avatar-input').change(function() {
     var by = $('#label_by');
     if (this.value === 'I') {
       office.html('From');
-      by.html('Received by');
+      by.html('Received by<sup>*</sup>');
     }
     if (this.value === 'O') {
       office.html('To');
-      by.html('Released by');
+      by.html('Released to<sup>*</sup>');
     }
   });
   var inputAction = $('#action');

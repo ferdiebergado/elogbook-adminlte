@@ -38,7 +38,6 @@ class TransactionsController extends Controller
     }
     public function home()
     {
-        // $this->repository->pushCriteria(TransactionsByOfficeCriteria::class);
         $this->repository->pushCriteria(TransactionRelationsCriteria::class);
         $this->repository->pushCriteria(TransactionsByUserCriteria::class);
         $this->repository->pushCriteria(TransactionsNotPendingCriteria::class);
@@ -74,6 +73,23 @@ class TransactionsController extends Controller
         return view('documents::transactions.index', compact('transactions'));
     }
     /**
+     * Show the form for releasing a document.
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'document_id' => 'required|integer'
+        ]);
+        $transaction = $this->repository->with('document')->findByField('document_id', (int) $request->document_id, ['document_id'])->first();
+        $transaction->pending = 0;
+        $release = false;
+        return view('documents::transactions.create', compact('transaction', 'release'));
+    }      
+    /**
      * Store a newly created resource in storage.
      *
      * @param  TransactionCreateRequest $request
@@ -93,19 +109,22 @@ class TransactionsController extends Controller
                 ['date' => $date], 
                 ['office_id' => $office_id]
             ));
-            if ($request->release) {
-                $received = [
-                    'task'              =>  'I',
-                    'document_id'       =>  $transaction->document_id,
-                    'from_to_office'    =>  $office_id,
-                    'date'              =>  $transaction->date->addMinute(),
-                    'action'            =>  config('documents.PENDING'),
-                    'action_to_be_taken' => $transaction->action_to_be_taken,
-                    'by'                =>  config('documents.PENDING'),
-                    'office_id'         =>  $transaction->from_to_office,
-                    'pending'           =>  1
-                ];
-                $this->repository->create($received);
+            if ($request->task === 'O') {
+                $office = \Modules\Documents\Entities\Office::find($request->from_to_office);
+                if ($office->has('users')) {                    
+                    $received = [
+                        'task'              =>  'I',
+                        'document_id'       =>  $transaction->document_id,
+                        'from_to_office'    =>  $office_id,
+                        'date'              =>  $transaction->date->addMinute(),
+                        'action'            =>  config('documents.PENDING'),
+                        'action_to_be_taken' => $transaction->action_to_be_taken,
+                        'by'                =>  config('documents.PENDING'),
+                        'office_id'         =>  $transaction->from_to_office,
+                        'pending'           =>  1
+                    ];
+                    $this->repository->create($received);
+                }
             }
             $response = [
                 'message' => 'Transaction created.',
@@ -139,7 +158,6 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        // $this->repository->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));
         $this->repository->pushCriteria(TransactionRelationsCriteria::class);        
         $transaction = $this->repository->find($id);        
         if (request()->wantsJson()) {
@@ -147,11 +165,6 @@ class TransactionsController extends Controller
                 'data' => $transaction,
             ]);
         }
-        // $transaction = collect($transaction)->each(function($transaction) {
-        //     return (object) $transaction;
-        // });
-        // $transaction = CustomCollection::make($transaction)->collectArrayItems();
-        // dd($transaction);
         return view('documents::transactions.show', compact('transaction'));
     }
     /**
@@ -246,7 +259,7 @@ class TransactionsController extends Controller
         $transaction = $this->repository->find($id);
         $transaction->task = 'O';   
         $transaction->date = $transaction->date->addMinute();
-        $release = true;
-        return view('documents::transactions.create', compact('transaction', 'release'));
+        // $release = true;
+        return view('documents::transactions.create', compact('transaction'));
     }      
 }

@@ -1,9 +1,16 @@
-<h5><b>DOCUMENT</b></h5>
+<h4><b>DOCUMENT</b></h4>
+<!-- DOCUMENT NO. -->
+<div class="row">
+	<label class="control-label col-sm-2">Document No:</label>
+	<div class="col-sm-5">
+		<p><span class="label label-primary">{{ $transaction->document->id }}</span></p>
+	</div>
+</div>
 <!-- DOCTYPE -->
 <div class="row">
 	<label class="control-label col-sm-2">Type:</label>
 	<div class="col-sm-5">
-		<p>{{ $transaction->document->doctype->name }}</p>
+		<p><span class="label label-info">{{ $transaction->document->doctype->name }}</span></p>
 	</div>
 </div>
 <!-- DETAILS -->

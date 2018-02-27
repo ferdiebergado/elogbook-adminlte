@@ -90,7 +90,7 @@ VIEW TRANSACTION
 	<br><br>
 	<div class="row">
 		<div class="col-sm-12">
-			<a href="{{ route('transactions.index') }}" class="btn btn-flat btn-primary" role="button">Back</a>
+			@include('documents::includes.backbutton')
 		</div>
 	</div>
 </div>
