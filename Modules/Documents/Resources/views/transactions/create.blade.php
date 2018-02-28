@@ -11,7 +11,7 @@ CREATE NEW TRANSACTION
 @endsection
 @section('content')
 <div class="content">
-	<form id="transaction-form" class="data-form" method="POST" role="form" action="{{ route('transactions.store') }}" autocomplete>
+	<form id="transaction-form" class="data-form" method="POST" role="form" action="{{ route('transactions.store') }}" autocomplete="off">
 		{{ csrf_field() }}
 		@include('documents::transactions.document')
 		@include('documents::transactions.partial')

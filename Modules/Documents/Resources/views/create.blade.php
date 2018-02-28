@@ -2,6 +2,9 @@
 @section('title')
 CREATE NEW DOCUMENT
 @endsection
+@section('subtitle')
+	Add a new document with an initial transaction.
+@endsection
 @section('breadcrumb')
 	@include('documents::includes.breadcrumbs.documents') 
 	@include('documents::includes.breadcrumbs.create')

@@ -187,13 +187,14 @@ $('#avatar-input').change(function() {
       by.html('Released to<sup>*</sup>');
     }
   });
-  var inputAction = $('#action');
+  var inputAction = $('#inputAction');
   if (inputAction.val() == '(Pending)') {
     $('#divAction').css('background', 'yellow');
+    inputAction.val('');
     inputAction.focus();
   }
   $('#btnShowModal').click(function() {
-    $('#modalConfirm').modal("show");
+      $('#modalConfirm').modal("show");      
   });
   restoreTab('documents-tab');
   restoreTab('profile-tab');

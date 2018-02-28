@@ -15,6 +15,7 @@ use Modules\Documents\Criteria\MultiSortCriteria;
 use Modules\Documents\Criteria\TransactionsNotPendingCriteria;
 use Modules\Documents\Criteria\TransactionsByUserCriteria;
 use Illuminate\Support\Facades\DB;
+use Modules\Users\Entities\User;
 /**
  * Class TransactionsController.
  *
@@ -110,9 +111,15 @@ class TransactionsController extends Controller
                 ['date' => $date], 
                 ['office_id' => $office_id]
             ));
+            // Create a new receive transaction if the destination office has registered users.
             if ($request->task === 'O') {
                 $office = \Modules\Documents\Entities\Office::find($request->from_to_office);
                 if ($office->users()->where('name', '<>', null)->count() >= 1) {                    
+                    $by = config('documents.PENDING');
+                    $user = User::where('name', $transaction->by)->value('name');
+                    if (!empty($user)) {
+                        $by = $user;
+                    }
                     $received = [
                         'task'              =>  'I',
                         'document_id'       =>  $transaction->document_id,
@@ -120,7 +127,7 @@ class TransactionsController extends Controller
                         'date'              =>  $transaction->date->addMinute(),
                         'action'            =>  config('documents.PENDING'),
                         'action_to_be_taken' => $transaction->action_to_be_taken,
-                        'by'                =>  config('documents.PENDING'),
+                        'by'                =>  $by,
                         'office_id'         =>  $transaction->from_to_office,
                         'pending'           =>  1
                     ];
@@ -244,7 +251,6 @@ class TransactionsController extends Controller
     public function receive($id)
     {
         $transaction = $this->repository->find($id);
-        $transaction->date = $transaction->date->addMinute();
         $transaction->pending = 0;             
         return view('documents::transactions.edit', compact('transaction'));
     }    
@@ -259,8 +265,12 @@ class TransactionsController extends Controller
     {
         $transaction = $this->repository->find($id);
         $transaction->task = 'O';   
-        $transaction->date = $transaction->date->addMinute();
-        // $release = true;
+        $transaction->from_to_office = 0;
+        $transaction->date = \Carbon\Carbon::now();
+        $transaction->action = '';
+        $transaction->action_to_be_taken = '';
+        $transaction->by = auth()->user()->name;
+        $transaction->pending = 0;
         return view('documents::transactions.create', compact('transaction'));
     }      
 }

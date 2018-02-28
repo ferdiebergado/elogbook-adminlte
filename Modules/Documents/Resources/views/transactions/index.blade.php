@@ -56,7 +56,7 @@ transactions-table
 },
 { 
 	name:   'from_to_office',
-	title:  'Office',
+	title:  'From/To Office',
 	data:   'target_office.name' 
 },
 {  
@@ -66,7 +66,7 @@ transactions-table
 },
 {   
 	name:   'by',
-	title:  'By',
+	title:  'By/To',
 	data:   'by' 
 },
 {

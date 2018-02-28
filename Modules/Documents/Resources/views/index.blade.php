@@ -11,7 +11,7 @@ DOCUMENTS
 @section('content')
 <div class="clearfix">	
 	<div class="col-sm-12">
-		<a class="btn btn-flat btn-success pull-right" href={{ route('documents.create') }} role="button" title="Create New Document">Create New</a>
+		<a class="btn btn-flat btn-success pull-right" href={{ route('documents.create') }} role="button" title="Create New Document"><i class="fa fa-plus-circle"></i> Create New</a>
 	</div>
 </div>
 <br>

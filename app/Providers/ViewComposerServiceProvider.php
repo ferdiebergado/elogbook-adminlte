@@ -17,7 +17,10 @@ class ViewComposerServiceProvider extends ServiceProvider
         // Using class based composers...
         View::composer(
             ['layouts.master', 'users::show'], 'Modules\Users\Http\ViewComposers\UserComposer'
-        );     
+        ); 
+        View::composer(
+            ['documents::transactions.partial'], 'Modules\Users\Http\ViewComposers\UsersComposer'
+        );             
         View::composer(
             ['users::show'], 'Modules\Users\Http\ViewComposers\JobtitleComposer'
         );              
@@ -36,6 +39,9 @@ class ViewComposerServiceProvider extends ServiceProvider
         View::composer(
             ['layouts.master'], 'Modules\Documents\Http\ViewComposers\TransactionComposer'
         );                
+        View::composer(
+            ['documents::transactions.partial'], 'Modules\Documents\Http\ViewComposers\ActionsComposer'
+        );         
         // Using Closure based composers...
         //View::composer('dashboard', function ($view) {
             //

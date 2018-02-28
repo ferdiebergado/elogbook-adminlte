@@ -24,24 +24,23 @@ Recent Activities
 			<!-- /.box-header -->
 			<div class="box-body">
 				<!-- post text -->
-{{-- 					<p>{{ $transaction->document->doctype->name }}</p>
-<p>{{ $transaction->document->details }}</p> --}}
-<!-- Attachment -->
-<div class="attachment-block clearfix">
-	{{-- <img class="attachment-img" src="../dist/img/photo1.png" alt="Attachment Image"> --}}
-	<div class="attachment-pushed">
-		<h4 class="attachment-heading"><a href="{{ route('documents.show', $transaction->document->id) }}">{{ $transaction->document->doctype->name }}</a></h4>
-		<div class="attachment-text">
-			{{ $transaction->document->details }}
-		</div>
-		<!-- /.attachment-text -->
-	</div>
-	<!-- /.attachment-pushed -->
-</div>
-<!-- /.attachment-block -->
-</div>
-<!-- /.box-body -->
-<!-- /.box-footer -->
+				<!-- Attachment -->
+				<div class="attachment-block clearfix">
+					{{-- <img class="attachment-img" src="../dist/img/photo1.png" alt="Attachment Image"> --}}
+					<div class="attachment-pushed">
+						<h4 class="attachment-heading"><a href="{{ route('documents.show', $transaction->document->id) }}">{{ $transaction->document->doctype->name }}</a></h4>
+						<div class="attachment-text">
+							{{ $transaction->document->details }}
+						</div>
+						<p><small>Person(s) Concerned: <b>{{ $transaction->document->persons_concerned }}</b></small></p>
+						<!-- /.attachment-text -->
+					</div>
+					<!-- /.attachment-pushed -->
+				</div>
+				<!-- /.attachment-block -->
+			</div>
+			<!-- /.box-body -->
+			<!-- /.box-footer -->
 {{-- 				<div class="box-footer">
 </div> --}}
 <!-- /.box-footer -->

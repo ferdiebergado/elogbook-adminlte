@@ -11,7 +11,7 @@
 			@slot('prompt')
 			a document type			    
 			@endslot
-			required
+			required autofocus
 			@endcomponent		
 		</div>
 	</div>

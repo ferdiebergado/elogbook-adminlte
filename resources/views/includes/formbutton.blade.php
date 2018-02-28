@@ -2,8 +2,8 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="form-group">
-			<a href="{{ URL::previous() }}" class="btn btn-flat btn-primary"> Back</a>
-			<button id="btnShowModal" type="button" class="btn btn-flat btn-primary"> Save</button>
+			<a href="{{ URL::previous() }}" class="btn btn-flat btn-default"><span class="fa fa-arrow-circle-left"></span> Back</a>
+			<button id="btnShowModal" type="button" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>
 		</div>
 	</div>
 </div>

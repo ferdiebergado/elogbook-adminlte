@@ -43,7 +43,7 @@ VIEW DOCUMENT
 	<div class="row">
 		<div class="col-sm-12">
 			@include('documents::includes.backbutton')
-			<a href="{{ route('transactions.create', ['document_id' => $document->id]) }}" class="btn btn-flat btn-success pull-right" role="button">Add New Transaction</a>			
+			<a href="{{ route('transactions.create', ['document_id' => $document->id]) }}" class="btn btn-flat btn-success pull-right" role="button"><i class="fa fa-plus-circle"></i> Add New Transaction</a>			
 		</div>
 	</div>
 </div>

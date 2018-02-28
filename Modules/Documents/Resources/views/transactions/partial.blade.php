@@ -83,11 +83,16 @@
 								<!-- END TIME -->							
 							</div>
 							<div class="row">
+								<datalist id="datalistActions">
+									@for ($i = 0; $i < count($actions); $i++)
+										<option value="{{ $actions[$i] }}">{{ $actions[$i] }}</option>
+									@endfor
+								</datalist>
 								<!-- ACTION -->
-								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-									<div id="divAction" class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
+								<div id="divAction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+									<div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
 										<label id="label_action" for="inputAction">Action Taken (By this Office)<sup>*</sup></label>
-										<textarea name="action" id="inputAction" class="form-control" title="Action" rows="2" placeholder="(Ex: Signed/Approved by the Chief/Director, Complied, Comments provided, Endorsed/Referred to the Chief/Director, etc.)">{{ isset($transaction->action) ? $transaction->action : old('action') }}</textarea>
+										<input type="text" name="action" id="inputAction" class="form-control" title="Action" rows="2" placeholder="(Ex: Endorsed/Referred to the Chief/Director, Signed/Approved by the Chief/Director, Complied, Comments provided, etc.)" list="datalistActions" value="{{ isset($transaction->action) ? $transaction->action : old('action') }}" autocomplete>
 										@if ($errors->has('action')) 
 										<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 											{{ $errors->first('action') }}</p>
@@ -99,7 +104,7 @@
 									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 										<div class="form-group {{ $errors->has('action_to_be_taken') ? 'has-error' : '' }}">
 											<label id="label_action_to_be_taken" for="inputActionActionToBeTaken">Action To Be Taken (By Destination Office)<sup>*</sup></label>
-											<textarea name="action_to_be_taken" id="inputActionToBeTaken" class="form-control" title="Action To Be Taken" rows="2" placeholder="(Ex: For approval/signature/comments/compliance/processing/etc.)">{{ isset($transaction->action_to_be_taken) ? $transaction->action_to_be_taken : old('action_to_be_taken') }}</textarea>
+											<input type="text" name="action_to_be_taken" id="inputActionToBeTaken" class="form-control" title="Action To Be Taken" rows="2" placeholder="(Ex: For approval/signature/comments/compliance/processing/etc.)" value="{{ isset($transaction->action_to_be_taken) ? $transaction->action_to_be_taken : old('action_to_be_taken') }}" list="datalistActions" autocomplete>
 											@if ($errors->has('action_to_be_taken')) 
 											<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 												{{ $errors->first('action_to_be_taken') }}</p>
@@ -113,7 +118,12 @@
 										<div class="col-sm-6">
 											<div class="form-group {{ $errors->has('by') ? 'has-error' : '' }}">
 												<label id="label_by" for="inputBy">Received by/Released to<sup>*</sup></label>
-												<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : $transaction->by === '[Unspecified]' ? auth()->user()->name : old('by') }}" title="By" placeholder="Name of Receiver/Releaser">
+												<datalist id="datalistUsers">
+													@foreach ($users as $user)
+														<option value="{{ $user->name }}">{{ $user->name }}</option>
+													@endforeach													
+												</datalist>
+												<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : $transaction->by === '[Unspecified]' ? auth()->user()->name : old('by') }}" title="By" placeholder="Name of Receiver/Releaser" list="datalistUsers">
 												@if ($errors->has('by')) 
 												<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 													{{ $errors->first('by') }}</p>

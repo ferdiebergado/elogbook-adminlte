@@ -9,9 +9,12 @@
 - list of offices (OK)
 - help text on action taken (OK)
 - gitignore .phpintel (OK)
+- autocomplete fields (BY) (OK)
+- add shortcut buttons (NEW TRANSACTION ON VIEW DOCUMENT) + fix redirect back (OK)
+- fix receive/release redirect on save (OK)
 - use presenter (not feasible)
 - auditing (not necessary)
-- autocomplete fields
-- add shortcut buttons (NEW TRANSACTION ON VIEW DOCUMENT) + fix redirect back (PARTIAL)
-- fix receive/release redirect on save
 - admin
+- User Guide
+- Unit Tests
+- 
