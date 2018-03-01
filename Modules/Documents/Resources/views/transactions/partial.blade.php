@@ -85,14 +85,14 @@
 							<div class="row">
 								<datalist id="datalistActions">
 									@for ($i = 0; $i < count($actions); $i++)
-										<option value="{{ $actions[$i] }}">{{ $actions[$i] }}</option>
+									<option value="{{ $actions[$i] }}">{{ $actions[$i] }}</option>
 									@endfor
 								</datalist>
 								<!-- ACTION -->
 								<div id="divAction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 									<div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
 										<label id="label_action" for="inputAction">Action Taken (By this Office)<sup>*</sup></label>
-										<input type="text" name="action" id="inputAction" class="form-control" title="Action" rows="2" placeholder="(Ex: Endorsed/Referred to the Chief/Director, Signed/Approved by the Chief/Director, Complied, Comments provided, etc.)" list="datalistActions" value="{{ isset($transaction->action) ? $transaction->action : old('action') }}" autocomplete>
+										<input type="text" name="action" id="inputAction" class="form-control" title="Action" rows="2" placeholder="(Ex: Endorsed/Referred to the Chief/Director, Signed/Approved by the Chief/Director, Complied, Comments provided, etc.)" list="datalistActions" value="{{ isset($transaction->action) ? $transaction->action : old('action') }}" required autocomplete>
 										@if ($errors->has('action')) 
 										<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 											{{ $errors->first('action') }}</p>
@@ -104,7 +104,7 @@
 									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 										<div class="form-group {{ $errors->has('action_to_be_taken') ? 'has-error' : '' }}">
 											<label id="label_action_to_be_taken" for="inputActionActionToBeTaken">Action To Be Taken (By Destination Office)<sup>*</sup></label>
-											<input type="text" name="action_to_be_taken" id="inputActionToBeTaken" class="form-control" title="Action To Be Taken" rows="2" placeholder="(Ex: For approval/signature/comments/compliance/processing/etc.)" value="{{ isset($transaction->action_to_be_taken) ? $transaction->action_to_be_taken : old('action_to_be_taken') }}" list="datalistActions" autocomplete>
+											<input type="text" name="action_to_be_taken" id="inputActionToBeTaken" class="form-control" title="Action To Be Taken" rows="2" placeholder="(Ex: For approval/signature/comments/compliance/processing/etc.)" value="{{ isset($transaction->action_to_be_taken) ? $transaction->action_to_be_taken : old('action_to_be_taken') }}" list="datalistActions" required autocomplete>
 											@if ($errors->has('action_to_be_taken')) 
 											<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 												{{ $errors->first('action_to_be_taken') }}</p>
@@ -117,13 +117,13 @@
 										<!-- BY -->
 										<div class="col-sm-6">
 											<div class="form-group {{ $errors->has('by') ? 'has-error' : '' }}">
-												<label id="label_by" for="inputBy">Received by/Released to<sup>*</sup></label>
+												<label id="label_by" for="inputBy">Received by/Released to</label>
 												<datalist id="datalistUsers">
 													@foreach ($users as $user)
-														<option value="{{ $user->name }}">{{ $user->name }}</option>
+													<option value="{{ $user->name }}">{{ $user->name }}</option>
 													@endforeach													
 												</datalist>
-												<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : $transaction->by === '[Unspecified]' ? auth()->user()->name : old('by') }}" title="By" placeholder="Name of Receiver/Releaser" list="datalistUsers">
+												<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : $transaction->by === '[Unspecified]' ? auth()->user()->name : old('by') }}" title="By" placeholder="Name of Receiver/Releaser" list="datalistUsers" autocomplete>
 												@if ($errors->has('by')) 
 												<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 													{{ $errors->first('by') }}</p>
@@ -135,10 +135,30 @@
 										<input type="hidden" id="pending" name="pending" value="{{ isset($transaction->pending) ? $transaction->pending : old('pending') }}">
 										<input type="hidden" id="document_id" name="document_id" value="{{ isset($transaction->document_id) ? $transaction->document_id : old('document_id') }}">
 										@unless (Route::is('documents.*'))
-											@include('includes.formbutton')
+										@include('includes.formbutton')
 										@endunless
 									</fieldset>
 								</div>
 							</div>
 						</div>
 					</div>
+					@push('scripts')
+					<script>
+						$(function () {    
+							var el = '#from_to_office';
+							var by = '#inputBy';
+							$(el).change(function() {
+								$.get("{{ route('offices.showActive') }}", function(data, status) {
+									var offices = data.toString().split(",");
+									if (offices.indexOf($(el).val()) > -1) {
+										$(by).val('(Pending)');
+										$(by).attr('disabled', true);
+									} else {
+										$(by).val('');
+										$(by).attr('disabled', false);										
+									}
+								});
+							});	
+						});
+					</script>
+					@endpush

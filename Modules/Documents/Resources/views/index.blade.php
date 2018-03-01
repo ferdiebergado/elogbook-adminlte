@@ -3,15 +3,15 @@
 DOCUMENTS
 @endsection
 @section('subtitle')
-	Documents that originated from this Office.
+Documents that originated from this Office.
 @endsection
 @section('breadcrumb')
-	@include('documents::includes.breadcrumbs.documents')
+@include('documents::includes.breadcrumbs.documents')
 @endsection
 @section('content')
 <div class="clearfix">	
 	<div class="col-sm-12">
-		<a class="btn btn-flat btn-success pull-right" href={{ route('documents.create') }} role="button" title="Create New Document"><i class="fa fa-plus-circle"></i> Create New</a>
+		<a class="btn btn-flat btn-success pull-right" href={{ route('documents.create') }} role="button" title="Create New Document"><i class="fa fa-plus-circle"></i> CREATE NEW</a>
 	</div>
 </div>
 <br>
@@ -33,8 +33,6 @@ documents-table
 {!! url('/documents') !!}
 @endslot
 @slot('datatablewith')
-{{-- doctype;office_from;office_to --}}
-{{-- doctype --}}
 @endslot
 @slot('datatabletargetcol')
 6

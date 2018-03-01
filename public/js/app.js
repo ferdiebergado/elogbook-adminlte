@@ -11669,11 +11669,11 @@ $(function () {
     var by = $('#label_by');
     if (this.value === 'I') {
       office.html('From');
-      by.html('Received by<sup>*</sup>');
+      by.html('Received by');
     }
     if (this.value === 'O') {
       office.html('To');
-      by.html('Released to<sup>*</sup>');
+      by.html('Released to');
     }
   });
   var inputAction = $('#inputAction');

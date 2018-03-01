@@ -11,7 +11,7 @@ CREATE NEW DOCUMENT
 @endsection
 @section('content')
 <div class="content">	
-	<form id="document-form" class="data-form" method="POST" role="form" action="{{ route('documents.store') }}" autocomplete>
+	<form id="document-form" class="data-form" method="POST" role="form" action="{{ route('documents.store') }}" autocomplete="off">
 		@include('documents::partial')
 	</form>
 </div>

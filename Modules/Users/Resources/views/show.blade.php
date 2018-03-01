@@ -136,7 +136,7 @@ User Profile
 					<img id="avatar-preview" src="{{ $avatar }}" width="30%" height="30%">
 					<br><br>
 					<input id="avatar-input" type="file" name="avatar" accept=".jpg,.jpeg,.png" value="{{ old('avatar') }}" required></input>
-					<p class="help-block">Upload .jpeg, .jpg or .png files only. File size should be less than 512 kb.</p>
+					<p class="help-block">Upload .jpeg, .jpg or .png files only. File size should be less than 500 kb.</p>
 				</div>
 				<div class="modal-footer">
 					<button id="btnAvatar" type="submit" class="btn btn-primary">Save</button>

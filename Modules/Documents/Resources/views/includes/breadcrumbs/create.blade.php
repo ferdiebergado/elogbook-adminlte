@@ -1,1 +1,1 @@
-<li><i class="fa fa-plus"></i> Create</li>
+<li><i class="fa fa-plus-circle"></i> Create</li>

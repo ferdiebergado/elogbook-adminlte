@@ -1,12 +1,3 @@
-<br><br>
-<div class="row">
-	<div class="col-sm-12">
-		<div class="form-group">
-			<a href="{{ URL::previous() }}" class="btn btn-flat btn-default"><span class="fa fa-arrow-circle-left"></span> Back</a>
-			<button id="btnShowModal" type="button" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>
-		</div>
-	</div>
-</div>
 <!-- modal -->
 <div id="modalConfirm" class="modal modal-default fade" id="modal-primary">
 	<div class="modal-dialog">
@@ -30,3 +21,6 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->	
+	@section('box-footer')
+	<button id="btnShowModal" type="button" class="btn btn-flat btn-primary"><i class="fa fa-save"></i> SAVE</button>
+	@endsection

@@ -180,7 +180,10 @@
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
-      @yield('box-footer')
+      <div class="container-fluid">
+        @include('includes.backbutton')
+        @yield('box-footer')        
+      </div>
     </div>
     <!-- /.box-footer-->
   </div>

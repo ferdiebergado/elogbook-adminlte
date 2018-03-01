@@ -8,4 +8,6 @@ Route::group(['middleware' => ['web', 'auth', 'user', 'prevent_back_history'], '
 	Route::resource('transactions', 'TransactionsController')->except(['destroy']);
 	Route::delete('transactions/{transactions}', 'TransactionsController@destroy')->name('transactions.destroy')->middleware('admin');	
 	Route::view('offices', 'documents::offices')->name('offices.active');
+	Route::get('offices/active', 'OfficesController@showActive')->name('offices.showActive');
+	Route::resource('offices', 'OfficesController')->only(['create', 'store', 'update', 'edit', 'delete'])->middleware('admin');
 });

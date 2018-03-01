@@ -2,9 +2,12 @@
 @section('title')
 VIEW DOCUMENT 
 @endsection
+@section('subtitle')
+	View details of selected document.
+@endsection
 @section('breadcrumb')
-	@include('documents::includes.breadcrumbs.documents') 
-	@include('documents::includes.breadcrumbs.show')
+@include('documents::includes.breadcrumbs.documents') 
+@include('documents::includes.breadcrumbs.show')
 @endsection
 @section('content')
 <div class="content">
@@ -37,14 +40,9 @@ VIEW DOCUMENT
 		</div>
 	</div>
 	<br>
-	{{-- <input type="hidden" id="document_id" name="document_id" value="{{ $document->id }}"> --}}
 	@include('documents::transactions.list')
-	<br><br>
-	<div class="row">
-		<div class="col-sm-12">
-			@include('documents::includes.backbutton')
-			<a href="{{ route('transactions.create', ['document_id' => $document->id]) }}" class="btn btn-flat btn-success pull-right" role="button"><i class="fa fa-plus-circle"></i> Add New Transaction</a>			
-		</div>
-	</div>
+	@section('box-footer')
+	<a href="{{ route('transactions.create', ['document_id' => $document->id]) }}" class="btn btn-flat btn-success" role="button"><i class="fa fa-plus-circle"></i> ADD NEW TRANSACTION</a>			
+	@endsection
 </div>
 @endsection
