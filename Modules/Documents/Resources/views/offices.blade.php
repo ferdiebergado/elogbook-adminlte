@@ -3,7 +3,7 @@
 Active Offices
 @endsection
 @section('subtitle')
-&nbsp;Offices where direct transaction (Receive/Release) is possible.
+Offices where direct transaction (Receive/Release) is possible.
 @endsection
 @section('breadcrumb')
 <li><i class="fa fa-building"></i> Offices</a></li>
@@ -44,7 +44,4 @@ Active Offices
 		</table>
 	</div>
 </div>
-@endsection
-@section('box-footer')
-@include('includes.backbutton')
 @endsection

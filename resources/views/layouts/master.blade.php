@@ -61,17 +61,17 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="{{ route('users.show', auth()->user()->id) }}" class="btn btn-default btn-flat">Profile</a>
+                    <a href="{{ route('users.show', auth()->user()->id) }}" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
                   </div>
                   <div class="pull-right">
-                    <a id="logout" class="btn btn-default btn-flat">Sign out</a>
+                    <a id="logout" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Sign out</a>
                   </div>
                 </li>
               </ul>
             </li>
             @else 
-            <li><a href="{{ route('login') }}">Login</a></li>
-            <li><a href="{{ route('register') }}">Register</a></li>
+            <li><a href="{{ route('login') }}"><i class="fa fa-sign-in"></i> Login</a></li>
+            <li><a href="{{ route('register') }}"><i class="fa fa-user-plus"></i> Register</a></li>
             @endauth
           </ul>
         </div>
@@ -169,7 +169,7 @@
   <!-- Default box -->
   <div class="box box-primary">
     <div class="box-header with-border">
-      <h3 class="box-title">&nbsp;<b>@yield('title')</b><br><small>&nbsp;@yield('subtitle')</small></h3>
+      <h3 class="box-title">&nbsp;<b>@yield('title')</b><br><small>&nbsp;&nbsp;@yield('subtitle')</small></h3>
     </div>
     <div class="box-body">
       <div class="container-fluid">
