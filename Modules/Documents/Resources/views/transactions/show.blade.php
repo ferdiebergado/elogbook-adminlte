@@ -87,11 +87,5 @@ VIEW TRANSACTION
 			<p>{{ $transaction->by }}</p>
 		</div>
 	</div>	
-	<br><br>
-	<div class="row">
-		<div class="col-sm-12">
-			@include('documents::includes.backbutton')
-		</div>
-	</div>
 </div>
 @endsection

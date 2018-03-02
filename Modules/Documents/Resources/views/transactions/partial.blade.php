@@ -123,7 +123,7 @@
 													<option value="{{ $user->name }}">{{ $user->name }}</option>
 													@endforeach													
 												</datalist>
-												<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : $transaction->by === '[Unspecified]' ? auth()->user()->name : old('by') }}" title="By" placeholder="Name of Receiver/Releaser" list="datalistUsers" autocomplete>
+												<input type="text" name="by" id="inputBy" class="form-control" value="{{ isset($transaction->by) ? $transaction->by : old('by') }}" title="By" placeholder="Name of Receiver/Releaser" list="datalistUsers" autocomplete>
 												@if ($errors->has('by')) 
 												<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 													{{ $errors->first('by') }}</p>
@@ -153,9 +153,11 @@
 									if (offices.indexOf($(el).val()) > -1) {
 										$(by).val('(Pending)');
 										$(by).attr('disabled', true);
+										$(by).attr('required', false);
 									} else {
 										$(by).val('');
-										$(by).attr('disabled', false);										
+										$(by).attr('disabled', false);			
+										$(by).attr('required', true);							
 									}
 								});
 							});	

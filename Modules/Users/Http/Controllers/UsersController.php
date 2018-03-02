@@ -173,8 +173,9 @@ class UsersController extends Controller
                 'avatar' => 'required|file|image|mimes:jpeg,jpg,png|max:512'
             ]);
             $file = $request->file('avatar')->store('/', 'avatars');
-            if (!empty(request()->user()->avatar)) {
-                Storage::disk('avatars')->delete(request()->user()->avatar);                
+            $avatar = $this->repository->find($id, ['avatar']);
+            if (!empty($avatar)) {
+                Storage::disk('avatars')->delete($avatar);                
             }
             $user = $this->repository->update(['avatar' => $file], $id);
             // Cache::forget('user_by_id'.$id);

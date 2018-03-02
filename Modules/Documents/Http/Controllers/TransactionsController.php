@@ -23,7 +23,7 @@ use Modules\Users\Entities\User;
  */
 class TransactionsController extends Controller
 {
-    use \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\RequestParser;
+    use \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\RequestParser, \Modules\Documents\Http\Helpers\TransactionHelper;
     /**
      * @var TransactionRepository
      */
@@ -88,8 +88,7 @@ class TransactionsController extends Controller
         ]);
         $transaction = $this->repository->with('document')->findByField('document_id', (int) $request->document_id, ['document_id'])->first();
         $transaction->pending = 0;
-        $release = false;
-        return view('documents::transactions.create', compact('transaction', 'release'));
+        return view('documents::transactions.create', compact('transaction'));
     }      
     /**
      * Store a newly created resource in storage.
@@ -104,36 +103,7 @@ class TransactionsController extends Controller
     {
         DB::beginTransaction();
         try {
-            $date = $this->formatDates($request->task_date, $request->task_time);
-            $office_id = auth()->user()->office_id;
-            $transaction = $this->repository->create(array_merge(
-                $request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), 
-                ['date' => $date], 
-                ['office_id' => $office_id]
-            ));
-            // Create a new receive transaction if the destination office has registered users.
-            if ($request->task === 'O') {
-                $office = \Modules\Documents\Entities\Office::find($request->from_to_office);
-                if ($office->users()->where('name', '<>', null)->count() >= 1) {                    
-                    $by = config('documents.PENDING');
-                    $user = User::where('name', $transaction->by)->value('name');
-                    if (!empty($user)) {
-                        $by = $user;
-                    }
-                    $received = [
-                        'task'              =>  'I',
-                        'document_id'       =>  $transaction->document_id,
-                        'from_to_office'    =>  $office_id,
-                        'date'              =>  $transaction->date->addMinute(),
-                        'action'            =>  config('documents.PENDING'),
-                        'action_to_be_taken' => $transaction->action_to_be_taken,
-                        'by'                =>  $by,
-                        'office_id'         =>  $transaction->from_to_office,
-                        'pending'           =>  1
-                    ];
-                    $this->repository->create($received);
-                }
-            }
+            $transaction = $this->storeTransaction($request, $request->document_id, $this->repository);
             $response = [
                 'message' => 'Transaction created.',
                 'data'    => $transaction,
@@ -144,13 +114,13 @@ class TransactionsController extends Controller
             DB::commit();
             return redirect()->route('transactions.index')->with('message', $response['message']);
         } catch (ValidationException $e) {
+            DB::rollback();
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
                     'message' => $e->errorBag()
                 ]);
             }
-            DB::rollback();
             return redirect()->back()->withErrors($e->errorBag())->withInput();
         } catch (Exception $e) {
             DB::rollback();
@@ -210,7 +180,7 @@ class TransactionsController extends Controller
             if ($request->wantsJson()) {
                 return response()->json($response);
             }
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->route('transactions.index')->with('message', $response['message']);
         } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
@@ -251,6 +221,7 @@ class TransactionsController extends Controller
     public function receive($id)
     {
         $transaction = $this->repository->find($id);
+        $transaction->by = auth()->user()->name;        
         $transaction->pending = 0;             
         return view('documents::transactions.edit', compact('transaction'));
     }    

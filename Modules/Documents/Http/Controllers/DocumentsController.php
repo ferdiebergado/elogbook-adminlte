@@ -20,7 +20,7 @@ use Modules\Documents\Entities\Office;
  */
 class DocumentsController extends Controller
 {    
-    use \Modules\Documents\Http\Helpers\RequestParser, \App\Http\Helpers\DateHelper;
+    use \Modules\Documents\Http\Helpers\RequestParser, \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\TransactionHelper;
     /**
      * @var DocumentRepository
      */
@@ -67,6 +67,8 @@ class DocumentsController extends Controller
         $this->repository->pushCriteria(DocumentRelationsCriteria::class);        
         $document = $this->repository->makeModel();
         $transaction = $this->transaction_repository->makeModel();
+        $transaction->date = \Carbon\Carbon::now();
+        $transaction->pending = 0;
         return view('documents::create', compact('document', 'transaction'));
     }
     /**
@@ -84,7 +86,7 @@ class DocumentsController extends Controller
         $office_id = auth()->user()->office_id;
         DB::beginTransaction();
         try {
-            $document = $this->repository->firstOrCreate(array_merge($request->only('doctype_id', 'details', 'persons_concerned'), ['office_id' => $office_id]));
+            $document = $this->repository->firstOrCreate(array_merge($request->only('doctype_id', 'details', 'persons_concerned', 'additional_info'), ['office_id' => $office_id]));
         } catch(ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
@@ -99,39 +101,7 @@ class DocumentsController extends Controller
             throw $e;            
         }
         try {
-            $transaction = $this->transaction_repository->firstOrCreate(array_merge(
-                $request->only('task', 'from_to_office', 'action', 'action_to_be_taken', 'by'), 
-                ['document_id' => $document->id], 
-                ['date' => $date], 
-                ['office_id' => $office_id]
-            ));
-            if ($request->task === 'O') {                
-                if (Office::find($request->from_to_office)->has('users')) {
-                    switch ($request->task) {
-                        case 'I':
-                        $task = 'O';
-                        break;
-                        case 'O':
-                        $task = 'I';
-                        break;
-                    }
-                    $from_to_office = auth()->user()->office_id;
-                    $office_id = $request->from_to_office;
-                    $action = config('documents.PENDING');
-                    $by = config('documents.PENDING');
-                    $transaction = $this->transaction_repository->firstOrCreate(array_merge(
-                        ['task' => $task], 
-                        ['document_id' => $document->id], 
-                        ['from_to_office' => $from_to_office], 
-                        ['date' => $date], 
-                        ['action' => $action], 
-                        $request->only('action_to_be_taken'),
-                        ['by' => $by], 
-                        ['office_id' => $office_id], 
-                        ['pending' => 1]
-                    ));
-                }
-            }
+            $transaction = $this->storeTransaction($request, $document->id, $this->transaction_repository);
         } catch(ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([

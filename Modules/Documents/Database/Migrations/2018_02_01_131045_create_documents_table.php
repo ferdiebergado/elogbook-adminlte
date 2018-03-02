@@ -19,6 +19,7 @@ class CreateDocumentsTable extends Migration
             $table->integer('doctype_id');
             $table->string('details', 250);
             $table->string('persons_concerned', 250);
+            $table->string('additional_info', 250)->nullable()->default(null);
             $table->unsignedInteger('office_id');            
             $table->timestamps();
             $table->unsignedInteger('created_by')->nullable()->default(null);

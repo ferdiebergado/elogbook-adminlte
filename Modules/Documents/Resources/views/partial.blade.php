@@ -43,13 +43,27 @@
 					@endif
 				</div>
 			</div>
-			<!-- END PERSONS CONCERNED -->
 		</div>
-		@if (Route::currentRouteName() === 'documents.create')
-		@include('documents::transactions.partial')
-		@endif
-		@if (Route::currentRouteName() === 'documents.edit')
-		@include('documents::transactions.list')
-		@endif
-		<br><br>
-		@include('includes.formbutton')
+		<!-- END PERSONS CONCERNED -->
+		<!-- ADDITIONAL INFO -->
+		<div class="row">				
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group {{ $errors->has('additional_info') ? 'has-error' : '' }}">
+					<label for="additional_info">Additional Information</label>
+					<input type="text" name="additional_info" id="additional_info" class="form-control" title="Additional Info" value="{{ isset($document->additional_info) ? $document->additional_info : old('additional_info') }}">
+					@if ($errors->has('additional_info')) 
+					<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						{{ $errors->first('additional_info') }}</p>
+						@endif
+					</div>
+				</div>
+			</div>
+			<!-- END ADDITIONAL INFO -->			
+			@if (Route::currentRouteName() === 'documents.create')
+			@include('documents::transactions.partial')
+			@endif
+			@if (Route::currentRouteName() === 'documents.edit')
+			@include('documents::transactions.list')
+			@endif
+			<br><br>
+			@include('includes.formbutton')

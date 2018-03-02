@@ -27,4 +27,11 @@
 		<p>{{ $transaction->document->persons_concerned }}</p>
 	</div>
 </div>
+<!-- ADDITIONAL INFO -->
+<div class="row">
+	<label class="control-label col-sm-2">Additional Information:</label>
+	<div class="col-sm-10">
+		<p>{{ $transaction->document->additional_info }}</p>
+	</div>
+</div>	
 <hr>

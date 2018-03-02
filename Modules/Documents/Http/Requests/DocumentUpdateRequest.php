@@ -22,7 +22,8 @@ class DocumentUpdateRequest extends FormRequest
         return [
             'doctype_id'        => 'required|integer',            
             'details'           => 'required|min:3|max:250',
-            'persons_concerned' => 'required|max:250'
+            'persons_concerned' => 'required|max:250',
+            'additional_info'   => 'max:250'
         ];
     }
 }

@@ -181,7 +181,9 @@
     <!-- /.box-body -->
     <div class="box-footer">
       <div class="container-fluid">
-        @include('includes.backbutton')
+        @unless (Route::is('*.index'))
+          @include('includes.backbutton')
+        @endunless
         @yield('box-footer')        
       </div>
     </div>
