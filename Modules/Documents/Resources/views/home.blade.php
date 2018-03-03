@@ -52,4 +52,9 @@ Recent Activities
 <p>&nbsp;No activities to display.</p>
 @endforelse
 </div>
+<div class="container-fluid">
+	<div class="pull-right">		
+		{{ $transactions->links() }}
+	</div>
+</div>
 @endsection

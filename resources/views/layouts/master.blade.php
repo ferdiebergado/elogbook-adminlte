@@ -115,25 +115,36 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
-            <ul class="treeview-menu">
-              <li><a href="{{ route('transactions.index', ['task' => 'P']) }}"><i class="fa fa-history"></i>Pending
-                <div class="label label-warning pull-right">{{ $transaction_pending }}</div>
+            <ul class="treeview-menu clearfix">
+              <li><a href="{{ route('transactions.index', ['task' => 'P']) }}"><i class="fa fa-history"></i><span>Pending</span>
+                <span class="pull-right-container">                  
+                  <span class="label label-warning pull-right">{{ $transaction_pending }}</span>
+                </span>
               </a></li>              
-              <li><a href="{{ route('transactions.index', ['task' => 'I']) }}"><i class="fa fa-arrow-right"></i>Received
-                <div class="label label-primary pull-right">{{ $transaction_received }}</div>
+              <li><a href="{{ route('transactions.index', ['task' => 'I']) }}"><i class="fa fa-arrow-right"></i><span>Received</span>
+                <span class="pull-right-container">                  
+                  <span class="label label-primary pull-right">{{ $transaction_received }}</span>
+                </span>
               </a></li>
-              <li><a href="{{ route('transactions.index', ['task' => 'O']) }}"><i class="fa fa-arrow-left"></i>Released
-                <div class="label label-success pull-right">{{ $transaction_released }}</div>
+              <li><a href="{{ route('transactions.index', ['task' => 'O']) }}"><i class="fa fa-arrow-left"></i><span>Released</span>
+                <span class="pull-right-container">                  
+                  <span class="label label-success pull-right">{{ $transaction_released }}</span>
+                </span>
               </a></li>
-              <li><a href="{{ route('transactions.index', ['task' => null]) }}"><i class="fa fa-exchange"></i>All
-                <div class="label label-info pull-right">{{ $transaction_count }}</div>
+              <li><a href="{{ route('transactions.index', ['task' => null]) }}"><i class="fa fa-exchange"></i><span>All</span>
+                <span class="pull-right-container">
+                <span class="label label-info pull-right">{{ $transaction_count }}</span>
+                </span>                  
               </a>
             </li>
           </ul>
         </li>
           <li>
             <a href="{{ route('offices.active') }}">
-              <i class="fa fa-building"></i> <span>Offices</span>
+              <i class="fa fa-building"></i> <span>Active Offices</span>
+              <span class="pull-right-container">
+                <span class="label label-info pull-right">{{ $active_offices_count }}</span>
+              </span>
             </a>
           </li>        
       </ul>
@@ -152,7 +163,7 @@
     <section class="content-header">
       <h1>
         {{ auth()->user()->office->name }}
-        <br><small>{{ (strpos(auth()->user()->office->name,'Office of the Director') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
+        <br><small>{{ ((strpos(auth()->user()->office->name,'Office of the Director') === 0) || strpos(auth()->user()->office->bureauservice->name, 'Not Applicable') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
 {{--           @yield('content-header')
 <small>@yield('content-description')</small> --}}
 </h1>

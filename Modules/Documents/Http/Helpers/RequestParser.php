@@ -21,7 +21,7 @@ Trait RequestParser
         }
         return $perPage;
     }
-    protected function getRequestFields($request, $model)
+    protected function sortFields($request, $model)
     {
         if ($request->has('orderByMulti')) {
            $request = (string) $request->orderByMulti;
@@ -34,7 +34,7 @@ Trait RequestParser
             }
         } 
         if (empty($request->sortBy))  {
-            $model = $model->latest('updated_at');
+            $model = $model->latest();
         }
         return $model;      
     }

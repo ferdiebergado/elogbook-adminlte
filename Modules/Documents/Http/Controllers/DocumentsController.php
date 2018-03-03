@@ -10,8 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Modules\Documents\Criteria\DocumentRelationsCriteria;
-use Modules\Documents\Criteria\DocumentsByOfficeCriteria;
-use Modules\Documents\Criteria\MultiSortCriteria;
+use Modules\Documents\Criteria\ByOfficeCriteria;
 use Modules\Documents\Entities\Office;
 /**
  * Class DocumentsController.
@@ -43,12 +42,19 @@ class DocumentsController extends Controller
     public function index()
     {
         // $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $this->repository->pushCriteria(DocumentsByOfficeCriteria::class);
-        $this->repository->pushCriteria(DocumentRelationsCriteria::class);        
-        $this->repository->pushCriteria(MultiSortCriteria::class);
         $request = app()->make('request');
+        $this->validate($request, [
+            'length' => [
+                'integer', 
+                \Illuminate\Validation\Rule::in(config('documents.perPageRange'))
+            ], 
+            'sortBy' => 'string|nullable', 
+            'orderByMulti' => 'string|nullable'
+        ]);
         $perPage = $this->getRequestLength($request);    
-        $documents = $this->repository->paginate($perPage);
+        $model = $this->repository->with(['doctype', 'creator'])->getByOffice(auth()->user()->office_id);
+        // Sort fields based on request orderBy (nested sorting)
+        $documents = $this->sortFields($request, $model)->paginate($perPage);
         if (request()->wantsJson()) {
             return response()->json([
                 'draw' => $request->draw,
@@ -64,10 +70,9 @@ class DocumentsController extends Controller
      */
     public function create()
     {
-        $this->repository->pushCriteria(DocumentRelationsCriteria::class);        
         $document = $this->repository->makeModel();
         $transaction = $this->transaction_repository->makeModel();
-        $transaction->date = \Carbon\Carbon::now();
+        $transaction->date = \Carbon\Carbon::now()->addMinute();
         $transaction->pending = 0;
         return view('documents::create', compact('document', 'transaction'));
     }
@@ -134,14 +139,14 @@ class DocumentsController extends Controller
      */
     public function show($id)
     {
-        $this->repository->pushCriteria(DocumentRelationsCriteria::class);          
-        $document = $this->repository->find($id);
+        $document = $this->repository->with(['doctype', 'creator'])->find($id);
+        $transactions = $this->transaction_repository->getByDocument($id)->latest()->simplePaginate(10);
         if (request()->wantsJson()) {
             return response()->json([
-                'data' => $document,
+                'data' => collect($document)->merge($transactions),
             ]);
         }
-        return view('documents::show', compact('document'));
+        return view('documents::show', compact('document', 'transactions'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -152,7 +157,6 @@ class DocumentsController extends Controller
      */
     public function edit($id)
     {
-        $this->repository->pushCriteria(DocumentRelationsCriteria::class);
         $document = $this->repository->find($id);        
         return view('documents::edit', compact('document'));
     }

@@ -1,12 +1,8 @@
 <?php
 namespace Modules\Documents\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
-// use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\Documents\Repositories\DocumentRepository;
 use Modules\Documents\Entities\Document;
-// use Modules\Documents\Validators\DocumentValidator;
-// use Prettus\Repository\Contracts\CacheableInterface;
-// use Prettus\Repository\Traits\CacheableRepository;
 /**
  * Class DocumentRepositoryEloquent.
  *
@@ -14,6 +10,7 @@ use Modules\Documents\Entities\Document;
  */
 class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepository
 {
+    use \Modules\Documents\Http\Helpers\RequestParser;
     /**
      * @var array
      */
@@ -35,10 +32,6 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
     {
         return Document::class;
     }
-    // public function presenter()
-    // {
-    //     return 'Modules\\Documents\\Presenters\\DocumentPresenter';
-    // }
     /**
      * Boot up the repository, pushing criteria
      */
@@ -46,5 +39,13 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
     {
         // $this->pushCriteria(app(RequestCriteria::class));
         $this->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));        
+    }
+    public function getByOffice($id)
+    {
+        return $this->model->where('office_id', $id);
+    }
+    public function latest()
+    {
+        return $this->model->latest();
     }
 }

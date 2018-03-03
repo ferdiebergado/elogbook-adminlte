@@ -1,4 +1,4 @@
 <?php
 return [
-	'profile_incomplete'	=>	'In order to use the system, please complete your profile.'
+	'profile_incomplete'	=>	'In order to continue using the system, please complete your profile.'
 ];

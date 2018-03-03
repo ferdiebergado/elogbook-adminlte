@@ -21,7 +21,7 @@
 						</tr>
 					</thead>
 					<tbody class="text-center">
-						@foreach ($document->transactions as $transaction)
+						@foreach ($transactions as $transaction)
 						<tr>
 							<td><span class="label label-info">{{ $transaction->id }}</span></td>
 							<td><span class="label label-{{ $transaction->task === 'I' ? 'primary' : 'success' }}">{{ $transaction->task === 'O' ? 'Release' : 'Receive' }}</span></td>
@@ -39,6 +39,9 @@
 						@endforeach			
 					</tbody>
 				</table>
+				<div class="pull-right">
+				{{ $transactions->links() }}					
+				</div>
 			</div>
 		</div>
 	</div>

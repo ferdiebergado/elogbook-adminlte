@@ -31,7 +31,12 @@ Offices where direct transaction (Receive/Release) is possible.
 					<td>
 						@foreach ($office->users as $user)
 						@if (($user->active) && ($user->confirmed))
-						<ul><img src="{{ url('/storage/avatars') . '/' . $user->avatar }}" width="48px" height="48px" alt="User Avatar"> &nbsp;{{ $user->name }}</ul>
+						<div class="container-fluid">								
+							<div class="col-xs-3 col-sm-3 col-md-2 col-lg-4">
+								<img class="pull-left" src="{{ url('/storage/avatars') . '/' . $user->avatar }}" width="48px" height="48px" alt="User Avatar">
+							</div> 
+							<div class="col-xs-9 col-sm-9 col-md-10 col-lg-8">{{ $user->name }}</div>
+						</div>
 						@endif
 						@endforeach
 					</td>

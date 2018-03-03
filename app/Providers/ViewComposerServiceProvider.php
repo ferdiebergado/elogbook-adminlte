@@ -34,6 +34,9 @@ class ViewComposerServiceProvider extends ServiceProvider
             [ 'documents::offices'], 'Modules\Documents\Http\ViewComposers\ActiveOfficesComposer'
         );          
         View::composer(
+            ['layouts.master'], 'Modules\Documents\Http\ViewComposers\ActiveOfficesCountComposer'
+        );          
+        View::composer(
             ['layouts.master'], 'Modules\Documents\Http\ViewComposers\DocumentComposer'
         );      
         View::composer(

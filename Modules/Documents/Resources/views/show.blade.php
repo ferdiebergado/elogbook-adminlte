@@ -22,7 +22,7 @@ VIEW DOCUMENT
 	<div class="row">
 		<label class="control-label col-sm-2">Type:</label>
 		<div class="col-sm-10">
-			<p>{{ $document->doctype->name }}</p>
+			<p><span class="label label-primary">{{ $document->doctype->name }}</span></p>
 		</div>
 	</div>
 	<!-- DETAILS -->
@@ -43,7 +43,14 @@ VIEW DOCUMENT
 	<div class="row">
 		<label class="control-label col-sm-2">Additional Information:</label>
 		<div class="col-sm-10">
-			<p>{{ $document->additional_info }}</p>
+			<p>{{ $document->additional_info ?? 'None.' }}</p>
+		</div>
+	</div>	
+	<!-- CREATED BY -->
+	<div class="row">
+		<label class="control-label col-sm-2">Created by:</label>
+		<div class="col-sm-10">
+			<p>{{ $document->creator->name }}</p>
 		</div>
 	</div>	
 	<br>

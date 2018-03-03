@@ -44,4 +44,28 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
     {
         $this->pushCriteria(app('\Modules\Documents\Http\Helpers\DocumentRequestCriteria'));   
     }    
+    public function getByOffice($id)
+    {
+        return $this->model->where('office_id', $id);
+    }
+    public function getByTask($task)
+    {
+        return $this->model->where('task', $task);
+    }
+    public function getByDocument($id)
+    {
+        return $this->model->where('document_id', $id);
+    }
+    public function notPending()
+    {
+        return $this->model->where('pending', 0);
+    }
+    public function pending()
+    {
+        return $this->model->where('pending', 1);
+    }    
+    public function latest()
+    {
+        return $this->model->latest('date');
+    }
 }

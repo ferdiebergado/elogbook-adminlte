@@ -24,6 +24,7 @@ class CreateTransactionsTable extends Migration
             $table->string('by', 150);
             $table->unsignedInteger('office_id');
             $table->boolean('pending')->default(0);
+            $table->bigInteger('parent_id')->nullable()->default(null);
             $table->unsignedInteger('created_by')->nullable()->default(null);
             $table->unsignedInteger('updated_by')->nullable()->default(null);            
             $table->unsignedInteger('deleted_by')->nullable()->default(null);             

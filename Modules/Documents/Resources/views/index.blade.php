@@ -66,9 +66,9 @@ documents-table
 	data:   'created_at' 
 },
 {   
-	name:   'created_by',
+	name:   'creator.name',
 	title:  'Created By',
-	data:   'user.name' 
+	data:   'creator.name' 
 },
 {   
 	title: 'Task(s)',

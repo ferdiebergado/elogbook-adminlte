@@ -22,7 +22,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 		<div class="form-group {{ $errors->has('details') ? 'has-error' : '' }}">
 			<label for="inputDetails">Details<sup>*</sup></label>
-			<textarea name="details" id="inputDetails" class="form-control" title="Details" rows="5" required>{{ isset($document->details) ? $document->details : old('details') }}</textarea>
+			<textarea name="details" id="inputDetails" class="form-control" title="Details" rows="5" required>{{ $document->details ?? old('details') }}</textarea>
 			@if ($errors->has('details')) 
 			<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 				{{ $errors->first('details') }}</p>
@@ -36,7 +36,7 @@
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 			<div class="form-group {{ $errors->has('persons_concerned') ? 'has-error' : '' }}">
 				<label for="inputPersonsConcerned">Persons concerned<sup>*</sup></label>
-				<textarea name="persons_concerned" id="inputPersonsConcerned" class="form-control" title="Persons concerned" rows="2" required>{{ isset($document->persons_concerned) ? $document->persons_concerned : old('persons_concerned') }}</textarea>
+				<textarea name="persons_concerned" id="inputPersonsConcerned" class="form-control" title="Persons concerned" rows="2" required>{{ $document->persons_concerned ?? old('persons_concerned') }}</textarea>
 				@if ($errors->has('persons_concerned')) 
 				<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 					{{ $errors->first('persons_concerned') }}</p>
@@ -50,7 +50,7 @@
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group {{ $errors->has('additional_info') ? 'has-error' : '' }}">
 					<label for="additional_info">Additional Information</label>
-					<input type="text" name="additional_info" id="additional_info" class="form-control" title="Additional Info" value="{{ isset($document->additional_info) ? $document->additional_info : old('additional_info') }}">
+					<input type="text" name="additional_info" id="additional_info" class="form-control" title="Additional Info" value="{{ $document->additional_info ?? old('additional_info') }}">
 					@if ($errors->has('additional_info')) 
 					<p class="help-block"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 						{{ $errors->first('additional_info') }}</p>

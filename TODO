@@ -1,3 +1,4 @@
+### FINISHED TASKS ###
 - breadcrumbs (OK)
 - fix receive release box-title (OK)
 - fix Edit trans list action button for edit (OK)
@@ -12,10 +13,24 @@
 - autocomplete fields (BY) (OK)
 - add shortcut buttons (NEW TRANSACTION ON VIEW DOCUMENT) + fix redirect back (OK)
 - fix receive/release redirect on save (OK)
+- refactor Criterias into repository methods (OK)
+- next button on active offices (OK)
 - use presenter (not feasible)
 - auditing (not necessary)
-- Cancel/Reject transaction
-- admin
+### END OF FINISHED TASKS ###
+
+### PENDING TASKS ###
+- Cancel/Reject transaction (???)
+- Clear avatar button
+- Upload avatar button
+- move url(storage/avatars) to users.config
+- edit button for users 
+- fix csv seeders
+- replace transaction history table with datatable
+- use datatable for active offices
+- ajax user datalist
+- gate policies
+- admin (log viewer)
 - User Guide
 - Unit Tests
-- 
+### END OF PENDING TASKS ###

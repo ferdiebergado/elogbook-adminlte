@@ -10,5 +10,5 @@ abstract class BaseModel extends CachedModel
     // public static function boot()
     // {
     //     parent::boot();
-    // }    
+    // }       
 }

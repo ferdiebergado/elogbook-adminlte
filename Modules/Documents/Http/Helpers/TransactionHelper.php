@@ -13,7 +13,7 @@ trait TransactionHelper
 			['date' => $date], 
 			['office_id' => $office_id],
 			['document_id' => $document_id], 
-			['by' => !empty($request->by) ? $request->by : $by ]
+			['by' => $request->by ?? $by ]
 		));
             // Create a new receive transaction if the destination office has registered users.
 		if ($request->task === 'O') {
@@ -32,7 +32,8 @@ trait TransactionHelper
 					'action_to_be_taken' => $transaction->action_to_be_taken,
 					'by'                =>  $by,
 					'office_id'         =>  $transaction->from_to_office,
-					'pending'           =>  1
+					'pending'           =>  1,
+					'parent_id'			=> $transaction->id
 				];
 				$repository->create($received);
 			}

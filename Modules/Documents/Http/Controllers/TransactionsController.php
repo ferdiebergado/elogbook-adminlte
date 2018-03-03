@@ -16,6 +16,7 @@ use Modules\Documents\Criteria\TransactionsNotPendingCriteria;
 use Modules\Documents\Criteria\TransactionsByUserCriteria;
 use Illuminate\Support\Facades\DB;
 use Modules\Users\Entities\User;
+use Carbon\Carbon;
 /**
  * Class TransactionsController.
  *
@@ -39,10 +40,8 @@ class TransactionsController extends Controller
     }
     public function home()
     {
-        $this->repository->pushCriteria(TransactionRelationsCriteria::class);
         $this->repository->pushCriteria(TransactionsByUserCriteria::class);
-        $this->repository->pushCriteria(TransactionsNotPendingCriteria::class);
-        $transactions = $this->repository->orderBy('updated_at', 'desc')->paginate(10);
+        $transactions = $this->repository->with(['document', 'document.doctype', 'editor'])->notPending()->latest()->simplePaginate(5);
         return view('documents::home', compact('transactions'));        
     }
     /**
@@ -52,20 +51,20 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        $this->repository->pushCriteria(TransactionsByOfficeCriteria::class);
-        $this->repository->pushCriteria(TransactionRelationsCriteria::class);
-        $this->repository->pushCriteria(MultiSortCriteria::class);
         $request = app()->make('request');
+        $this->validate($request, [
+            'task' => \Illuminate\Validation\Rule::in(config('documents.tasks'))
+        ]);
+        $model = $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id);
         $task = $request->task;
         if (($task === 'I') || ($task === 'O')) {
-            $this->repository->pushCriteria(new TransactionsByTaskCriteria($task));
+            $model = $model->getByTask($task)->notPending();
         }
         if ($task === 'P') {
-            $this->repository->pushCriteria(PendingTransactionsCriteria::class);
+            $model = $model->pending();
         }
-        $this->repository->pushCriteria(MultiSortCriteria::class);
         $perPage = $this->getRequestLength($request);    
-        $transactions = $this->repository->paginate($perPage);        
+        $transactions = $this->sortFields($request, $model)->paginate($perPage);        
         if (request()->wantsJson()) {
             return response()->json([
                 'draw' => $request->draw,
@@ -87,6 +86,7 @@ class TransactionsController extends Controller
             'document_id' => 'required|integer'
         ]);
         $transaction = $this->repository->with('document')->findByField('document_id', (int) $request->document_id, ['document_id'])->first();
+        $transaction->date = Carbon::now()->addMinute();
         $transaction->pending = 0;
         return view('documents::transactions.create', compact('transaction'));
     }      
@@ -136,8 +136,7 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        $this->repository->pushCriteria(TransactionRelationsCriteria::class);        
-        $transaction = $this->repository->find($id);        
+        $transaction = $this->repository->with(['document', 'document.doctype', 'target_office'])->find($id);        
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $transaction,
@@ -169,10 +168,18 @@ class TransactionsController extends Controller
      */
     public function update(TransactionUpdateRequest $request, $id)
     {
+        DB::beginTransaction();
         try {
             $date = $this->formatDates($request->task_date, $request->task_time);
             $office_id = auth()->user()->office_id;
-            $transaction = $this->repository->update(array_merge($request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), ['date' => $date], ['office_id' => $office_id]), $id);            
+            $transaction = $this->repository->update(array_merge(
+                $request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), 
+                ['date' => $date], 
+                ['office_id' => $office_id]
+            ), $id);            
+            // Update the parent transaction with the name of the receiver.
+            $this->repository->update(['by' => $request->by], $transaction->parent_id);
+            DB::commit();
             $response = [
                 'message' => 'Transaction updated.',
                 'data'    => $transaction,
@@ -182,6 +189,7 @@ class TransactionsController extends Controller
             }
             return redirect()->route('transactions.index')->with('message', $response['message']);
         } catch (ValidationException $e) {
+            DB::rollback();
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,
@@ -190,6 +198,7 @@ class TransactionsController extends Controller
             }
             return redirect()->back()->withErrors($e->errorBag())->withInput();
         } catch(Exception $e) {
+            DB::rollback();
             throw $e;
         }
     }
@@ -221,6 +230,7 @@ class TransactionsController extends Controller
     public function receive($id)
     {
         $transaction = $this->repository->find($id);
+        $transaction->date = $transaction->date->addMinute();
         $transaction->by = auth()->user()->name;        
         $transaction->pending = 0;             
         return view('documents::transactions.edit', compact('transaction'));
@@ -237,10 +247,9 @@ class TransactionsController extends Controller
         $transaction = $this->repository->find($id);
         $transaction->task = 'O';   
         $transaction->from_to_office = 0;
-        $transaction->date = \Carbon\Carbon::now();
+        $transaction->date = Carbon::now();
         $transaction->action = '';
         $transaction->action_to_be_taken = '';
-        $transaction->by = auth()->user()->name;
         $transaction->pending = 0;
         return view('documents::transactions.create', compact('transaction'));
     }      

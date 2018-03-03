@@ -11600,7 +11600,7 @@ $(function () {
     });
   }
   // Focus the first element that has an error.
-  $(':input.error:first').focus();
+  $('.has-error:first input').focus();
   // Automatically center on screen the input element on focus
   // $(':input:not(select)').focus(function () {
   $('input:text,textarea').focus(function () {

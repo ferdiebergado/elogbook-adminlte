@@ -3,7 +3,7 @@ namespace Modules\Documents\Http\ViewComposers;
 use Illuminate\View\View;
 use Modules\Documents\Entities\Office;
 use Illuminate\Support\Facades\Cache;
-class ActiveOfficesComposer
+class ActiveOfficesCountComposer
 {
     /**
      * The user repository implementation.
@@ -29,9 +29,9 @@ class ActiveOfficesComposer
      */
     public function compose(View $view)
     {
-        $active_offices = Cache::remember('active_offices', '30', function () {
-            return $this->offices->with(['bureauservice', 'strand'])->has('users')->orderBy('name')->paginate(10);
+        $active_offices_count = Cache::remember('active_offices_count', '30', function () {
+            return $this->offices->has('users')->count();
         });
-        $view->with(compact('active_offices'));
+        $view->with(compact('active_offices_count'));
     }
 }

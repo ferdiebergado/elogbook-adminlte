@@ -23,11 +23,20 @@ class Transaction extends BaseModel
         'action_to_be_taken',
     	'by',
         'office_id',
-        'pending'
+        'pending',
+        'parent_id'
     ];
     protected $dates = [
     	'date'
-    ];    
+    ];   
+    // public function getByAttribute($value) 
+    // {
+    //     if (is_numeric($value)) {
+    //         return $this->user->name;
+    //     } else {
+    //         return $value;
+    //     }
+    // }
     public function document()
     {
     	return $this->belongsTo(Document::class)->withDefault();

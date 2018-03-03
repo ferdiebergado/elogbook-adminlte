@@ -10,7 +10,7 @@ TRANSACTIONS
 @endsection
 @section('content')
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	
-	<div class="table table-responsive">
+	<div class="table-responsive">
 		<table id="transactions-table" class="table table-hover table-striped table-condensed dataTable js-exportable" style="font-size: 1.3rem;"></table>
 	</div>
 </div>

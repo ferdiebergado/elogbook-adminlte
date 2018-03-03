@@ -11,5 +11,6 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface DocumentRepository extends RepositoryInterface
 {
-
+	public function getByOffice($id);
+	public function latest();
 }

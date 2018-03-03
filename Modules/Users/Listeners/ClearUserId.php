@@ -6,6 +6,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Users\Events\UserAmended;
 use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Support\Facades\Cache;
 
 class ClearUserId
 {
@@ -28,5 +29,7 @@ class ClearUserId
     public function handle(UserAmended $event)
     {
         $this->cache->forget('user_by_id_'.$event->model->id);        
+        Cache::forget('active_offices');
+        Cache::forget('active_offices_count');
     }
 }
