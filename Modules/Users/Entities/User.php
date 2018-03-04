@@ -30,7 +30,7 @@ class User extends Authenticatable
         'saved' => UserAmended::class,
         'deleted' => UserAmended::class,
         'updated' => UserAmended::class,
-    ];    
+    ];      
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);

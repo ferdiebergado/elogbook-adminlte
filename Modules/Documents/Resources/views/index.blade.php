@@ -35,7 +35,7 @@ documents-table
 @slot('datatablewith')
 @endslot
 @slot('datatabletargetcol')
-6
+7
 @endslot
 @slot('ellipsiscol')
 2
@@ -64,6 +64,11 @@ documents-table
 	name:   'created_at',
 	title:  'Date Created',
 	data:   'created_at' 
+},
+{  
+	name:   'updated_at',
+	title:  'Date Updated',
+	data:   'updated_at' 
 },
 {   
 	name:   'creator.name',

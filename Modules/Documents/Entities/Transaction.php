@@ -29,6 +29,12 @@ class Transaction extends BaseModel
     protected $dates = [
     	'date'
     ];   
+    /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['document'];    
     // public function getByAttribute($value) 
     // {
     //     if (is_numeric($value)) {

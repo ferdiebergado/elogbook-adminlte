@@ -30,7 +30,7 @@ class ActiveOfficesComposer
     public function compose(View $view)
     {
         $active_offices = Cache::remember('active_offices', '30', function () {
-            return $this->offices->with(['bureauservice', 'strand'])->has('users')->orderBy('name')->paginate(10);
+            return $this->offices->with(['bureauservice', 'strand', 'users'])->has('users')->orderBy('name')->paginate(10);
         });
         $view->with(compact('active_offices'));
     }

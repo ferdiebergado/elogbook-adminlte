@@ -46,6 +46,6 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
     }
     public function latest()
     {
-        return $this->model->latest();
+        return $this->model->latest('updated_at');
     }
 }

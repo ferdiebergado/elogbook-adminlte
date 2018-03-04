@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Modules\Documents\Http\Requests\TransactionCreateRequest;
 use Modules\Documents\Http\Requests\TransactionUpdateRequest;
 use Modules\Documents\Repositories\TransactionRepository;
+use Modules\Documents\Repositories\DocumentRepository;
 use Illuminate\Validation\ValidationException;
 use Exception;
 use Modules\Documents\Criteria\TransactionsByTaskCriteria;
@@ -28,22 +29,35 @@ class TransactionsController extends Controller
     /**
      * @var TransactionRepository
      */
-    protected $repository;
+    protected $repository, $document_repository;
     /**
      * TransactionsController constructor.
      *
      * @param TransactionRepository $repository
      */
-    public function __construct(TransactionRepository $repository)
+    public function __construct(TransactionRepository $repository, DocumentRepository $document_repository)
     {
         $this->repository = $repository;
+        $this->document_repository = $document_repository;
     }
     public function home()
     {
+        $documents = $this->document_repository->whereHas('transactions', function($q) {
+            $q->where('office_id', auth()->user()->office_id);
+        })->all(['id']);
         $this->repository->pushCriteria(TransactionsByUserCriteria::class);
-        $transactions = $this->repository->with(['document', 'document.doctype', 'editor'])->notPending()->latest()->simplePaginate(5);
+        $transactions = $this->repository->whereHas('document', function ($q) use ($documents) {
+            $list = $documents->pluck('id')->toArray();
+            if ($documents->count() > 1) {
+                $list = implode(',', $list);
+                $q->whereIn('id', (array) $list);
+            } else {
+                $q->where('id', (int) $list[0]);
+            }
+        })->notPending()->latest()->simplePaginate(5);
+        // $transactions = $this->repository->notPending()->latest()->simplePaginate(5);
         return view('documents::home', compact('transactions'));        
-    }
+}
     /**
      * Display a listing of the resource.
      *
@@ -55,14 +69,8 @@ class TransactionsController extends Controller
         $this->validate($request, [
             'task' => \Illuminate\Validation\Rule::in(config('documents.tasks'))
         ]);
-        $model = $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id);
         $task = $request->task;
-        if (($task === 'I') || ($task === 'O')) {
-            $model = $model->getByTask($task)->notPending();
-        }
-        if ($task === 'P') {
-            $model = $model->pending();
-        }
+        $model = $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id)->getByTask($task);
         $perPage = $this->getRequestLength($request);    
         $transactions = $this->sortFields($request, $model)->paginate($perPage);        
         if (request()->wantsJson()) {

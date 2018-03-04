@@ -3,7 +3,6 @@ namespace Modules\Documents\Entities;
 // use Illuminate\Database\Eloquent\Model;
 use App\BaseModel;
 use Modules\Users\Entities\User;
-use Modules\Documents\Entities\Transaction;
 class Office extends BaseModel
 {
 	use \Wildside\Userstamps\Userstamps;

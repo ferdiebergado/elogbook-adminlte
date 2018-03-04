@@ -30,7 +30,7 @@ class ActiveOfficesCountComposer
     public function compose(View $view)
     {
         $active_offices_count = Cache::remember('active_offices_count', '30', function () {
-            return $this->offices->has('users')->count();
+            return $this->offices->with(['users'])->has('users')->count();
         });
         $view->with(compact('active_offices_count'));
     }

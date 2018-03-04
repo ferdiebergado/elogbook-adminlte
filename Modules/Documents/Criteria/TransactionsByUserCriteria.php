@@ -22,7 +22,7 @@ class TransactionsByUserCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->whereHas('creator', function($query) {
+        return $model->with(['document', 'document.doctype', 'creator', 'editor'])->whereHas('creator', function($query) {
             $query->where('office_id', auth()->user()->office_id);
         })->orWhereHas('editor', function($query) {
             $query->where('office_id', auth()->user()->office_id);

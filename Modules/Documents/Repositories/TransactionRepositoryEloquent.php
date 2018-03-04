@@ -50,12 +50,25 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
     }
     public function getByTask($task)
     {
-        return $this->model->where('task', $task);
+        if (($task === 'I') || ($task === 'O')) {
+            return $this->model->where('task', $task)->where('pending', 0);
+        }
+        if ($task === 'P') {
+            return $this->model->where('pending', 1);
+        }        
     }
     public function getByDocument($id)
     {
         return $this->model->where('document_id', $id);
     }
+    // public function getByUserOffice($id)
+    // {
+    //     return $this->model->with(['creator', 'editor'])->whereHas('creator', function($query) use(&$id) {
+    //         $query->where('office_id', $id);
+    //     })->orWhereHas('editor', function($query) use(&$id) {
+    //         $query->where('office_id', $id);
+    //     });        
+    // }
     public function notPending()
     {
         return $this->model->where('pending', 0);

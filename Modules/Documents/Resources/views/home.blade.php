@@ -15,8 +15,8 @@ Recent Activities
 		<div class="box box-widget">
 			<div class="box-header with-border">
 				<div class="user-block">
-					<img class="img-circle" src="{{ url('/storage/avatars') . '/' . $transaction->editor->avatar }}" alt="User Image">
-					<span class="username"><a href="#">{{ $transaction->editor->name }}</a></span>
+					<img class="img-circle" src="{{ url('/storage/avatars') . '/' . $transaction->creator->avatar }}" alt="User Image">
+					<span class="username"><a href="#">{{ $transaction->creator->name }}</a></span>
 					<span class="description">{{ $transaction->task === 'I' ? 'Received' : 'Released' }} {{ $transaction->updated_at->diffForHumans() }}</span>
 				</div>
 				<!-- /.user-block -->
