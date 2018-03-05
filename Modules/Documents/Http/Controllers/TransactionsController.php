@@ -46,11 +46,12 @@ class TransactionsController extends Controller
             $q->where('office_id', auth()->user()->office_id);
         })->all(['id']);
         $this->repository->pushCriteria(TransactionsByUserCriteria::class);
-        $transactions = $this->repository->whereHas('document', function ($q) use ($documents) {
+        $transactions = $this->repository->with('document', function ($q) use ($documents) {
             $list = $documents->pluck('id')->toArray();
             if ($documents->count() > 1) {
                 $list = implode(',', $list);
-                $q->whereIn('id', (array) $list);
+                $q->whereIn('id', [$list]);
+                dd($q->get());
             } else {
                 $q->where('id', (int) $list[0]);
             }
@@ -70,7 +71,8 @@ class TransactionsController extends Controller
             'task' => \Illuminate\Validation\Rule::in(config('documents.tasks'))
         ]);
         $task = $request->task;
-        $model = $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id)->getByTask($task);
+        $this->repository->pushCriteria(new TransactionsByTaskCriteria($task));
+        $model = $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id);
         $perPage = $this->getRequestLength($request);    
         $transactions = $this->sortFields($request, $model)->paginate($perPage);        
         if (request()->wantsJson()) {
@@ -111,7 +113,7 @@ class TransactionsController extends Controller
     {
         DB::beginTransaction();
         try {
-            $transaction = $this->storeTransaction($request, $request->document_id, $this->repository);
+            $transaction = $this->repository->store($request, $request->document_id);
             $response = [
                 'message' => 'Transaction created.',
                 'data'    => $transaction,

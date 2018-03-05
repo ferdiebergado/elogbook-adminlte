@@ -106,7 +106,7 @@ class DocumentsController extends Controller
             throw $e;            
         }
         try {
-            $transaction = $this->storeTransaction($request, $document->id, $this->transaction_repository);
+            $transaction = $this->transaction_repository->store($request, $document->id);
         } catch(ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([

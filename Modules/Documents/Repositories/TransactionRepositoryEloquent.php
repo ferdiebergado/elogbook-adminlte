@@ -11,6 +11,7 @@ use Modules\Documents\Entities\Transaction;
  */
 class TransactionRepositoryEloquent extends BaseRepository implements TransactionRepository
 {
+    use \App\Http\Helpers\DateHelper;
     /**
      * @var array
      */
@@ -33,10 +34,6 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
     {
         return Transaction::class;
     }
-    // public function presenter()
-    // {
-    //     return 'Modules\\Documents\\Presenters\\TransactionPresenter';
-    // }
     /**
      * Boot up the repository, pushing criteria
      */
@@ -61,14 +58,6 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
     {
         return $this->model->where('document_id', $id);
     }
-    // public function getByUserOffice($id)
-    // {
-    //     return $this->model->with(['creator', 'editor'])->whereHas('creator', function($query) use(&$id) {
-    //         $query->where('office_id', $id);
-    //     })->orWhereHas('editor', function($query) use(&$id) {
-    //         $query->where('office_id', $id);
-    //     });        
-    // }
     public function notPending()
     {
         return $this->model->where('pending', 0);
@@ -81,4 +70,41 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
     {
         return $this->model->latest('date');
     }
+    public function store($request, $document_id)
+    {
+        $date = $this->formatDates($request->task_date, $request->task_time);
+        $office_id = auth()->user()->office_id;
+        $by = config('documents.PENDING');
+        $transaction = $this->create(array_merge(
+            $request->only('task', 'from_to_office', 'action', 'action_to_be_taken', 'pending'), 
+            ['date' => $date], 
+            ['office_id' => $office_id],
+            ['document_id' => $document_id], 
+            ['by' => $request->by ?? $by ]
+        ));
+        // Create a new receive transaction if the destination office has registered users.
+        if ($request->task === 'O') {
+            $office = \Modules\Documents\Entities\Office::find($request->from_to_office);
+            if ($office->users()->where('name', '<>', null)->count() >= 1) {                    
+                $user = \Modules\Users\Entities\User::where('name', $transaction->by)->value('name');
+                if (!empty($user)) {
+                    $by = $user;
+                }
+                $received = [
+                    'task'              =>  'I',
+                    'document_id'       =>  $transaction->document_id,
+                    'from_to_office'    =>  $office_id,
+                    'date'              =>  $transaction->date->addMinute(),
+                    'action'            =>  config('documents.PENDING'),
+                    'action_to_be_taken' => $transaction->action_to_be_taken,
+                    'by'                =>  $by,
+                    'office_id'         =>  $transaction->from_to_office,
+                    'pending'           =>  1,
+                    'parent_id'         => $transaction->id
+                ];
+                $repository->create($received);
+            }
+        }   
+        return $transaction;
+    }    
 }
