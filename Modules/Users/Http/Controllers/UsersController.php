@@ -2,11 +2,8 @@
 namespace Modules\Users\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use Prettus\Validator\Contracts\ValidatorInterface;
-// use Prettus\Validator\Exceptions\ValidatorException;
 use Modules\Users\Http\Requests\UserUpdateRequest;
 use Modules\Users\Repositories\UserRepository;
-// use Modules\Users\Validators\UserValidator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
@@ -18,14 +15,9 @@ class UsersController extends Controller
      * @var UserRepository
      */
     protected $repository;
-    /**
-     * @var UserValidator
-     */
-    // protected $validator;
     public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
-        // $this->validator  = $validator;
     }
     /**
      * Display a listing of the resource.
@@ -53,7 +45,6 @@ class UsersController extends Controller
     public function store(UserCreateRequest $request)
     {
         try {
-            // $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
             $user = $this->repository->create($request->all());
             $response = [
                 'message' => 'User created.',
@@ -84,7 +75,6 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        // $user = $this->repository->getUserById($id);
         $user = $this->repository->find($id);
         if (request()->wantsJson()) {
             return response()->json([
@@ -168,7 +158,6 @@ class UsersController extends Controller
     public function avatar(Request $request, $id)
     {
         try {
-            // $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);        
             $this->validate($request, [
                 'avatar' => 'required|file|image|mimes:jpeg,jpg,png|max:512'
             ]);

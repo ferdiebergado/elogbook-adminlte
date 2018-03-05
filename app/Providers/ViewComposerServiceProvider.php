@@ -45,6 +45,9 @@ class ViewComposerServiceProvider extends ServiceProvider
         View::composer(
             ['documents::transactions.partial'], 'Modules\Documents\Http\ViewComposers\ActionsComposer'
         );         
+        View::composer(
+            ['layouts.master'], 'App\Http\ViewComposers\VersionComposer'
+        );         
         // Using Closure based composers...
         //View::composer('dashboard', function ($view) {
             //

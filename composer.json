@@ -7,6 +7,7 @@
     "require": {
         "php": ">=7.0.0",
         "bestmomo/laravel-email-confirmation": "^1.1",
+        "encore/laravel-admin": "^1.5",
         "fideloper/proxy": "~3.3",
         "genealabs/laravel-model-caching": "^0.2.18",
         "laravel/framework": "5.5.*",

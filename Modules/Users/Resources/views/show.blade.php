@@ -162,25 +162,40 @@ User Profile
 					<div class="form-group">
 						<label for="old_password" class="col-sm-4 control-label">Current Password</label>
 						<div class="col-sm-8">
-							<input type="password" class="form-control" id="old_password" name="old_password" placeholder="Current Password" }}" required>
+							<div class="input-group">								
+								<span class="input-group-addon">									
+									<i class="fa fa-key"></i>
+								</span>
+									<input type="password" class="form-control" id="old_password" name="old_password" placeholder="Current Password" }}" required>
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="password" class="col-sm-4 control-label">New Password</label>
 						<div class="col-sm-8">
+							<div class="input-group">
+								<span class="input-group-addon">									
+									<i class="fa fa-lock"></i>
+								</span>								
 							<input type="password" class="form-control" id="password" name="password" placeholder="New Password" }}" required>
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="password_confirmation" class="col-sm-4 control-label">Confirm New Password</label>
 						<div class="col-sm-8">
+							<div class="input-group">
+								<span class="input-group-addon">									
+									<i class="fa fa-lock"></i>
+								</span>								
 							<input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm New Password" }}" required>
+						</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Save</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary"><span><i class="fa fa-save"></i></span> SAVE</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><span><i class="fa fa-ban"></i></span> CLOSE</button>
 				</form>        
 			</div>
 		</div>
