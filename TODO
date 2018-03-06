@@ -14,26 +14,30 @@
 - add shortcut buttons (NEW TRANSACTION ON VIEW DOCUMENT) + fix redirect back (OK)
 - fix receive/release redirect on save (OK)
 - next button on active offices (OK)
+- split views with composers (OK)
+- refactor viewcomposers (OK)
+- VERSION (OK)
+- fix csv seeders (OK)
+- logins table (OK)
+- Exception Reporter (OK)
+- revert: Criterias into repository methods (OK: Selective)
+- move url(storage/avatars) to users.config (STET)
 - use presenter (not feasible)
 - auditing (not necessary)
-- Cancel/Reject transaction (???)
-- edit button for users (???)
+- user show with activities (documents::home) (not needed)
+- Cancel/Reject transaction (???) (not needed)
+- edit button for users (???) (not needed)
+- Clear avatar button (optional)
+- Upload avatar button (optional)
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
-- revert: Criterias into repository methods
-- split views with composers
-- refactor viewcomposers
+- FIX transactions.show
 - replace transaction history table with datatable
 - use datatable for active offices
-- Clear avatar button
-- Upload avatar button
-- VERSION
-- move url(storage/avatars) to users.config
-- fix csv seeders
 - ajax user datalist
 - gate policies
-- admin (terminal, log viewer, sneaker)
+- admin (terminal, log viewer)
 - User Guide
 - Unit Tests
 ### END OF PENDING TASKS ###

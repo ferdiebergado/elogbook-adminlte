@@ -2,7 +2,7 @@
 namespace Modules\Users\Http\ViewComposers;
 use Illuminate\View\View;
 use Modules\Users\Entities\User;
-// use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cache;
 class UsersComposer
 {
     /**
@@ -29,7 +29,9 @@ class UsersComposer
      */
     public function compose(View $view)
     {
-        $users = $this->users->orderBy('name')->get(['id', 'name']);
+        $users = Cache::remember('users', '60', function() {
+            return $this->users->orderBy('name')->get(['id', 'name']);
+        });            
         $view->with(compact('users'));
     }
 }

@@ -16,7 +16,7 @@ Enter new email and password.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-envelope"></i>
                 </span>             
-                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" maxlength="150" required autofocus>
+                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" placeholder="Email" maxlength="150" required autofocus>
                 @if ($errors->has('email'))
                 <span class="help-block">
                     <strong>{{ $errors->first('email') }}</strong>
@@ -32,7 +32,7 @@ Enter new email and password.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-key"></i>
                 </span>             
-                <input id="password" type="password" class="form-control" name="password" maxlength="150" required>
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password" maxlength="150" required>
                 @if ($errors->has('password'))
                 <span class="help-block">
                     <strong>{{ $errors->first('password') }}</strong>
@@ -48,7 +48,7 @@ Enter new email and password.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-key"></i>
                 </span>             
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" maxlength="150" required>
+                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password" maxlength="150" required>
                 @if ($errors->has('password_confirmation'))
                 <span class="help-block">
                     <strong>{{ $errors->first('password_confirmation') }}</strong>

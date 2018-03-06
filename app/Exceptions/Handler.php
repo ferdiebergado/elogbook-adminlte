@@ -4,7 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ExceptionReport;
 class Handler extends ExceptionHandler
 {
     /**
@@ -24,6 +25,7 @@ class Handler extends ExceptionHandler
     protected $dontFlash = [
         'password',
         'password_confirmation',
+        'old_password',
     ];
 
     /**
@@ -36,6 +38,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($this->shouldReport($exception)) {
+            Mail::to(config('app.email'))->send(new ExceptionReport($exception));
+        }
         parent::report($exception);
     }
 

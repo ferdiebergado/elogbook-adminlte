@@ -3,7 +3,7 @@
 User Profile
 @endsection
 @section('breadcrumb')
-	@include('users::includes.breadcrumbs.user')
+@include('users::includes.breadcrumbs.user')
 @endsection
 @section('title')
 @yield('page-title')
@@ -29,7 +29,7 @@ User Profile
 						<b>Total</b> <a class="pull-right"><span class="label label-default">{{ $total }}</span></a>
 					</li>
 				</ul>
-				<a id="change-password" href="#" class="btn btn-primary btn-block"><b>Change Password</b></a>
+				<a id="change-password" href="#" class="btn btn-primary btn-block"><b><span><i class="fa fa-unlock-alt"></i></span> CHANGE PASSWORD</b></a>
 			</div>
 			<!-- /.box-body -->
 		</div>
@@ -39,13 +39,14 @@ User Profile
 	<div class="col-md-9">
 		<div class="nav-tabs-custom">
 			<ul id="profile-tab" class="nav nav-tabs">
-				<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-				<li><a href="#timeline" data-toggle="tab">Timeline</a></li>
-				<li><a href="#account" data-toggle="tab">Account Details</a></li>
+{{-- 				<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
+				<li><a href="#timeline" data-toggle="tab">Timeline</a></li> --}}
+				<li class="active"><a href="#account" data-toggle="tab">Account Details</a></li>
 			</ul>
 			<div class="tab-content">
 				<!-- ACCOUNT DETAILS -->
-				<div class="tab-pane {{ Route::currentRouteName() === 'users.edit' ? 'active' : '' }}"" id="account">
+				{{-- <div class="tab-pane {{ Route::currentRouteName() === 'users.edit' ? 'active' : '' }}" id="account"> --}}
+					<div class="tab-pane active" id="account">
 					<div class="container-fluid">						
 						<form class="form-horizontal" method="POST" action="{{ route('users.update', $user->id) }}" autocomplete>
 							{{ csrf_field() }}
@@ -54,7 +55,12 @@ User Profile
 								<div class="form-group">
 									<label for="name" class="col-sm-2 control-label">Name</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{  isset($user->name) ? $user->name : old('name') }}" required>
+										<div class="input-group">
+											<span class="input-group-addon">									
+												<i class="fa fa-user"></i>
+											</span>											
+											<input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{  isset($user->name) ? $user->name : old('name') }}" required>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -62,7 +68,12 @@ User Profile
 								<div class="form-group">
 									<label for="email" class="col-sm-2 control-label">Email</label>
 									<div class="col-sm-6">
-										<input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ isset($user->email) ? $user->email : old('email') }}" required>
+										<div class="input-group">
+											<span class="input-group-addon">									
+												<i class="fa fa-envelope"></i>
+											</span>											
+											<input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ isset($user->email) ? $user->email : old('email') }}" required>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -70,15 +81,20 @@ User Profile
 								<div class="form-group">
 									<label for="jobtitle_id" class="col-sm-2 control-label">Job Title</label>
 									<div class="col-sm-6">
-										@component('documents::components.select2', ['field' => $user->jobtitle_id, 'name' => 'jobtitle_id', 'rows' => $jobtitles])
-										@slot('id')
-										jobtitle_id
-										@endslot
-										@slot('prompt')
-										    a Job Title
-										@endslot
-										required
-										@endcomponent
+										<div class="input-group">
+											<span class="input-group-addon">									
+												<i class="fa fa-user-md"></i>
+											</span>											
+											@component('documents::components.select2', ['field' => $user->jobtitle_id, 'name' => 'jobtitle_id', 'rows' => $jobtitles])
+											@slot('id')
+											jobtitle_id
+											@endslot
+											@slot('prompt')
+											a Job Title
+											@endslot
+											required
+											@endcomponent
+										</div>
 									</div>
 								</div>
 							</div>
@@ -86,24 +102,30 @@ User Profile
 							<div class="row">			
 								<div class="form-group">
 									<label for="office_id" class="col-sm-2 control-label">Office</label>	
-									<div class="col-xs-10 col-sm-10 col-md-6 col-lg-6">							
-										@component('documents::components.select2', ['field' => $user->office_id, 'name' => 'office_id', 'rows' => $offices])
-										@slot('id')
-										office_id
-										@endslot
-										@slot('prompt')
-										    an office
-										@endslot
-										required
-										@endcomponent
-									</div>							
+									{{-- <div class="col-xs-10 col-sm-10 col-md-6 col-lg-6">							 --}}
+										<div class="col-sm-6">
+										<div class="input-group">
+											<span class="input-group-addon">									
+												<i class="fa fa-building"></i>
+											</span>											
+											@component('documents::components.select2', ['field' => $user->office_id, 'name' => 'office_id', 'rows' => $offices])
+											@slot('id')
+											office_id
+											@endslot
+											@slot('prompt')
+											an office
+											@endslot
+											required
+											@endcomponent
+										</div>					
+									</div>		
 								</div>					
 							</div>
 							<!-- END OFFICE -->
 							<div class="row">										
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" class="btn btn-flat btn-primary">Save</button>
+										<button type="submit" class="btn btn-flat btn-primary"><span><i class="fa fa-save"></i></span> <b>SAVE</b></button>
 									</div>
 								</div>
 							</div>
@@ -126,7 +148,7 @@ User Profile
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title"><b>CHANGE AVATAR</b></h4>
+				<h4 class="modal-title"><b><span><i class="fa fa-user"></i></span> CHANGE AVATAR</b></h4>
 			</div>
 			<div class="modal-body">
 				<form id="avatar-form" method="POST" action="{{ route('user.avatar', $user->id) }}" enctype="multipart/form-data">
@@ -139,8 +161,8 @@ User Profile
 					<p class="help-block">Upload .jpeg, .jpg or .png files only. File size should be less than 500 kb.</p>
 				</div>
 				<div class="modal-footer">
-					<button id="btnAvatar" type="submit" class="btn btn-primary">Save</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id="btnAvatar" type="submit" class="btn btn-primary"><span><i class="fa fa-save"></i></span><b> SAVE</b></button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><span><i class="fa fa-ban"></i></span> Close</button>
 				</form>        
 			</div>
 		</div>
@@ -153,7 +175,7 @@ User Profile
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title"><b>CHANGE PASSWORD</b></h4>
+				<h4 class="modal-title"><b><span><i class="fa fa-unlock-alt"></i></span> CHANGE PASSWORD</b></h4>
 			</div>
 			<div class="modal-body">
 				<form id="encryptableform" class="form-horizontal" method="POST" action="{{ route('users.update', $user->id) }}" >
@@ -166,7 +188,7 @@ User Profile
 								<span class="input-group-addon">									
 									<i class="fa fa-key"></i>
 								</span>
-									<input type="password" class="form-control" id="old_password" name="old_password" placeholder="Current Password" }}" required>
+								<input type="password" class="form-control" id="old_password" name="old_password" placeholder="Current Password" }}" required>
 							</div>
 						</div>
 					</div>
@@ -177,7 +199,7 @@ User Profile
 								<span class="input-group-addon">									
 									<i class="fa fa-lock"></i>
 								</span>								
-							<input type="password" class="form-control" id="password" name="password" placeholder="New Password" }}" required>
+								<input type="password" class="form-control" id="password" name="password" placeholder="New Password" }}" required>
 							</div>
 						</div>
 					</div>
@@ -188,13 +210,13 @@ User Profile
 								<span class="input-group-addon">									
 									<i class="fa fa-lock"></i>
 								</span>								
-							<input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm New Password" }}" required>
-						</div>
+								<input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm New Password" }}" required>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary"><span><i class="fa fa-save"></i></span> SAVE</button>
+					<button type="submit" class="btn btn-primary"><b><span><i class="fa fa-save"></i></span> SAVE</b></button>
 					<button type="button" class="btn btn-default" data-dismiss="modal"><span><i class="fa fa-ban"></i></span> CLOSE</button>
 				</form>        
 			</div>

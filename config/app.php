@@ -239,6 +239,7 @@ return [
 
     'salt' => env('APP_SALT', 'i8ZGKfgqIeFVjPvnZrAMUWQdBIIVyUOr'),
     'author' => 'Ferdinand Saporas Bergado',
+    'email' => 'ferdiebergado@gmail.com',
     'version' => '1.0.0',
     'release' => 'alpha',
     'pages' => [
@@ -246,4 +247,5 @@ return [
                     'facebook'  =>  'https://www.facebook.com/ferdie.bergado',
                     'msit'      =>  'https://www.pup.edu.ph/gs/msit.aspx'
                 ],
+    'theme' => 'purple',
 ];

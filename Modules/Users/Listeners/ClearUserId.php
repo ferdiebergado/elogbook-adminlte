@@ -29,7 +29,6 @@ class ClearUserId
     public function handle(UserAmended $event)
     {
         $this->cache->forget('user_by_id_'.$event->model->id);        
-        Cache::forget('active_offices');
-        Cache::forget('active_offices_count');
+        Cache::forget('users');
     }
 }

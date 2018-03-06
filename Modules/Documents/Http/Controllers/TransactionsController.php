@@ -51,12 +51,10 @@ class TransactionsController extends Controller
             if ($documents->count() > 1) {
                 $list = implode(',', $list);
                 $q->whereIn('id', [$list]);
-                dd($q->get());
             } else {
                 $q->where('id', (int) $list[0]);
             }
         })->notPending()->latest()->simplePaginate(5);
-        // $transactions = $this->repository->notPending()->latest()->simplePaginate(5);
         return view('documents::home', compact('transactions'));        
 }
     /**

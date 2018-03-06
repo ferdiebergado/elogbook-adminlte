@@ -7,6 +7,7 @@ use Modules\Documents\Entities\Office;
 use Modules\Documents\Entities\Document;
 use Modules\Users\Entities\Jobtitle;
 use Modules\Documents\Entities\Transaction;
+use Modules\Auth\Entities\Login;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -21,7 +22,8 @@ class User extends Authenticatable
         'password', 
         'jobtitle_id', 
         'avatar', 
-        'office_id'
+        'office_id',
+        'last_login'
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -33,10 +35,19 @@ class User extends Authenticatable
         'remember_token',
     ];
     protected $dispatchesEvents = [
+        'created' => UserAmended::class,
         'saved' => UserAmended::class,
         'deleted' => UserAmended::class,
         'updated' => UserAmended::class,
     ];      
+    /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = [
+        'office'
+    ];    
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
@@ -68,5 +79,9 @@ class User extends Authenticatable
     public function transactions()
     {
         return $this->hasMany(Transaction::class, 'updated_by');
+    }
+    public function logins()
+    {
+        return $this->hasMany(Login::class);
     }
 }

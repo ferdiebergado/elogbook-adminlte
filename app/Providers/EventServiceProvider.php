@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'Modules\Users\Events\UserAmended' => [
             'Modules\Users\Listeners\ClearUserId',
         ],
+        'Illuminate\Auth\Events\Login' => [
+            'Modules\Auth\Listeners\LoginListener',
+        ]
     ];
 
     /**

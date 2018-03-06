@@ -34,13 +34,15 @@ class Transaction extends BaseModel
      *
      * @var array
      */
-    protected $touches = ['document'];    
-    // public function getByAttribute($value) 
+    protected $touches = [
+        'document'
+    ];    
+    // public function getByAttribute() 
     // {
-    //     if (is_numeric($value)) {
-    //         return $this->user->name;
+    //     if ($this->pending && $this->task === 'I') {
+    //         return $this->editor->name;
     //     } else {
-    //         return $value;
+    //         return $this->attributes['by'];
     //     }
     // }
     public function document()

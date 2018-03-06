@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->boolean('active')->default(1);
             $table->integer('role')->default(3);
             $table->string('avatar', 150)->nullable()->default(null);
+            $table->timestamp('last_login')->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

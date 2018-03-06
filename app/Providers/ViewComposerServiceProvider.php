@@ -16,7 +16,7 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         // Using class based composers...
         View::composer(
-            ['layouts.master', 'users::show'], 'Modules\Users\Http\ViewComposers\UserComposer'
+            ['sections.usernav', 'users::show'], 'Modules\Users\Http\ViewComposers\UserComposer'
         ); 
         View::composer(
             ['documents::transactions.partial'], 'Modules\Users\Http\ViewComposers\UsersComposer'
@@ -33,9 +33,11 @@ class ViewComposerServiceProvider extends ServiceProvider
         View::composer(
             [ 'documents::offices'], 'Modules\Documents\Http\ViewComposers\ActiveOfficesComposer'
         );          
+        // Active Offices Count
         View::composer(
             ['layouts.master'], 'Modules\Documents\Http\ViewComposers\ActiveOfficesCountComposer'
         );          
+        // Document Count
         View::composer(
             ['layouts.master'], 'Modules\Documents\Http\ViewComposers\DocumentComposer'
         );      

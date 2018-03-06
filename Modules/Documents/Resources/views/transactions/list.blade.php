@@ -13,7 +13,7 @@
 							<th class="text-center">Action Taken</th>
 							<th class="text-center">To</th>
 							<th class="text-center">Action To Be Taken</th>
-							<th class="text-center">By</th>
+							<th class="text-center">By/To</th>
 							<th class="text-center">Status</th>
 							@if ((Route::currentRouteName() === 'documents.edit') && (auth()->user()->role === 1))
 							<th class="text-center">Action(s)</th>

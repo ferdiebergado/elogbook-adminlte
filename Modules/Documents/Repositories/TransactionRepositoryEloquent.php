@@ -102,7 +102,7 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
                     'pending'           =>  1,
                     'parent_id'         => $transaction->id
                 ];
-                $repository->create($received);
+                $this->create($received);
             }
         }   
         return $transaction;

@@ -25,13 +25,13 @@ Sign-in for registered users.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-envelope"></i>
                 </span>             
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" maxlength="150" required autofocus>
-                @if ($errors->has('email'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('email') }}</strong>
-                </span>
-                @endif
+                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" maxlength="150" required autofocus>
             </div>
+            @if ($errors->has('email'))
+            <span class="help-block">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+            @endif
         </div>
     </div>
     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
@@ -41,13 +41,13 @@ Sign-in for registered users.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-key"></i>
                 </span>             
-                <input id="password" type="password" class="form-control" name="password" maxlength="150" required>
-                @if ($errors->has('password'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </span>
-                @endif
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password" maxlength="150" required>
             </div>
+            @if ($errors->has('password'))
+            <span class="help-block">
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
+            @endif
         </div>
     </div>
     <div class="form-group">

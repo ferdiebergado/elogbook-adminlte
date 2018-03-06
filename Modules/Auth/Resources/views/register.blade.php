@@ -20,13 +20,13 @@ Sign-up for an account.
                 <span class="input-group-addon">
                     <i class="fa fa-user"></i>
                 </span>             
-                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" maxlength="50" required autofocus>
-                @if ($errors->has('name'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('name') }}</strong>
-                </span>
-                @endif
+                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Name" maxlength="50" required autofocus>
             </div>
+            @if ($errors->has('name'))
+            <span class="help-block">
+                <strong>{{ $errors->first('name') }}</strong>
+            </span>
+            @endif
         </div>
     </div>
     <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
@@ -36,13 +36,13 @@ Sign-up for an account.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-envelope"></i>
                 </span>             
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" maxlength="150" required>
-                @if ($errors->has('email'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('email') }}</strong>
-                </span>          
-                @endif
+                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" maxlength="150" required>
             </div>
+            @if ($errors->has('email'))
+            <span class="help-block">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>          
+            @endif
         </div>
     </div>
     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
@@ -52,13 +52,13 @@ Sign-up for an account.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-key"></i>
                 </span>             
-                <input id="password" type="password" class="form-control" name="password" maxlength="150" required>
-                @if ($errors->has('password'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </span>
-                @endif
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password" maxlength="150" required>
             </div>
+            @if ($errors->has('password'))
+            <span class="help-block">
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
+            @endif
         </div>
     </div>
     <div class="form-group">
@@ -68,7 +68,7 @@ Sign-up for an account.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-key"></i>
                 </span>             
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" maxlength="150" required>
+                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password" maxlength="150" required>
             </div>
         </div>
     </div>

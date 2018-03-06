@@ -18,7 +18,7 @@ A document recording system made with Laravel 5.5 using Admin-LTE Template and c
 
 	`composer install`
 
-5. Install javascript dependencies.
+5. Install javascript libraries.
 
 	`yarn`
 
@@ -28,11 +28,11 @@ A document recording system made with Laravel 5.5 using Admin-LTE Template and c
 
 7. Run migrations.
 
-	`php artisan migrate && php artisan module:migrate Documents Users Auth`
+	`php artisan migrate`
 
 8. Seed the documents database.
 
-	`php artisan module:seed Documents`
+	`php artisan module:seed`
 
 9. Start development server.
 

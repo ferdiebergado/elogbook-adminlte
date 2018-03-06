@@ -196,6 +196,6 @@ $('#avatar-input').change(function() {
   $('#btnShowModal').click(function() {
       $('#modalConfirm').modal("show");      
   });
-  restoreTab('documents-tab');
+  // restoreTab('documents-tab');
   restoreTab('profile-tab');
 });

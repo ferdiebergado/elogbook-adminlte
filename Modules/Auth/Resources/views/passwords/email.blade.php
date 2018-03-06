@@ -20,7 +20,7 @@ Send a password reset link through email.
                 <span class="input-group-addon">                                    
                     <i class="fa fa-envelope"></i>
                 </span>             
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" maxlength="150" required autofocus>
+                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" maxlength="150" required autofocus>
                 @if ($errors->has('email'))
                 <span class="help-block">
                     <strong>{{ $errors->first('email') }}</strong>

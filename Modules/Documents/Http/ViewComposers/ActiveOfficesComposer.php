@@ -2,7 +2,7 @@
 namespace Modules\Documents\Http\ViewComposers;
 use Illuminate\View\View;
 use Modules\Documents\Entities\Office;
-use Illuminate\Support\Facades\Cache;
+// use Illuminate\Support\Facades\Cache;
 class ActiveOfficesComposer
 {
     /**
@@ -29,9 +29,9 @@ class ActiveOfficesComposer
      */
     public function compose(View $view)
     {
-        $active_offices = Cache::remember('active_offices', '30', function () {
-            return $this->offices->with(['bureauservice', 'strand', 'users'])->has('users')->orderBy('name')->paginate(10);
-        });
+        // $active_offices = Cache::remember('active_offices', '30', function () {
+            $active_offices = $this->offices->with(['bureauservice', 'strand', 'users'])->has('users')->orderBy('name')->simplePaginate(5);
+        // });
         $view->with(compact('active_offices'));
     }
 }

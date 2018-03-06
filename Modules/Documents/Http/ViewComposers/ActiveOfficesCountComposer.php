@@ -2,7 +2,7 @@
 namespace Modules\Documents\Http\ViewComposers;
 use Illuminate\View\View;
 use Modules\Documents\Entities\Office;
-use Illuminate\Support\Facades\Cache;
+// use Illuminate\Support\Facades\Cache;
 class ActiveOfficesCountComposer
 {
     /**
@@ -29,9 +29,9 @@ class ActiveOfficesCountComposer
      */
     public function compose(View $view)
     {
-        $active_offices_count = Cache::remember('active_offices_count', '30', function () {
-            return $this->offices->with(['users'])->has('users')->count();
-        });
+        // $active_offices_count = Cache::remember('active_offices_count', '30', function () {
+            $active_offices_count = $this->offices->has('users')->count();
+        // });
         $view->with(compact('active_offices_count'));
     }
 }

@@ -6,7 +6,7 @@ Active Offices
 Offices where direct transaction (Receive/Release) is possible.
 @endsection
 @section('breadcrumb')
-<li><i class="fa fa-building"></i> Offices</a></li>
+<li><i class="fa fa-building"></i> Active Offices</a></li>
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -45,8 +45,12 @@ Offices where direct transaction (Receive/Release) is possible.
 				<p>No active office.</p>
 				@endforelse
 			</tbody>
-			{{ $active_offices->links() }}
 		</table>
+	</div>
+	<div class="container-fluid">
+	<span class="pull-right">		
+			{{ $active_offices->links() }}
+	</span>		
 	</div>
 </div>
 @endsection
