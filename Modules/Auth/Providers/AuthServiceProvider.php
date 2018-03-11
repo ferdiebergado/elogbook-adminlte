@@ -43,6 +43,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        // Enable User Provider Caching to provide automatic caching for the User Class
         Auth::provider('caching', function ($app, array $config) {
             return new CachingUserProvider(
                 $app->make('Illuminate\Contracts\Hashing\Hasher'),
@@ -50,6 +51,10 @@ class AuthServiceProvider extends ServiceProvider
                 $app->make('Illuminate\Contracts\Cache\Repository')
             );
         });             
+        // Define Gate Authorizations
+        Gate::define('admin', function($user) {
+            return $user->role === 1;
+        });
     }
 
     /**

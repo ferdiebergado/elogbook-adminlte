@@ -57,13 +57,17 @@ class Handler extends ExceptionHandler
 
             return redirect()
                     ->back()
-                    ->withInput($request->except(['password', 'password_confirmation', 'old_password', '_token']))
+                    ->withInput($request->except([
+                        'password', 
+                        'password_confirmation', 
+                        'old_password', 
+                        '_token'
+                    ]))
                     ->with([
                         'error' => 'The session has expired. Please try again.'
                     ]);
 
-        }  
-
+        }
         return parent::render($request, $exception);
     }
 }

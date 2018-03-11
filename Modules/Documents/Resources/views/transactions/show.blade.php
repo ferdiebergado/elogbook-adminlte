@@ -82,16 +82,16 @@ VIEW TRANSACTION
 	</div>	
 	<!-- RELEASED BY -->
 	<div class="row">
-		<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Released' : 'Received' }} By:</label>
+		<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Received' : 'Released' }} By:</label>
 		<div class="col-sm-10">
-			<p>{{ $transaction->task === 'I' ? $transaction->creator->name : $transaction->by }}</p>
+			<p>{{ $transaction->task === 'I' ? $transaction->by : $transaction->creator->name }}</p>
 		</div>
 	</div>	
 	<!-- RECEIVED BY -->
 	<div class="row">
-		<label class="control-label col-sm-2">{{ $transaction->task === 'O' ? 'Released' : 'Received' }} By:</label>
+		<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Released' : 'Received' }} By:</label>
 		<div class="col-sm-10">
-			<p>{{ $transaction->task ==='O' ? $transaction->by : $transaction->creator->name }}</p>
+			<p>{{ $transaction->task ==='I' ? $transaction->creator->name : $transaction->by }}</p>
 		</div>
 	</div>	
 </div>

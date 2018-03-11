@@ -43,7 +43,7 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             @auth
-              @include('sections.usernav')
+            @include('sections.usernav')
             @else 
             <li><a href="{{ route('login') }}"><i class="fa fa-sign-in"></i> Login</a></li>
             <li><a href="{{ route('register') }}"><i class="fa fa-user-plus"></i> Register</a></li>
@@ -70,7 +70,7 @@
       <section class="sidebar">
         <ul class="sidebar-menu" data-widget="tree">
           <li class="header">MAIN NAVIGATION</li>
-          <li>
+          <li class="{{ (Route::currentRouteName() === 'home') ? 'active' : '' }}">
             <a href="/">
               <i class="fa fa-home"></i> <span>Home</span>
             </a>
@@ -91,54 +91,86 @@
               </span>
             </a>
             <ul class="treeview-menu clearfix">
-              <li><a href="{{ route('transactions.index', ['task' => 'P']) }}"><i class="fa fa-history"></i><span>Pending</span>
+              <li class="{{ (Route::currentRouteName() === 'transactions.index' && request()->task === 'P') ? 'active' : '' }}"><a href="{{ route('transactions.index', ['task' => 'P']) }}"><i class="fa fa-history"></i><span>Pending</span>
                 <span class="pull-right-container">                  
                   <span class="label label-warning pull-right">{{ $transaction_pending }}</span>
                 </span>
               </a></li>              
-              <li><a href="{{ route('transactions.index', ['task' => 'I']) }}"><i class="fa fa-arrow-right"></i><span>Received</span>
+              <li class="{{ (Route::currentRouteName() === 'transactions.index' && request()->task === 'I') ? 'active' : '' }}"><a href="{{ route('transactions.index', ['task' => 'I']) }}"><i class="fa fa-arrow-right"></i><span>Received</span>
                 <span class="pull-right-container">                  
                   <span class="label label-primary pull-right">{{ $transaction_received }}</span>
                 </span>
               </a></li>
-              <li><a href="{{ route('transactions.index', ['task' => 'O']) }}"><i class="fa fa-arrow-left"></i><span>Released</span>
+              <li class="{{ (Route::currentRouteName() === 'transactions.index' && request()->task === 'O') ? 'active' : '' }}"><a href="{{ route('transactions.index', ['task' => 'O']) }}"><i class="fa fa-arrow-left"></i><span>Released</span>
                 <span class="pull-right-container">                  
                   <span class="label label-success pull-right">{{ $transaction_released }}</span>
                 </span>
               </a></li>
-              <li><a href="{{ route('transactions.index', ['task' => null]) }}"><i class="fa fa-exchange"></i><span>All</span>
+              <li class="{{ (Route::currentRouteName() === 'transactions.index' && request()->task === null) ? 'active' : '' }}"><a href="{{ route('transactions.index', ['task' => null]) }}"><i class="fa fa-exchange"></i><span>All</span>
                 <span class="pull-right-container">
-                <span class="label label-info pull-right">{{ $transaction_count }}</span>
+                  <span class="label label-info pull-right">{{ $transaction_count }}</span>
                 </span>                  
               </a>
             </li>
           </ul>
         </li>
-          <li>
-            <a href="{{ route('offices.active') }}">
-              <i class="fa fa-building"></i> <span>Active Offices</span>
-              <span class="pull-right-container">
-                <span class="label label-info pull-right">{{ $active_offices_count }}</span>
-              </span>
-            </a>
-          </li>        
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
-  @endauth
-  <!-- =============================================== -->
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <section class="content-header">
-      @include('sections.messages')
-    </section>
-    @auth
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        {{ auth()->user()->office->name }}
-        <br><small>{{ ((strpos(auth()->user()->office->name,'Office of the Director') === 0) || strpos(auth()->user()->office->bureauservice->name, 'Not Applicable') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
+        <li class="{{ (Route::currentRouteName() === 'offices.active') ? 'active' : '' }}">
+          <a href="{{ route('offices.active') }}">
+            <i class="fa fa-building"></i> <span>Active Offices</span>
+            <span class="pull-right-container">
+              <span class="label label-info pull-right">{{ $active_offices_count }}</span>
+            </span>
+          </a>
+        </li>        
+        @can ('admin')
+        <li class="header">ADMINISTRATION</li>                  
+        <li class="{{ Route::is('admin.commands') ? 'active' : '' }}">
+          <a href="{{ route('admin.commands') }}">
+            <i class="fa fa-terminal"></i> <span>Commands</span>
+          </a>
+        </li>        
+        <li class="treeview {{ Route::is('admin.*') ? 'active' : '' }}">
+          <a href="#">
+            <i class="fa fa-info"></i> <span>Info</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu clearfix">
+            <li class="{{ Route::is('admin.info') ? 'active' : '' }}"><a href="{{ route('admin.info') }}"><i class="fa fa-server"></i><span>Server</span></a></li>             
+            <li class="{{ Route::is('admin.environment') ? 'active' : '' }}"><a href="{{ route('admin.environment') }}"><i class="fa fa-desktop"></i> <span> Application</span></a></li>
+          </ul>
+        </li>
+        <li class="treeview {{ Route::is('admin.*') ? 'active' : '' }}">
+          <a href="#">
+            <i class="fa fa-database"></i> <span>Entities</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu clearfix">
+            <li class="{{ Route::is('admin.documents') ? 'active' : '' }}"><a href="{{ route('admin.documents') }}"><i class="fa fa-book"></i><span> Documents</span></a></li>             
+            <li class="{{ Route::is('admin.transactions') ? 'active' : '' }}"><a href="{{ route('admin.transactions') }}"><i class="fa fa-tasks"></i> <span> Transactions</span></a></li>
+          </ul>
+        </li>        
+          @endcan
+        </ul>
+      </section>
+      <!-- /.sidebar -->
+    </aside>
+    @endauth
+    <!-- =============================================== -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <section class="content-header">
+        @include('sections.messages')
+      </section>
+      @auth
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          {{ auth()->user()->office->name }}
+          <br><small>{{ ((strpos(auth()->user()->office->name,'Office of the Director') === 0) || strpos(auth()->user()->office->bureauservice->name, 'Not Applicable') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
 {{--           @yield('content-header')
 <small>@yield('content-description')</small> --}}
 </h1>
@@ -159,16 +191,16 @@
     </div>
     <div class="box-body">
       <div class="container-fluid">
-      @endunless
+        @endunless
         @yield('content')
-      @unless (Route::currentRouteName() === 'users.show')
+        @unless (Route::currentRouteName() === 'users.show')
       </div>
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
       <div class="container-fluid">
         @unless (Route::is('*.index') || (Route::is('home')))
-          @include('includes.backbutton')
+        @include('includes.backbutton')
         @endunless
         @yield('box-footer')        
       </div>

@@ -29,15 +29,17 @@ class TransactionComposer
     public function compose(View $view)
     {
         if (auth()->check()) {
-            if (auth()->user()->role === 1) {
-                $transaction_count = $this->transactions->count();
-            } else {
-                $base = $this->transactions->where('office_id', auth()->user()->office_id)->get();
-                $transaction_pending = $base->where('pending', 1)->count();
-                $transaction_received = $base->where('task', 'I')->where('pending', 0)->count();
-                $transaction_released = $base->where('task', 'O')->where('pending', 0)->count();
-                $transaction_count = $base->count();
-            }
+            $fields = [
+                'id',
+                'task',
+                'pending',
+                'office_id'
+            ];
+            $base = $this->transactions->where('office_id', auth()->user()->office_id)->get($fields);
+            $transaction_pending = $base->where('pending', 1)->count();
+            $transaction_received = $base->where('task', 'I')->where('pending', 0)->count();
+            $transaction_released = $base->where('task', 'O')->where('pending', 0)->count();
+            $transaction_count = $base->count();
             $view->with(compact('transaction_pending', 'transaction_received', 'transaction_released', 'transaction_count'));
         }
     }

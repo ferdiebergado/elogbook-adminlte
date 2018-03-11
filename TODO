@@ -20,6 +20,11 @@
 - fix csv seeders (OK)
 - logins table (OK)
 - Exception Reporter (OK)
+- FIX transactions.show (OK)
+- add active class on sidebar (OK)
+- gate policies (OK)
+- Command Nav (OK)
+- fix artisan helper (OK)
 - revert: Criterias into repository methods (OK: Selective)
 - move url(storage/avatars) to users.config (STET)
 - use presenter (not feasible)
@@ -32,12 +37,14 @@
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
-- FIX transactions.show
-- replace transaction history table with datatable
+- Entities
+- External Links 
+- create tabs for admin/environment
+- separate title icon as section
+- segregate admin
 - use datatable for active offices
+- replace transaction history table with datatable
 - ajax user datalist
-- gate policies
-- admin (terminal, log viewer)
 - User Guide
 - Unit Tests
 ### END OF PENDING TASKS ###

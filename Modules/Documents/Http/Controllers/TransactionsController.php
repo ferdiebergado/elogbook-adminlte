@@ -238,7 +238,7 @@ class TransactionsController extends Controller
     public function receive($id)
     {
         $transaction = $this->repository->find($id);
-        $transaction->date = $transaction->date->addMinute();
+        $transaction->date = $transaction->date->addMinutes(2);
         $transaction->by = auth()->user()->name;        
         $transaction->pending = 0;             
         return view('documents::transactions.edit', compact('transaction'));

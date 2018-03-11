@@ -29,11 +29,7 @@ class DocumentComposer
     public function compose(View $view)
     {
         if (auth()->check()) {
-            if (auth()->user()->role === 1) {
-                $document_count = $this->documents->count();
-            } else {
-                $document_count = $this->documents->where('office_id', auth()->user()->office_id)->count();           
-            }
+            $document_count = $this->documents->where('office_id', auth()->user()->office_id)->count();           
             $view->with(compact('document_count'));
         }
     }
