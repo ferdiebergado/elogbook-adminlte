@@ -6,7 +6,7 @@ Register
 Sign-up for an account.
 @endsection
 @section('content')
-@if (session('confirmation-success'))
+@if (session('confirmation-success') && (!session()->has('errors')))
 <div class="alert alert-success">
     {{ session('confirmation-success') }}
 </div>

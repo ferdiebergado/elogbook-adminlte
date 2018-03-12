@@ -31,12 +31,21 @@ Offices where direct transaction (Receive/Release) is possible.
 					<td>
 						@foreach ($office->users as $user)
 						@if (($user->active) && ($user->confirmed))
-						<div class="container-fluid">								
-							<div class="col-xs-3 col-sm-3 col-md-2 col-lg-4">
-								<img class="pull-left" src="{{ url('/storage/avatars') . '/' . $user->avatar }}" width="48px" height="48px" alt="User Avatar">
-							</div> 
-							<div class="col-xs-9 col-sm-9 col-md-10 col-lg-8">{{ $user->name }}</div>
-						</div>
+						{{-- <div class="container-fluid">			 --}}
+							<ul>
+								<li style="display: flex; align-items: center;">							
+									{{-- <div class="col-xs-3 col-sm-3 col-md-2 col-lg-4"> --}}
+									<span class="pull-left">
+										<img src="{{ url('/storage/avatars') . '/' . $user->avatar }}" width="48px" height="48px" alt="User Avatar">
+									</span> 
+									&nbsp;
+									{{-- <div class="col-xs-9 col-sm-9 col-md-10 col-lg-8"> --}}
+									<span>
+										{{ $user->name }}
+									</span>
+								</li>
+							</ul>					
+						{{-- </div> --}}
 						@endif
 						@endforeach
 					</td>
@@ -48,9 +57,9 @@ Offices where direct transaction (Receive/Release) is possible.
 		</table>
 	</div>
 	<div class="container-fluid">
-	<span class="pull-right">		
+		<span class="pull-right">		
 			{{ $active_offices->links() }}
-	</span>		
+		</span>		
 	</div>
 </div>
 @endsection

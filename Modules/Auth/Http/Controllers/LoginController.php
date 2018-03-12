@@ -4,8 +4,6 @@ namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 // use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Bestmomo\LaravelEmailConfirmation\Traits\AuthenticatesUsers;
-use App\Http\Controllers\EncryptionController;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -21,7 +19,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use \Bestmomo\LaravelEmailConfirmation\Traits\AuthenticatesUsers, \App\Http\Helpers\CryptoJs;
 
     /**
      * Where to redirect users after login.
@@ -126,7 +124,7 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         // Decrypt the password from the request
-        $request->merge(['password' => EncryptionController::cryptoJsAesDecrypt(config('app.salt'), $this->password)]);
+        $request->merge(['password' => $this->cryptoJsAesDecrypt(config('app.salt'), $this->password)]);
         return $request->only($this->username(), 'password');
     }    
 

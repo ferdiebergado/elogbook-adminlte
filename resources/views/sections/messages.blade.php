@@ -1,8 +1,8 @@
-@if (Session::has('message'))
+@if (session()->has('message'))
 	<div id="divAlertSuccess" class="alert alert-success alert-dismissible">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 		<span><i class="glyphicon glyphicon-check"></i> </span>
-		{{ Session::get('message', 'The operation was successful.') }}
+		{{ session()->get('message', 'The operation was successful.') }}
 	</div>
 @endif
 @if ($errors->any())

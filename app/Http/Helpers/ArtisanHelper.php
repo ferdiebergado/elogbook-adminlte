@@ -11,8 +11,9 @@ trait ArtisanHelper
 {
 	public static function run($command = null)
 	{
+		$tinker = ['tink', 'tinke', 'tinker'];
 		try {           
-			if ((strpos($command, 'tinker') > -1) || (strpos($command, 'tinke') > -1) || (strpos($command, 'tink') > -1)) {
+			if (in_array($command, $tinker)) {
 				return 'ERROR: Can\'t run Tinker.';				
 			} else {				
 				// Taken from https://github.com/laravel-admin-extensions/helpers/blob/master/src/Controllers/TerminalController.php

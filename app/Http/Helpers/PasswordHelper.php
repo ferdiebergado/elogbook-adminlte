@@ -2,10 +2,9 @@
 
 namespace App\Http\Helpers;
 
-use App\Http\Controllers\EncryptionController;
-
 trait PasswordHelper
 {
+	use \App\Http\Helpers\CryptoJs;
 	protected function decryptPassword(array $data)	
 	{
 		$keys = ['password', 'password_confirmation', 'old_password'];
@@ -17,7 +16,7 @@ trait PasswordHelper
 			if (array_key_exists($key, $data)) {
 
             	$passdata = array_merge($passdata,[
-            		$key => EncryptionController::cryptoJsAesDecrypt(config('app.salt'), $data[$key])
+            		$key => $this->cryptoJsAesDecrypt(config('app.salt'), $data[$key])
             	]);
 			}			
 

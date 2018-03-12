@@ -6,9 +6,8 @@ use Modules\Users\Entities\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 // use Illuminate\Foundation\Auth\RegistersUsers;
-use Bestmomo\LaravelEmailConfirmation\Traits\RegistersUsers;
 use Bestmomo\LaravelEmailConfirmation\Notifications\ConfirmEmail;
-use App\Http\Controllers\EncryptionController;
+use Exception;
 
 class RegisterController extends Controller
 {
@@ -24,7 +23,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers, \App\Http\Helpers\PasswordHelper;
+    use \Bestmomo\LaravelEmailConfirmation\Traits\RegistersUsers, \App\Http\Helpers\PasswordHelper;
 
     /**
      * Where to redirect users after registration.
@@ -100,8 +99,11 @@ class RegisterController extends Controller
         if (!class_exists($class)) {
             $class = ConfirmEmail::class;
         }
-
-        $user->notify(new $class);
+        try {
+            $user->notify(new $class);            
+        } catch (Exception $e) {
+            return redirect()->route('login')->withErrors($e->getMessage())->withInput();
+        }
     }
 
 }

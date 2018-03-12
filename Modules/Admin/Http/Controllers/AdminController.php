@@ -83,7 +83,8 @@ class AdminController extends Controller
         $this->validate($request, [
             'command'   => 'string|nullable'
         ]);
-        $output = $this->run((string) $request->command);
+        $command = $request->command;
+        $output = '<p>&gt; artisan ' . $command . ' </p>' . $this->run((string) $command);
         if (request()->wantsJson()) {
             return [
                 'data' => $output

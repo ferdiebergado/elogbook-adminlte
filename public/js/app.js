@@ -11686,7 +11686,7 @@ $(function () {
     $('#modalConfirm').modal("show");
   });
   // restoreTab('documents-tab');
-  // restoreTab('profile-tab');
+  restoreTab('profile-tab');
 });
 
 /***/ }),

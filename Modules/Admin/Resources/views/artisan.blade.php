@@ -25,11 +25,33 @@ Run artisan commands.
 @endsection
 @push('scripts')
 <script type="text/javascript">
-	$('#btnArtisanCommand').click(function(e) {
-		e.preventDefault();
-		$.post("{{ route('admin.run_command') }}", { "command" : $('#command').val() }, function(data) {
-			$('#preArtisanOutput').html(data);
+	$(document).ready(function() {		
+		$('#btnArtisanCommand').click(function(e) {
+			var command = String($('#command').val().toLowerCase());
+			e.preventDefault();
+			$.post("{{ route('admin.run_command') }}", { "command" : command }, function(data) {
+				$('#preArtisanOutput').html(data);
+			});
+			// if (typeof(Storage) !== "undefined") {
+			// 	if (localStorage.itemcount) {
+			// 	    localStorage.itemcount = Number(localStorage.itemcount) + 1;
+			// 	} else {
+			// 	    localStorage.itemcount = 1;
+			// 	}
+			// 	localStorage.setItem(localStorage.itemcount, command);
+			// } else {
+			//     console.log("Sorry! No Web Storage support.");
+			// }			
+			$('#command').val('');
 		});
-	});		
+		// $('#command').keyup(function(event) {
+		// 	const KEY_UP = 38;
+		// 	const KEY_DOWN = 40;
+		// 	var key = event.which || event.keyCode;
+		// 	if (key == KEY_UP) {
+		// 		console.log('Pressed Up key.');				
+		// 	}
+		// });
+	});
 </script>
 @endpush

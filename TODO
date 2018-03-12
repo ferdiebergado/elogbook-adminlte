@@ -25,7 +25,12 @@
 - gate policies (OK)
 - Command Nav (OK)
 - fix artisan helper (OK)
+- prepend command on artisan output (OK)
+- convert encryption controller to a helper trait (OK)
 - revert: Criterias into repository methods (OK: Selective)
+- use datatable for active offices (tedious)
+- replace transaction history table with datatable (na)
+- key up/down event on artisan prompt (Not implemented: Autocomplete is enough)
 - move url(storage/avatars) to users.config (STET)
 - use presenter (not feasible)
 - auditing (not necessary)
@@ -37,13 +42,12 @@
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
+- add exception catcher with error code (for each function when necessary)
 - Entities
 - External Links 
 - create tabs for admin/environment
 - separate title icon as section
 - segregate admin
-- use datatable for active offices
-- replace transaction history table with datatable
 - ajax user datalist
 - User Guide
 - Unit Tests

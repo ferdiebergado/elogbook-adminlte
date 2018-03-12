@@ -5,7 +5,7 @@ Trait PhpConfig
 	// Function to parse the content of phpinfo() to an array.
 	// Source: http://php.net/manual/en/function.phpinfo.php
 	// Credits: Joseph Reilly
-	public function quick_dev_insights_phpinfo() {
+	protected function quick_dev_insights_phpinfo() {
 		ob_start();
 		phpinfo(11);
 		$phpinfo = array('phpinfo' => array());
@@ -19,9 +19,7 @@ Trait PhpConfig
 				}else{
 					$keys1 = array_keys($phpinfo);
 					$phpinfo[end($keys1)][] = $match[2];      
-
 				}
-
 			}
 		}
 		return $phpinfo;

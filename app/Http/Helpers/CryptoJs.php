@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Helpers;
 
-use Illuminate\Http\Request;
-
-class EncryptionController extends Controller
+trait CryptoJs
 {
 /**
 * Helper library for CryptoJS AES encryption/decryption
@@ -21,7 +19,7 @@ class EncryptionController extends Controller
 * @param mixed $jsonString
 * @return mixed
 */
-    public static function cryptoJsAesDecrypt($passphrase, $jsonString)
+    protected function cryptoJsAesDecrypt($passphrase, $jsonString)
     {
         $jsondata = json_decode($jsonString, true);
         try {
@@ -51,7 +49,7 @@ class EncryptionController extends Controller
 * @param mixed $value
 * @return string
 */
-    public static function cryptoJsAesEncrypt($passphrase, $value)
+    protected function cryptoJsAesEncrypt($passphrase, $value)
     {
         $salt = openssl_random_pseudo_bytes(8);
         $salted = '';
