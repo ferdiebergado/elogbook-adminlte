@@ -1,6 +1,9 @@
 @extends('layouts.master')
+@section('title-icon')
+<i class="fa fa-desktop"></i> 
+@endsection
 @section('title')
-<i class="fa fa-desktop"></i> Application Environment
+Application Environment
 @endsection
 @section('subtitle')
 	Framework, Dependencies and Libraries

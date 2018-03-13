@@ -25,11 +25,11 @@
   <div class="wrapper">
     <header class="main-header">
       <!-- Logo -->
-      <a href="/" class="logo">
+      <a href="{{ auth()->check() && auth()->user()->can('admin') ? route('admin.home') : '/' }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>e</b>LB</span>
+        <span class="logo-mini">eL</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>{{ config('app.name') }}</b></span>
+        <span class="logo-lg">{{ config('app.name') }}</span>
       </a>            
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top">
@@ -69,6 +69,38 @@
       </div> --}}
       <section class="sidebar">
         <ul class="sidebar-menu" data-widget="tree">
+          @can ('admin')
+          <li class="header">ADMINISTRATION</li>                  
+          <li class="treeview {{ Route::is('admin.*') ? 'active' : '' }}">
+            <a href="#">
+              <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu clearfix">
+              <li class="{{ Route::is('admin.environment') ? 'active' : '' }}"><a href="{{ route('admin.environment') }}"><i class="fa fa-desktop"></i> <span> Application</span></a></li>
+              <li class="{{ Route::is('admin.info') ? 'active' : '' }}"><a href="{{ route('admin.info') }}"><i class="fa fa-server"></i><span>Server</span></a></li>             
+            </ul>
+          </li>
+          <li class="{{ Route::is('admin.commands') ? 'active' : '' }}">
+            <a href="{{ route('admin.commands') }}">
+              <i class="fa fa-terminal"></i> <span>Console</span>
+            </a>
+          </li>        
+          <li class="treeview {{ Route::is('admin.*') ? 'active' : '' }}">
+            <a href="#">
+              <i class="fa fa-database"></i> <span>Entities</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu clearfix">
+              <li class="{{ Route::is('admin.documents') ? 'active' : '' }}"><a href="{{ route('admin.documents') }}"><i class="fa fa-book"></i><span> Documents</span></a></li>             
+              <li class="{{ Route::is('admin.transactions') ? 'active' : '' }}"><a href="{{ route('admin.transactions') }}"><i class="fa fa-tasks"></i> <span> Transactions</span></a></li>
+            </ul>
+          </li>        
+          @else     
           <li class="header">MAIN NAVIGATION</li>
           <li class="{{ (Route::currentRouteName() === 'home') ? 'active' : '' }}">
             <a href="/">
@@ -122,106 +154,75 @@
             </span>
           </a>
         </li>        
-        @can ('admin')
-        <li class="header">ADMINISTRATION</li>                  
-        <li class="{{ Route::is('admin.commands') ? 'active' : '' }}">
-          <a href="{{ route('admin.commands') }}">
-            <i class="fa fa-terminal"></i> <span>Commands</span>
-          </a>
-        </li>        
-        <li class="treeview {{ Route::is('admin.*') ? 'active' : '' }}">
-          <a href="#">
-            <i class="fa fa-info"></i> <span>Info</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu clearfix">
-            <li class="{{ Route::is('admin.info') ? 'active' : '' }}"><a href="{{ route('admin.info') }}"><i class="fa fa-server"></i><span>Server</span></a></li>             
-            <li class="{{ Route::is('admin.environment') ? 'active' : '' }}"><a href="{{ route('admin.environment') }}"><i class="fa fa-desktop"></i> <span> Application</span></a></li>
-          </ul>
-        </li>
-        <li class="treeview {{ Route::is('admin.*') ? 'active' : '' }}">
-          <a href="#">
-            <i class="fa fa-database"></i> <span>Entities</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu clearfix">
-            <li class="{{ Route::is('admin.documents') ? 'active' : '' }}"><a href="{{ route('admin.documents') }}"><i class="fa fa-book"></i><span> Documents</span></a></li>             
-            <li class="{{ Route::is('admin.transactions') ? 'active' : '' }}"><a href="{{ route('admin.transactions') }}"><i class="fa fa-tasks"></i> <span> Transactions</span></a></li>
-          </ul>
-        </li>        
-          @endcan
-        </ul>
-      </section>
-      <!-- /.sidebar -->
-    </aside>
+        @endcan
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+  @endauth
+  <!-- =============================================== -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <section class="content-header">
+      @include('sections.messages')
+    </section>
+    @auth
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      @cannot('admin')
+      <h1>
+        {{ auth()->user()->office->name }}
+        <br><small>{{ ((strpos(auth()->user()->office->name,'Office of the Director') === 0) || strpos(auth()->user()->office->bureauservice->name, 'Not Applicable') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
+      </h1>
+      @endcannot
+      <ol class="breadcrumb">
+        <br><br>
+        <li><a href="/" title="Home"><i class="fa fa-home"></i> Home</a></li>
+        @yield('breadcrumb')
+      </ol>
+    </section>
     @endauth
-    <!-- =============================================== -->
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-      <section class="content-header">
-        @include('sections.messages')
-      </section>
-      @auth
-      <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <h1>
-          {{ auth()->user()->office->name }}
-          <br><small>{{ ((strpos(auth()->user()->office->name,'Office of the Director') === 0) || strpos(auth()->user()->office->bureauservice->name, 'Not Applicable') === 0) ? auth()->user()->office->strand->name : auth()->user()->office->bureauservice->name }}</small>
-{{--           @yield('content-header')
-<small>@yield('content-description')</small> --}}
-</h1>
-<ol class="breadcrumb">
-  <br><br>
-  <li><a href="/" title="Home"><i class="fa fa-home"></i> Home</a></li>
-  @yield('breadcrumb')
-</ol>
-</section>
-@endauth
-<!-- Main content -->
-<section class="content">
-  @unless (Route::currentRouteName() === 'users.show')
-  <!-- Default box -->
-  <div class="box box-primary">
-    <div class="box-header with-border">
-      <h3 class="box-title">&nbsp;<b>@yield('title')</b><br><small>&nbsp;&nbsp;@yield('subtitle')</small></h3>
-    </div>
-    <div class="box-body">
-      <div class="container-fluid">
-        @endunless
-        @yield('content')
-        @unless (Route::currentRouteName() === 'users.show')
+    <!-- Main content -->
+    <section class="content">
+      @unless (Route::currentRouteName() === 'users.show')
+      <!-- Default box -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">&nbsp;<b>@yield('title-icon') &nbsp; @yield('title')</b><br><small>&nbsp;&nbsp;@yield('subtitle')</small></h3>
+        </div>
+        <div class="box-body">
+          <div class="container-fluid">
+            @endunless
+            @yield('content')
+            @unless (Route::currentRouteName() === 'users.show')
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          <div class="container-fluid">
+            @unless (Route::is('*.index') || (Route::is('home')))
+            @include('includes.backbutton')
+            @endunless
+            @yield('box-footer')        
+          </div>
+        </div>
+        <!-- /.box-footer-->
       </div>
-    </div>
-    <!-- /.box-body -->
-    <div class="box-footer">
-      <div class="container-fluid">
-        @unless (Route::is('*.index') || (Route::is('home')))
-        @include('includes.backbutton')
-        @endunless
-        @yield('box-footer')        
-      </div>
-    </div>
-    <!-- /.box-footer-->
+      <!-- /.box -->
+      @endunless
+    </section>
+    <!-- /.content -->
   </div>
-  <!-- /.box -->
-  @endunless
-</section>
-<!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-  {{ csrf_field() }}
-</form>
-<footer class="main-footer">
-  <a href="{{ config('app.pages.github') }}"><b>{{ config('app.name') }}</b></a> <small> v. {{ config('app.version') . $version }} </small><small class="label label-info">{{ config('app.release') }}</small>
-  <div class="pull-right hidden-xs">
-    <small><strong>Copyright &copy; {{ \Carbon\Carbon::now()->year }} <a href="{{ config('app.pages.facebook') }}">{{ config('app.author') }}</a></strong>, <a href="{{ config('app.pages.msit') }}">MSITc</a></small>
-  </div>
-</footer>
+  <!-- /.content-wrapper -->
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    {{ csrf_field() }}
+  </form>
+  <footer class="main-footer">
+    <a href="{{ config('app.pages.github') }}"><b>{{ config('app.name') }}</b></a> <small> v. {{ config('app.version') . $version }} </small><small class="label label-info">{{ config('app.release') }}</small>
+    <div class="pull-right hidden-xs">
+      <small><strong>Copyright &copy; {{ \Carbon\Carbon::now()->year }} <a href="{{ config('app.pages.facebook') }}">{{ config('app.author') }}</a></strong>, <a href="{{ config('app.pages.msit') }}">MSITc</a></small>
+    </div>
+  </footer>
 </div>
 <!-- ./wrapper -->
 <!-- Scripts -->

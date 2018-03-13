@@ -16,10 +16,10 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->role === 1) {
+        if (auth()->check() && (auth()->user()->role === 1)) {
             return $next($request);
         }
         $error = __('auth::messages.unauthorized');
-        return redirect('/')->withErrors($error);
+        return back()->withErrors($error);
     }
 }

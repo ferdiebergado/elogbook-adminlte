@@ -10,6 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/home', '\\Modules\\Documents\\Http\\Controllers\\TransactionsController@home')->middleware(['auth', 'user', 'prevent_back_history'])->name('home');
-Route::redirect('/', '/home');
+// Route::group(['middleware' => ['auth', 'user', 'prevent_back_history'], 'namespace' => '\Modules\Documents\Http\Controllers'], function() {
+// 	Route::get('/home', 'TransactionsController@home')->name('home');
+// 	Route::redirect('/admin', '/admin/environment')->middleware('admin')->name('admin.home');
+// });
+Route::get('/', function() {
+	if (auth()->check() && auth()->user()->can('admin')) {
+		return redirect('/admin');
+	} else {
+		return redirect('/home');
+	}
+});

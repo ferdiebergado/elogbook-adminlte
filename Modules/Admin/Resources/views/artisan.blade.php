@@ -1,6 +1,9 @@
 @extends('layouts.master')
+@section('title-icon')
+<i class="fa fa-terminal"></i> 
+@endsection
 @section('title')
-<i class="fa fa-terminal"></i> Artisan Console
+Artisan Console
 @endsection
 @section('subtitle')
 Run artisan commands.

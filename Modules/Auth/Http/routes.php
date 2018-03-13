@@ -1,7 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'auth', 'namespace' => 'Modules\Auth\Http\Controllers'], function()
-{ 
+Route::group(['middleware' => 'web', 'prefix' => 'auth', 'namespace' => 'Modules\Auth\Http\Controllers'], function() { 
 
     Route::get('login', 'LoginController@showLoginForm')->name('login');
 
@@ -20,8 +19,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'auth', 'namespace' => 'Modules
     Route::get('register', 'RegisterController@showRegistrationForm')->name('register');
 
     Route::post('register', 'RegisterController@register');
-
-    Route::redirect('/', 'login');
 
     // Route::get('/', 'AuthController@index');
 });

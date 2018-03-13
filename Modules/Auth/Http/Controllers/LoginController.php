@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Password from the request.
@@ -135,15 +135,15 @@ class LoginController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function authenticated(Request $request, $user)
-    {
-        if (!$user->active) {
-            auth()->logout();
-            $request->session()->invalidate();
-            $error = __('auth::messages.deactivated');
-            return back()->with(compact('error'));
-        }
-        return redirect()->intended($this->redirectPath());        
-    }
+    // protected function authenticated(Request $request, $user)
+    // {
+    //     if (!$user->active) {
+    //         auth()->logout();
+    //         $request->session()->invalidate();
+    //         $error = __('auth::messages.deactivated');
+    //         return back()->with(compact('error'));
+    //     }
+    //     return redirect()->intended($this->redirectPath());        
+    // }
 
 }

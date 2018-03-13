@@ -1,6 +1,9 @@
 @extends('layouts.master')
+@section('title-icon')
+<i class="fa fa-server"></i> 
+@endsection
 @section('title')
-<i class="fa fa-server"></i> Server Info
+Server Info
 @endsection
 @section('subtitle')
 PHP Server Configuration
