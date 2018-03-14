@@ -19,7 +19,8 @@ use Modules\Documents\Entities\Office;
  */
 class DocumentsController extends Controller
 {    
-    use \Modules\Documents\Http\Helpers\RequestParser, \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\TransactionHelper;
+    use \Modules\Documents\Http\Helpers\RequestParser, \App\Http\Helpers\DateHelper;
+    // \Modules\Documents\Http\Helpers\TransactionHelper;
     /**
      * @var DocumentRepository
      */
@@ -52,6 +53,7 @@ class DocumentsController extends Controller
             'orderByMulti' => 'string|nullable'
         ]);
         $perPage = $this->getRequestLength($request);    
+        // $this->pushCriteria(app('\Modules\Documents\Criteria\DocumentRequestCriteria'));   
         $model = $this->repository->with(['doctype', 'creator'])->getByOffice(auth()->user()->office_id);
         // Sort fields based on request orderBy (nested sorting)
         $documents = $this->sortFields($request, $model)->paginate($perPage);
@@ -91,7 +93,7 @@ class DocumentsController extends Controller
         $office_id = auth()->user()->office_id;
         DB::beginTransaction();
         try {
-            $document = $this->repository->firstOrCreate(array_merge($request->only('doctype_id', 'details', 'persons_concerned', 'additional_info'), ['office_id' => $office_id]));
+            $document = $this->repository->create(array_merge($request->only('doctype_id', 'details', 'persons_concerned', 'additional_info'), ['office_id' => $office_id]));
         } catch(ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
@@ -121,7 +123,7 @@ class DocumentsController extends Controller
             throw $e;
         }
         $response = [
-            'message' => 'Document created.',
+            'message' => 'Document' . __('documents::messages.created'),
             'data'    => collect($document)->merge($transaction),
         ];
         if ($request->wantsJson()) {

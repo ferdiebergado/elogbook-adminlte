@@ -6,20 +6,12 @@ use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Class TransactionsByTaskCriteria.
+ * Class TransactionrelationsCriteria.
  *
  * @package namespace Modules\Documents\Criteria;
  */
-class TransactionsByTaskCriteria implements CriteriaInterface
+class TransactionRelationsCriteria implements CriteriaInterface
 {
-    private $task;
-
-    public function __construct($task)
-    {
-        $this->task = $task;
-    }
-
-
     /**
      * Apply criteria in query repository
      *
@@ -30,12 +22,6 @@ class TransactionsByTaskCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        if (($this->task === 'I') || ($this->task === 'O')) {
-            return $model->where('task', $this->task)->where('pending', 0);
-        }
-        if ($this->task === 'P') {
-            return $model->where('pending', 1);
-        }   
-        return $model;
+        return $model->with(['document', 'document.doctype', 'target_office']);
     }
 }

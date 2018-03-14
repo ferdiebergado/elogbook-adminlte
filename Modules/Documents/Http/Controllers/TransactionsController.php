@@ -15,6 +15,7 @@ use Modules\Documents\Criteria\PendingTransactionsCriteria;
 use Modules\Documents\Criteria\MultiSortCriteria;
 use Modules\Documents\Criteria\TransactionsNotPendingCriteria;
 use Modules\Documents\Criteria\TransactionsByUserCriteria;
+use Modules\Documents\Criteria\ByOfficeCriteria;
 use Illuminate\Support\Facades\DB;
 use Modules\Users\Entities\User;
 use Carbon\Carbon;
@@ -25,7 +26,8 @@ use Carbon\Carbon;
  */
 class TransactionsController extends Controller
 {
-    use \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\RequestParser, \Modules\Documents\Http\Helpers\TransactionHelper;
+    use \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\RequestParser;
+    // \Modules\Documents\Http\Helpers\TransactionHelper;
     /**
      * @var TransactionRepository
      */
@@ -64,15 +66,20 @@ class TransactionsController extends Controller
      */
     public function index()
     {
+        // $this->repository->pushCriteria(app('\Modules\Documents\Criteria\DocumentRequestCriteria'));   
         $request = app()->make('request');
         $this->validate($request, [
             'task' => \Illuminate\Validation\Rule::in(config('documents.tasks'))
         ]);
         $task = $request->task;
+        // $this->repository->pushCriteria(TransactionRelationsCriteria::class);
+        // $this->repository->pushCriteria(new ByOfficeCriteria(auth()->user()->office_id));
         $this->repository->pushCriteria(new TransactionsByTaskCriteria($task));
         $model = $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id);
+        // dd($this->repository->all());
         $perPage = $this->getRequestLength($request);    
-        $transactions = $this->sortFields($request, $model)->paginate($perPage);        
+        $transactions = $this->repository->paginate($perPage);
+        // $transactions = $this->sortFields($request, $this->repository)->paginate($perPage);        
         if (request()->wantsJson()) {
             return response()->json([
                 'draw' => $request->draw,

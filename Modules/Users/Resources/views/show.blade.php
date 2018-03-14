@@ -125,7 +125,7 @@ User Profile
 							<div class="row">										
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" class="btn btn-flat btn-primary"><span><i class="fa fa-save"></i></span> <b>SAVE</b></button>
+										<button type="submit" class="btn btn-flat btn-primary"><span><i class="fa fa-save"></i></span> SAVE</button>
 									</div>
 								</div>
 							</div>
@@ -161,7 +161,7 @@ User Profile
 					<p class="help-block">Upload .jpeg, .jpg or .png files only. File size should be less than 500 kb.</p>
 				</div>
 				<div class="modal-footer">
-					<button id="btnAvatar" type="submit" class="btn btn-primary"><span><i class="fa fa-save"></i></span><b> SAVE</b></button>
+					<button id="btnAvatar" type="submit" class="btn btn-primary"><span><i class="fa fa-save"></i></span> SAVE</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal"><span><i class="fa fa-ban"></i></span> Close</button>
 				</form>        
 			</div>
@@ -216,7 +216,7 @@ User Profile
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary"><b><span><i class="fa fa-save"></i></span> SAVE</b></button>
+					<button type="submit" class="btn btn-primary"><span><i class="fa fa-save"></i></span> SAVE</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal"><span><i class="fa fa-ban"></i></span> CLOSE</button>
 				</form>        
 			</div>

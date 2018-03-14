@@ -12,7 +12,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 interface TransactionRepository extends RepositoryInterface
 {
 	public function getByOffice($id);
-	public function getByTask($task);
+	// public function getByTask($task);
 	public function getByDocument($id);
 	public function pending();
 	public function notPending();

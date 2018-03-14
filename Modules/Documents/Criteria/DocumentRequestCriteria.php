@@ -1,5 +1,6 @@
 <?php
-namespace Modules\Documents\Http\Helpers;
+
+namespace Modules\Documents\Criteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 class DocumentRequestCriteria extends RequestCriteria 
 {

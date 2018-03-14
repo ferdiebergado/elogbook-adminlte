@@ -1,5 +1,6 @@
 <?php  
 namespace Modules\Documents\Http\Helpers;
+use Modules\Documents\Repositories\RepositoryInterface;
 Trait RequestParser
 {
     // private $perPage;
@@ -21,7 +22,7 @@ Trait RequestParser
         }
         return $perPage;
     }
-    protected function sortFields($request, $model)
+    protected function sortFields($request, RepositoryInterface $model)
     {
         if ($request->has('orderByMulti')) {
            $request = (string) $request->orderByMulti;

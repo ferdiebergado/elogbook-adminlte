@@ -27,7 +27,6 @@
 - fix artisan helper (OK)
 - prepend command on artisan output (OK)
 - convert encryption controller to a helper trait (OK)
-- revert: Criterias into repository methods (OK: Selective)
 - use datatable for active offices (tedious)
 - replace transaction history table with datatable (na)
 - key up/down event on artisan prompt (Not implemented: Autocomplete is enough)
@@ -42,6 +41,10 @@
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
+- revert: repository methods into criterias 
+- add filter on transactions search
+- firstorcreate remove
+- upload attachment
 - remove bold button text
 - add exception catcher with error code (for each function when necessary)
 - Entities
