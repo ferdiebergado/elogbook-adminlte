@@ -41,6 +41,8 @@
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
+- <br> class="hideen md:inline"
+- image compressor
 - revert: repository methods into criterias 
 - add filter on transactions search
 - firstorcreate remove

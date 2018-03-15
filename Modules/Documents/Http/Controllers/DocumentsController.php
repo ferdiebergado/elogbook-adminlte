@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Modules\Documents\Criteria\DocumentRelationsCriteria;
 use Modules\Documents\Criteria\ByOfficeCriteria;
+use Modules\Documents\Criteria\MultiSortCriteria;
 use Modules\Documents\Entities\Office;
 /**
  * Class DocumentsController.
@@ -54,9 +55,11 @@ class DocumentsController extends Controller
         ]);
         $perPage = $this->getRequestLength($request);    
         // $this->pushCriteria(app('\Modules\Documents\Criteria\DocumentRequestCriteria'));   
-        $model = $this->repository->with(['doctype', 'creator'])->getByOffice(auth()->user()->office_id);
+        $this->repository->with(['doctype', 'creator'])->getByOffice(auth()->user()->office_id);
         // Sort fields based on request orderBy (nested sorting)
-        $documents = $this->sortFields($request, $model)->paginate($perPage);
+        $this->repository->pushCriteria(new MultiSortCriteria($request));
+        $documents = $this->repository->paginate($perPage);
+        // $documents = $this->sortFields($request, $model)->paginate($perPage);
         if (request()->wantsJson()) {
             return response()->json([
                 'draw' => $request->draw,

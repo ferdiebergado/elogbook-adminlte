@@ -42,7 +42,7 @@ class DocumentRepositoryEloquent extends BaseRepository implements DocumentRepos
     }
     public function getByOffice($id)
     {
-        return $this->model->where('office_id', $id);
+        return $this->model->where('documents.office_id', $id);
     }
     public function latest()
     {

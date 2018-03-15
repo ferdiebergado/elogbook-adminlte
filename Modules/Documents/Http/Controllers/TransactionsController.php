@@ -58,7 +58,7 @@ class TransactionsController extends Controller
             }
         })->notPending()->latest()->simplePaginate(5);
         return view('documents::home', compact('transactions'));        
-}
+    }
     /**
      * Display a listing of the resource.
      *
@@ -72,11 +72,12 @@ class TransactionsController extends Controller
             'task' => \Illuminate\Validation\Rule::in(config('documents.tasks'))
         ]);
         $task = $request->task;
-        // $this->repository->pushCriteria(TransactionRelationsCriteria::class);
-        // $this->repository->pushCriteria(new ByOfficeCriteria(auth()->user()->office_id));
-        $this->repository->pushCriteria(new TransactionsByTaskCriteria($task));
-        $model = $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id);
-        // dd($this->repository->all());
+            // $this->repository->pushCriteria(new ByOfficeCriteria(auth()->user()->office_id));
+            // $this->repository->pushCriteria(TransactionRelationsCriteria::class);
+        $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id);
+        $this->repository->getByTask($task);
+        // $this->repository->pushCriteria(new TransactionsByTaskCriteria($task));
+        $this->repository->pushCriteria(new MultiSortCriteria($request));
         $perPage = $this->getRequestLength($request);    
         $transactions = $this->repository->paginate($perPage);
         // $transactions = $this->sortFields($request, $this->repository)->paginate($perPage);        

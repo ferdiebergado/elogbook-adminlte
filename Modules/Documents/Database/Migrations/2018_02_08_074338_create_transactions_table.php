@@ -16,6 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('document_id');
+            $table->unsignedInteger('doctype_id');
             $table->enum('task',['I', 'O']);
             $table->unsignedInteger('from_to_office');                
             $table->timestamp('date');

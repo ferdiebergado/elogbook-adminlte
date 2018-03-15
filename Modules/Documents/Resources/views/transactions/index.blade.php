@@ -27,6 +27,8 @@ transactions-table
 {!! url('/transactions') !!}
 @endslot
 @slot('datatablewith')
+document
+{{-- document;document.doctype;target_office --}}
 @endslot
 @slot('datatabletargetcol')
 9
@@ -35,7 +37,7 @@ transactions-table
 [3, 4]
 @endslot
 {
-	name:   'document_id',
+	name:   'documents|id',
 	title:  'Doc. No.',
 	data:   'document.id'
 },
@@ -45,17 +47,17 @@ transactions-table
 	data:   'task'
 },
 {   
-	name:   'doctype_id',
+	name:   'doctypes|name',
 	title:  'Type',
 	data:   'document.doctype.name' 
 },
 { 
-	name:   'details',
+	name:   'documents|details',
 	title:  'Details',
 	data:   'document.details' 
 },
 { 
-	name:   'from_to_office',
+	name:   'offices:from_to_office|offices.name',
 	title:  'From/To Office',
 	data:   'target_office.name' 
 },
