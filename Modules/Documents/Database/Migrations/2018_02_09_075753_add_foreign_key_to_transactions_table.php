@@ -15,7 +15,7 @@ class AddForeignKeyToTransactionsTable extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             $table->foreign('document_id')->references('id')->on('documents');
-            $table->foreign('doctype_id')->references('id')->('doctypes');
+            $table->foreign('doctype_id')->references('id')->on('doctypes');
             $table->foreign('from_to_office')->references('id')->on('offices');
             $table->foreign('office_id')->references('id')->on('offices');
         });
