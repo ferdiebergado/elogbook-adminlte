@@ -1,0 +1,23 @@
+active file in statusbar - roscop
+advanced new file - dominik kundel
+auto rename tag - jun han
+better align - wwm
+bootstrap 3 snippets - william whitehead
+edit with shell command - ryuichi inagaki
+eslint - dirk baeumer
+file utils - steffen leistner
+html css support - ecmel
+import cost - wix
+jquery code snippets - don jayamanne
+laravel 5 snippets - sachit tandukar
+laravel-blade - tamas kadar
+npm intellisense - christian kohler
+path intellisense - christian kohler
+php constructor - mehedi hassan
+php cs fixer - junstyle
+php debug - felix becker
+php docblockr - neil brayfield
+php getters & setters - phproberto
+php intelephense - ben mewburn
+sublime text keymap - microsoft
+vim - vscodevim
