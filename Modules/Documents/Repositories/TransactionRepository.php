@@ -17,5 +17,5 @@ interface TransactionRepository extends RepositoryInterface
 	public function pending();
 	public function notPending();
     public function latest();
-    public function store($request, $document_id);
+    public function store($request, $document_id, $doctype_id);
 }

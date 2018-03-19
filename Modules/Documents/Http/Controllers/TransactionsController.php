@@ -101,7 +101,7 @@ class TransactionsController extends Controller
         $this->validate($request, [
             'document_id' => 'required|integer'
         ]);
-        $transaction = $this->repository->with('document')->findByField('document_id', (int) $request->document_id, ['document_id'])->first();
+        $transaction = $this->repository->with(['document', 'document.doctype'])->findByField('document_id', (int) $request->document_id, ['document_id'])->first();
         $transaction->date = Carbon::now()->addMinute();
         $transaction->pending = 0;
         return view('documents::transactions.create', compact('transaction'));
@@ -119,7 +119,7 @@ class TransactionsController extends Controller
     {
         DB::beginTransaction();
         try {
-            $transaction = $this->repository->store($request, $request->document_id);
+            $transaction = $this->repository->store($request, $request->document_id, $request->transaction_doctype_id);
             $response = [
                 'message' => 'Transaction created.',
                 'data'    => $transaction,
@@ -189,7 +189,7 @@ class TransactionsController extends Controller
             $date = $this->formatDates($request->task_date, $request->task_time);
             $office_id = auth()->user()->office_id;
             $transaction = $this->repository->update(array_merge(
-                $request->only('task', 'document_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), 
+                $request->only('task', 'document_id', 'doctype_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), 
                 ['date' => $date], 
                 ['office_id' => $office_id]
             ), $id);            

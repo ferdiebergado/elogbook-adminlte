@@ -4,6 +4,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 // use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\Documents\Repositories\TransactionRepository;
 use Modules\Documents\Entities\Transaction;
+use Modules\Documents\Entities\Doctype;
 /**
  * Class TransactionRepositoryEloquent.
  *
@@ -71,7 +72,7 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
     {
         return $this->model->latest('date');
     }
-    public function store($request, $document_id)
+    public function store($request, $document_id, $doctype_id)
     {
         $date = $this->formatDates($request->task_date, $request->task_time);
         $office_id = auth()->user()->office_id;
@@ -81,6 +82,7 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
             ['date' => $date], 
             ['office_id' => $office_id],
             ['document_id' => $document_id], 
+            ['doctype_id' => $doctype_id],
             ['by' => $request->by ?? $by ]
         ));
         // Create a new receive transaction if the destination office has registered users.
@@ -94,6 +96,7 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
                 $received = [
                     'task'              =>  'I',
                     'document_id'       =>  $transaction->document_id,
+                    'doctype_id'        =>  $transaction->doctype_id,
                     'from_to_office'    =>  $office_id,
                     'date'              =>  $transaction->date->addMinute(),
                     'action'            =>  config('documents.PENDING'),

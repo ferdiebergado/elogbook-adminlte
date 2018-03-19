@@ -17,6 +17,7 @@ class Transaction extends BaseModel
     protected $fillable = [
         'task',
     	'document_id',
+        'doctype_id',
     	'from_to_office',
     	'date',
     	'action',
