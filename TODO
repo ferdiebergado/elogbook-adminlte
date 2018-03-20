@@ -27,7 +27,9 @@
 - fix artisan helper (OK)
 - prepend command on artisan output (OK)
 - convert encryption controller to a helper trait (OK)
+- revert: repository methods into criterias (PARTIAL)
 - use datatable for active offices (tedious)
+- firstorcreate remove (OK)
 - replace transaction history table with datatable (na)
 - key up/down event on artisan prompt (Not implemented: Autocomplete is enough)
 - move url(storage/avatars) to users.config (STET)
@@ -43,9 +45,7 @@
 ### PENDING TASKS ###
 - <br> class="hideen md:inline"
 - image compressor
-- revert: repository methods into criterias 
 - add filter on transactions search
-- firstorcreate remove
 - upload attachment
 - remove bold button text
 - add exception catcher with error code (for each function when necessary)
