@@ -171,6 +171,7 @@ return [
          */
         // Bestmomo\LaravelEmailConfirmation\ServiceProvider::class,
         Modules\Auth\Providers\LaravelEmailConfirmationServiceProvider::class,
+        Modules\Documents\Providers\GoogleServiceProvider::class,
 
         /*
          * Application Service Providers...
