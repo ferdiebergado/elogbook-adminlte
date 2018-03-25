@@ -1,9 +1,7 @@
 <?php
 
-use Modules\Documents\Providers\DocumentsServiceProvider;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -139,7 +137,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -179,14 +176,13 @@ return [
         App\Providers\AppServiceProvider::class,
         // App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,        
+        App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         Modules\Auth\Providers\AuthServiceProvider::class,
         Modules\Users\Providers\UsersServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
         Modules\Documents\Providers\DocumentsServiceProvider::class,
-
     ],
 
     /*
@@ -201,7 +197,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
@@ -235,18 +230,17 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
 
     'salt' => env('APP_SALT', 'i8ZGKfgqIeFVjPvnZrAMUWQdBIIVyUOr'),
     'author' => 'Ferdinand Saporas Bergado',
-    'email' => 'ferdiebergado@gmail.com',
+    'email' => 'elogbookph@gmail.com',
     'version' => '1.0.0',
     'release' => 'alpha',
     'pages' => [
-                    'github'    =>  'https://ferdiebergado.github.io/elogbook-adminlte/',
-                    'facebook'  =>  'https://www.facebook.com/ferdie.bergado',
-                    'msit'      =>  'https://www.pup.edu.ph/gs/msit.aspx'
+                    'github' => 'https://ferdiebergado.github.io/elogbook-adminlte/',
+                    'facebook' => 'https://www.facebook.com/ferdie.bergado',
+                    'msit' => 'https://www.pup.edu.ph/gs/msit.aspx'
                 ],
     'theme' => 'purple',
 ];

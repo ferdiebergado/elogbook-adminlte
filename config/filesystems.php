@@ -54,14 +54,13 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-
         'avatars' => [
             'driver' => 'local',
             'root' => storage_path('app/public/avatars'),
             'url' => env('APP_URL').'/avatars',
             'visibility' => 'public',
-        ],
-        'google' => [
+        ],     
+        'G' => [
             'driver' => 'google',
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),

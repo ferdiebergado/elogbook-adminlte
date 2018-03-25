@@ -28,9 +28,13 @@ trait GoogleDriveHelper
     public function list($dir = '/', $recursive = false)
     {
         $contents = collect(Storage::cloud()->listContents($dir, $recursive));
-        //return $contents->where('type', '=', 'dir'); // directories
         return $contents->where('type', 'file'); //files
     }
+    public function list_folders($dir = '/', $recursive = false)
+    {
+        $contents = collect(Storage::cloud()->listContents($dir, $recursive));
+        return $contents->where('type', '=', 'dir'); // directories
+    }    
     public function list_folder_contents($folder)
     {
     // The human readable folder name to get the contents of...

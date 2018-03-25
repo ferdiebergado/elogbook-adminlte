@@ -1,24 +1,25 @@
 <?php
+
 namespace Modules\Documents\Http\Controllers;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Modules\Documents\Http\Requests\TransactionCreateRequest;
-use Modules\Documents\Http\Requests\TransactionUpdateRequest;
-use Modules\Documents\Repositories\TransactionRepository;
-use Modules\Documents\Repositories\DocumentRepository;
-use Illuminate\Validation\ValidationException;
+
 use Exception;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use Modules\Documents\Criteria\ByOfficeCriteria;
+use Modules\Documents\Criteria\MultiSortCriteria;
+use Modules\Documents\Repositories\DocumentRepository;
+use Modules\Documents\Repositories\TransactionRepository;
+use Modules\Documents\Criteria\TransactionsByUserCriteria;
 use Modules\Documents\Criteria\TransactionsByTaskCriteria;
 use Modules\Documents\Criteria\TransactionRelationsCriteria;
-use Modules\Documents\Criteria\TransactionsByOfficeCriteria;
-use Modules\Documents\Criteria\PendingTransactionsCriteria;
-use Modules\Documents\Criteria\MultiSortCriteria;
-use Modules\Documents\Criteria\TransactionsNotPendingCriteria;
-use Modules\Documents\Criteria\TransactionsByUserCriteria;
-use Modules\Documents\Criteria\ByOfficeCriteria;
-use Illuminate\Support\Facades\DB;
-use Modules\Users\Entities\User;
-use Carbon\Carbon;
+use Modules\Documents\Http\Requests\TransactionUpdateRequest;
+use Modules\Documents\Http\Requests\TransactionCreateRequest;
+use Illuminate\Support\Facades\Cache;
+use Modules\Documents\Entities\Attachment;
 /**
  * Class TransactionsController.
  *
@@ -31,7 +32,9 @@ class TransactionsController extends Controller
     /**
      * @var TransactionRepository
      */
-    protected $repository, $document_repository;
+    protected $repository;
+    protected $document_repository;
+
     /**
      * TransactionsController constructor.
      *
@@ -42,9 +45,10 @@ class TransactionsController extends Controller
         $this->repository = $repository;
         $this->document_repository = $document_repository;
     }
+
     public function home()
     {
-        $documents = $this->document_repository->whereHas('transactions', function($q) {
+        $documents = $this->document_repository->whereHas('transactions', function ($q) {
             $q->where('office_id', auth()->user()->office_id);
         })->all(['id']);
         $this->repository->pushCriteria(TransactionsByUserCriteria::class);
@@ -57,8 +61,9 @@ class TransactionsController extends Controller
                 $q->where('id', (int) $list[0]);
             }
         })->notPending()->latest()->simplePaginate(5);
-        return view('documents::home', compact('transactions'));        
+        return view('documents::home', compact('transactions'));
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -66,21 +71,21 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        // $this->repository->pushCriteria(app('\Modules\Documents\Criteria\DocumentRequestCriteria'));   
+        // $this->repository->pushCriteria(app('\Modules\Documents\Criteria\DocumentRequestCriteria'));
         $request = app()->make('request');
         $this->validate($request, [
             'task' => \Illuminate\Validation\Rule::in(config('documents.tasks'))
         ]);
         $task = $request->task;
-            // $this->repository->pushCriteria(new ByOfficeCriteria(auth()->user()->office_id));
-            // $this->repository->pushCriteria(TransactionRelationsCriteria::class);
+        // $this->repository->pushCriteria(new ByOfficeCriteria(auth()->user()->office_id));
+        // $this->repository->pushCriteria(TransactionRelationsCriteria::class);
         $this->repository->with(['document', 'document.doctype', 'target_office'])->getByOffice(auth()->user()->office_id);
         $this->repository->getByTask($task);
         // $this->repository->pushCriteria(new TransactionsByTaskCriteria($task));
         $this->repository->pushCriteria(new MultiSortCriteria($request));
-        $perPage = $this->getRequestLength($request);    
+        $perPage = $this->getRequestLength($request);
         $transactions = $this->repository->paginate($perPage);
-        // $transactions = $this->sortFields($request, $this->repository)->paginate($perPage);        
+        // $transactions = $this->sortFields($request, $this->repository)->paginate($perPage);
         if (request()->wantsJson()) {
             return response()->json([
                 'draw' => $request->draw,
@@ -89,6 +94,7 @@ class TransactionsController extends Controller
         }
         return view('documents::transactions.index', compact('transactions'));
     }
+
     /**
      * Show the form for releasing a document.
      *
@@ -105,7 +111,8 @@ class TransactionsController extends Controller
         $transaction->date = Carbon::now()->addMinute();
         $transaction->pending = 0;
         return view('documents::transactions.create', compact('transaction'));
-    }      
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -122,7 +129,7 @@ class TransactionsController extends Controller
             $transaction = $this->repository->store($request, $request->document_id, $request->transaction_doctype_id);
             $response = [
                 'message' => 'Transaction created.',
-                'data'    => $transaction,
+                'data' => $transaction,
             ];
             if ($request->wantsJson()) {
                 return response()->json($response);
@@ -133,7 +140,7 @@ class TransactionsController extends Controller
             DB::rollback();
             if ($request->wantsJson()) {
                 return response()->json([
-                    'error'   => true,
+                    'error' => true,
                     'message' => $e->errorBag()
                 ]);
             }
@@ -143,6 +150,7 @@ class TransactionsController extends Controller
             throw $e;
         }
     }
+
     /**
      * Display the specified resource.
      *
@@ -152,14 +160,16 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        $transaction = $this->repository->with(['document', 'document.doctype', 'target_office'])->find($id);        
+        $transaction = $this->repository->with(['document', 'document.doctype', 'target_office'])->find($id);
+        $attachments = Attachment::where('transaction_id', $id)->get(['transaction_id', 'filename', 'url']);
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $transaction,
             ]);
         }
-        return view('documents::transactions.show', compact('transaction'));
+        return view('documents::transactions.show', compact('transaction', 'attachments'));
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -172,6 +182,7 @@ class TransactionsController extends Controller
         $transaction = $this->repository->find($id);
         return view('documents::transactions.edit', compact('transaction'));
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -189,16 +200,17 @@ class TransactionsController extends Controller
             $date = $this->formatDates($request->task_date, $request->task_time);
             $office_id = auth()->user()->office_id;
             $transaction = $this->repository->update(array_merge(
-                $request->only('task', 'document_id', 'doctype_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'), 
-                ['date' => $date], 
+                $request->only('task', 'document_id', 'doctype_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'),
+                ['date' => $date],
                 ['office_id' => $office_id]
-            ), $id);            
+            ), $id);
             // Update the parent transaction with the name of the receiver.
             $this->repository->update(['by' => $request->by], $transaction->parent_id);
+            $this->addAttachments($id);
             DB::commit();
             $response = [
                 'message' => 'Transaction updated.',
-                'data'    => $transaction,
+                'data' => $transaction,
             ];
             if ($request->wantsJson()) {
                 return response()->json($response);
@@ -208,16 +220,17 @@ class TransactionsController extends Controller
             DB::rollback();
             if ($request->wantsJson()) {
                 return response()->json([
-                    'error'   => true,
+                    'error' => true,
                     'message' => $e->errorBag()
                 ]);
             }
             return redirect()->back()->withErrors($e->errorBag())->withInput();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             throw $e;
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -236,6 +249,7 @@ class TransactionsController extends Controller
         }
         return redirect()->back()->with('message', 'Transaction deleted.');
     }
+
     /**
      * Show the form for receiving a document.
      *
@@ -247,10 +261,11 @@ class TransactionsController extends Controller
     {
         $transaction = $this->repository->find($id);
         $transaction->date = $transaction->date->addMinutes(2);
-        $transaction->by = auth()->user()->name;        
-        $transaction->pending = 0;             
+        $transaction->by = auth()->user()->name;
+        $transaction->pending = 0;
         return view('documents::transactions.edit', compact('transaction'));
-    }    
+    }
+
     /**
      * Show the form for releasing a document.
      *
@@ -261,12 +276,54 @@ class TransactionsController extends Controller
     public function release($id)
     {
         $transaction = $this->repository->find($id);
-        $transaction->task = 'O';   
+        $transaction->task = 'O';
         $transaction->from_to_office = 0;
         $transaction->date = Carbon::now();
         $transaction->action = '';
         $transaction->action_to_be_taken = '';
         $transaction->pending = 0;
         return view('documents::transactions.create', compact('transaction'));
-    }      
+    }
+    public function storeAttachment(Request $request)
+    {
+        try {    
+            $this->validate($request, [
+                'attachment' => 'required|file|mimes:jpeg,jpg,png,pdf'
+            ]);        
+            $dir = (string) auth()->user()->office_id;
+            $folders = Cache::remember('folders', now()->addMonth(), function() {
+                $contents = collect(Storage::disk(ACTIVE_DISK)->listContents('/', false));
+                return $contents->where('type', 'dir'); // directories                
+            });
+            $base = $folders->where('filename', $dir);
+            $folder = $base->first();
+            $count = $base->count();
+            if ($count === 0) {
+                Storage::disk(ACTIVE_DISK)->makeDirectory($dir);
+                Cache::forget('folders');
+            }
+            $file = $request->file('attachment');
+            $name = $file->getClientOriginalName();
+            // $filename = $file->store($folder['path'], ACTIVE_DISK);
+            $filename = Storage::disk(ACTIVE_DISK)->putFile($folder['path'], $file);
+            $fileurl = Storage::disk(ACTIVE_DISK)->url($folder['path'] . '/' . $filename);
+            $path = explode('/', $filename);
+            $attachments = array(['filename' => $name, 'path' => $path[1], 'url' => $fileurl]);
+            if (session()->has('attachments')) {
+                session()->put('attachments', array_merge(session()->get('attachments'), $attachments));
+            } else {
+                session()->put('attachments', $attachments);
+            }
+            $message = 'Attachment successfully uploaded.';
+            return compact('fileurl', 'message');
+        } catch (ValidationException $e) {
+            return ['message' => $e->errors()];        
+        } catch (Exception $e) {
+            return ['message' => $e->getMessage()];
+        }        
+    }
+    public function removeAttachment(Request $request)
+    {
+
+    }
 }

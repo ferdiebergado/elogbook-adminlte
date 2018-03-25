@@ -1,10 +1,10 @@
 <?php
 namespace Modules\Documents\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
-// use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\Documents\Repositories\TransactionRepository;
 use Modules\Documents\Entities\Transaction;
 use Modules\Documents\Entities\Doctype;
+define('ACTIVE_DISK', config('documents.active_disk'));
 /**
  * Class TransactionRepositoryEloquent.
  *
@@ -17,14 +17,14 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
      * @var array
      */
     protected $fieldSearchable = [
-            'id',
-            'document.id',
-            'document.doctype.name' => 'like',
-            'document.details' => 'like',
-            'document.persons_concerned' => 'like',
-            'target_office.name' => 'like',
-            'action' => 'like',
-            'by' => 'like'
+        'id',
+        'document.id',
+        'document.doctype.name' => 'like',
+        'document.details' => 'like',
+        'document.persons_concerned' => 'like',
+        'target_office.name' => 'like',
+        'action' => 'like',
+        'by' => 'like'
     ];
     /**
      * Specify Model class name
@@ -85,6 +85,7 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
             ['doctype_id' => $doctype_id],
             ['by' => $request->by ?? $by ]
         ));
+        $attachments = $this->addAttachments($transaction->id);
         // Create a new receive transaction if the destination office has registered users.
         if ($request->task === 'O') {
             $office = \Modules\Documents\Entities\Office::find($request->from_to_office);
@@ -106,9 +107,29 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
                     'pending'           =>  1,
                     'parent_id'         => $transaction->id
                 ];
-                $this->create($received);
+                $new = $this->create($received);
+                $new_attachments = $this->addAttachments($new->id);
             }
         }   
-        return $transaction;
+        session()->forget('attachments');
+        return collect($transaction)->merge($attachments);
     }    
+    protected function addAttachments($transactId) 
+    {
+        if (session()->has('attachments')) {
+            $attachments = session()->get('attachments');
+            try {
+                for ($i=0; $i < count($attachments) ; $i++) {                  
+                    $file = $attachments[$i]['filename'];
+                    $path = $attachments[$i]['path'];
+                    $url = $attachments[$i]['url'];
+                    $a = new \Modules\Documents\Entities\Attachment;
+                    $a->create(['transaction_id' => $transactId, 'filename' => $file, 'path' => $path, 'url' => $url, 'drive' => ACTIVE_DISK]);
+                }
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        }
+    }
 }

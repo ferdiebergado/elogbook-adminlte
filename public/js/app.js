@@ -11519,15 +11519,19 @@ __webpack_require__(10);
  * @param  {input element}
  * @return {[file handle]}
  */
-var readURL = function readURL(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      $('#avatar-preview').attr('src', e.target.result);
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-};
+try {
+  var readURL = function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#avatar-preview').attr('src', e.target.result);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
+} catch (err) {
+  console.log(err.message);
+}
 var restoreTab = function restoreTab(tab) {
   // Restore active tab on page refresh (Bootstrap)
   $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {

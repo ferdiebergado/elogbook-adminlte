@@ -1,6 +1,7 @@
 <?php
 return [
     'name'          => 'Documents',
+    'active_disk'   => 'G',
     'perpage'       => 10,
     'perPageRange'  => ['10', '20', '25', '50'],
     'tasks'         => ['I', 'O', 'P'],

@@ -3,8 +3,8 @@
 VIEW TRANSACTION 
 @endsection
 @section('breadcrumb')
-	@include('documents::includes.breadcrumbs.transactions')
-	@include('documents::includes.breadcrumbs.show')
+@include('documents::includes.breadcrumbs.transactions')
+@include('documents::includes.breadcrumbs.show')
 @endsection
 @section('content')
 <div class="content">
@@ -20,12 +20,12 @@ VIEW TRANSACTION
 		<label class="control-label col-sm-2">Task:</label>
 		<div class="col-sm-10">
 			@switch($transaction->task)
-			    @case('I')
-			        <p><span class="label label-primary">Receive</span></p>
-			        @break			
-			    @case('O')
-			    	<p><span class="label label-success">Release</span></p>
-			        @break
+			@case('I')
+			<p><span class="label label-primary">Receive</span></p>
+			@break			
+			@case('O')
+			<p><span class="label label-success">Release</span></p>
+			@break
 			@endswitch
 		</div>
 	</div>	
@@ -78,21 +78,32 @@ VIEW TRANSACTION
 		<label class="control-label col-sm-2">Status:</label>
 		<div class="col-sm-10">
 			<p><span class="label label-{{ $transaction->pending ? 'warning' : 'success' }}">{{ $transaction->pending ? 'Pending' : 'OK' }}</p>
+			</div>
+		</div>	
+		<!-- RELEASED BY -->
+		<div class="row">
+			<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Received' : 'Released' }} By:</label>
+			<div class="col-sm-10">
+				<p>{{ $transaction->task === 'I' ? $transaction->by : $transaction->creator->name }}</p>
+			</div>
+		</div>	
+		<!-- RECEIVED BY -->
+		<div class="row">
+			<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Released' : 'Received' }} By:</label>
+			<div class="col-sm-10">
+				<p>{{ $transaction->task ==='I' ? $transaction->creator->name : $transaction->by }}</p>
+			</div>
+		</div>	
+		<!-- ATTACHMENTS -->
+		<div class="row">
+			<label class="control-label col-sm-2">Attachment(s):</label>
+			<div class="col-sm-10">			
+				@forelse ($attachments as $attachment)
+				<p><a href="{{ $attachment->url }}" target="_blank">{{ $attachment->filename }}</a></p>
+				@empty
+				No attachment.
+				@endforelse	
+			</div>
 		</div>
-	</div>	
-	<!-- RELEASED BY -->
-	<div class="row">
-		<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Received' : 'Released' }} By:</label>
-		<div class="col-sm-10">
-			<p>{{ $transaction->task === 'I' ? $transaction->by : $transaction->creator->name }}</p>
-		</div>
-	</div>	
-	<!-- RECEIVED BY -->
-	<div class="row">
-		<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Released' : 'Received' }} By:</label>
-		<div class="col-sm-10">
-			<p>{{ $transaction->task ==='I' ? $transaction->creator->name : $transaction->by }}</p>
-		</div>
-	</div>	
-</div>
-@endsection
+	</div>
+	@endsection

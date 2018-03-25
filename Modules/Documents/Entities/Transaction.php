@@ -62,6 +62,10 @@ class Transaction extends BaseModel
     {
         return $this->belongsTo(\Modules\Users\Entities\User::class)->withDefault(['name' => null]);
     }
+    public function attachments()
+    {
+        return $this->hasMany(\Modules\Documents\Entities\Attachment::class);
+    }
     // public function getDateAttribute($value)
     // {
     //     return \Carbon\Carbon::parse($value)->format('M j, Y g:i A');

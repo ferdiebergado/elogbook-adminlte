@@ -29,14 +29,18 @@ require('admin-lte/dist/js/adminlte.min.js');
  * @param  {input element}
  * @return {[file handle]}
  */
- var readURL = function(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      $('#avatar-preview').attr('src', e.target.result);
+ try {
+   var readURL = function(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('#avatar-preview').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
     }
-    reader.readAsDataURL(input.files[0]);
   }
+} catch(err) {
+  console.log(err.message);
 }
 var restoreTab = function(tab) {
     // Restore active tab on page refresh (Bootstrap)
@@ -194,7 +198,7 @@ $('#avatar-input').change(function() {
     inputAction.focus();
   }
   $('#btnShowModal').click(function() {
-      $('#modalConfirm').modal("show");      
+    $('#modalConfirm').modal("show");      
   });
   // restoreTab('documents-tab');
   restoreTab('profile-tab');
