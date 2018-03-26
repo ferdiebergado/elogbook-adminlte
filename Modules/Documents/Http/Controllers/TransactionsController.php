@@ -161,7 +161,7 @@ class TransactionsController extends Controller
     public function show($id)
     {
         $transaction = $this->repository->with(['document', 'document.doctype', 'target_office'])->find($id);
-        $attachments = Attachment::where('transaction_id', $id)->get(['transaction_id', 'filename', 'url']);
+        $attachments = Attachment::where('transaction_id', $id)->get(['transaction_id', 'filename', 'path', 'url']);
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $transaction,
@@ -308,14 +308,15 @@ class TransactionsController extends Controller
             $filename = Storage::disk(ACTIVE_DISK)->putFile($folder['path'], $file);
             $fileurl = Storage::disk(ACTIVE_DISK)->url($folder['path'] . '/' . $filename);
             $path = explode('/', $filename);
-            $attachments = array(['filename' => $name, 'path' => $path[1], 'url' => $fileurl]);
+            $filepath = $path[1];
+            $attachments = array(['filename' => $name, 'path' => $filepath, 'url' => $fileurl]);
             if (session()->has('attachments')) {
                 session()->put('attachments', array_merge(session()->get('attachments'), $attachments));
             } else {
                 session()->put('attachments', $attachments);
             }
             $message = 'Attachment successfully uploaded.';
-            return compact('fileurl', 'message');
+            return compact('fileurl', 'filepath', 'message');
         } catch (ValidationException $e) {
             return ['message' => $e->errors()];        
         } catch (Exception $e) {
@@ -324,6 +325,18 @@ class TransactionsController extends Controller
     }
     public function removeAttachment(Request $request)
     {
-
+        try {
+            $this->validate($request, [
+                'path' => 'required|string'
+            ]);
+            $files = collect(Storage::disk(ACTIVE_DISK)->listContents());
+            $dir = $files->where('type', 'dir')->where('filename', auth()->user()->office_id)->first();
+            $path = Storage::disk(ACTIVE_DISK)->delete($dir['path']. '/' . $request->path);
+            return ['path' => $path];
+        } catch(ValidationException $e) {
+            return ['message' => $e->errors()];
+        } catch (Exception $e) {
+            return ['message' => $e->getMessage()];
+        }
     }
 }
