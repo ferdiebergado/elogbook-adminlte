@@ -308,7 +308,7 @@ class TransactionsController extends Controller
             $filename = Storage::disk(ACTIVE_DISK)->putFile($folder['path'], $file);
             $fileurl = Storage::disk(ACTIVE_DISK)->url($folder['path'] . '/' . $filename);
             $path = explode('/', $filename);
-            $filepath = $path[1];
+            $filepath = $path[1];            
             $attachments = array(['filename' => $name, 'path' => $filepath, 'url' => $fileurl]);
             if (session()->has('attachments')) {
                 session()->put('attachments', array_merge(session()->get('attachments'), $attachments));
@@ -328,15 +328,21 @@ class TransactionsController extends Controller
         try {
             $this->validate($request, [
                 'path' => 'required|string'
-            ]);
-            $files = collect(Storage::disk(ACTIVE_DISK)->listContents());
-            $dir = $files->where('type', 'dir')->where('filename', auth()->user()->office_id)->first();
-            $path = Storage::disk(ACTIVE_DISK)->delete($dir['path']. '/' . $request->path);
+            ]);            
+            $dirs = Cache::rememberForever('dirs', function() {
+                 $d = collect(Storage::disk(ACTIVE_DISK)->listContents('/'));
+                 return $d->where('type', 'dir');
+            });
+            $dir = $dirs->where('filename', (string) auth()->user()->office_id)->first();
+            $files = collect(Storage::disk(ACTIVE_DISK)->listContents($dir['path']));
+            $f = explode('.', $request->path);
+            $file = $files->where('type', 'file')->where('filename', $f[0])->first();
+            $path = Storage::disk(ACTIVE_DISK)->delete($file['path']);
             return ['path' => $path];
-        } catch(ValidationException $e) {
-            return ['message' => $e->errors()];
-        } catch (Exception $e) {
-            return ['message' => $e->getMessage()];
+            } catch(ValidationException $e) {
+                return ['message' => $e->errors()];
+            } catch (Exception $e) {
+                return ['message' => $e->getMessage()];
+            }
         }
     }
-}
