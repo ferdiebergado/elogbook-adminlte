@@ -30,6 +30,11 @@
 - revert: repository methods into criterias (PARTIAL)
 - use datatable for active offices (tedious)
 - firstorcreate remove (OK)
+- upload attachment (OK)
+- remove bold button text (OK)
+- segregate admin (OK)
+- External Links (OK)
+- image compressor (not needed)
 - replace transaction history table with datatable (na)
 - key up/down event on artisan prompt (Not implemented: Autocomplete is enough)
 - move url(storage/avatars) to users.config (STET)
@@ -43,18 +48,16 @@
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
-- <br> class="hideen md:inline"
-- image compressor
+- <br> class="hidden md:inline"
 - add filter on transactions search
-- upload attachment
-- remove bold button text
-- add exception catcher with error code (for each function when necessary)
-- Entities
-- External Links 
-- create tabs for admin/environment
-- separate title icon as section
-- segregate admin
-- ajax user datalist
-- User Guide
 - Unit Tests
 ### END OF PENDING TASKS ###
+
+### DEFERRED TASKS ###
+- add exception catcher with error code (for each function when necessary) [deferred]
+- Entities (deferred)
+- create tabs for admin/environment (deferred)
+- separate title icon as section (deferred)
+- ajax user datalist (deferred)
+- User Guide (deferred)
+### END DEFERRED TASKS ###

@@ -153,7 +153,21 @@
               <span class="label label-info pull-right">{{ $active_offices_count }}</span>
             </span>
           </a>
-        </li>        
+        </li>  
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-link"></i> <span>External Links</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu clearfix">
+              <li><a href="http://tldevents.000webhostapp.com" target="_blank"><i class="fa fa-database"></i><span>TLD ERDB</span>
+              </a></li>              
+              <li ><a href="http://tldbld.890m.com" target="_blank"><i class="fa fa-sitemap"></i><span>TLD Website</span>
+              </a></li>
+            </ul>
+          </li>
         @endcan
       </ul>
     </section>
