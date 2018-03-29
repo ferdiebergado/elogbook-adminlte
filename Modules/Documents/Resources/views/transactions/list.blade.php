@@ -4,7 +4,7 @@
 				<br><br>
 			<div class="table-responsive">
 				<table class="table table-hover table-condensed table-striped table-bordered" style="font-size: 1.3rem">
-					<thead class="bg-blue">
+					<thead class="bg-purple">
 						<tr>
 							<th class="text-center">Trans. No.</th>
 							<th class="text-center">Task</th>

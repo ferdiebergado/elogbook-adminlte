@@ -64,7 +64,8 @@ var restoreTab = function(tab) {
     const AES = require('crypto-js/aes');
     const Uft8 = require('crypto-js/enc-utf8');
     const Lib = require('crypto-js/lib-typedarrays');
-    const salt = 'i8ZGKfgqIeFVjPvnZrAMUWQdBIIVyUOr';
+    // const salt = 'i8ZGKfgqIeFVjPvnZrAMUWQdBIIVyUOr';
+    const salt = 'SJreZGO4dr0ZvW2ydNcQWfSWGtjfDAmz';
 /**
 * AES JSON formatter for CryptoJS
 *

@@ -10,6 +10,9 @@ class Bureauservice extends BaseModel
     	'shortname', 
     	'strand_id'
     ];
+    protected $casts = [
+        'strand_id' => 'integer'
+    ];
     public function offices()
     {
     	return $this->hasMany(Office::class)->withDefault();

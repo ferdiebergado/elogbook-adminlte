@@ -12,6 +12,10 @@ class Office extends BaseModel
     	'bureauservice_id', 
     	'strand_id'
     ];
+    protected $casts = [
+        'bureauservice_id' => 'integer',
+        'strand_id' => 'integer'
+    ];
     public function strand()
     {
     	return $this->belongsTo(Strand::class)->withDefault(['name' => null]);

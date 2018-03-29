@@ -15,7 +15,8 @@
 // 	Route::redirect('/admin', '/admin/environment')->middleware('admin')->name('admin.home');
 // });
 Route::get('/', function () {
-    if (auth()->check() && auth()->user()->can('admin')) {
+    // if (auth()->check() && auth()->user()->can('admin')) {
+    if (Gate::allows('admin')) {        
         return redirect('/admin');
     } else {
         return redirect('/home');
@@ -57,7 +58,7 @@ Route::get('list-folder-contents', function () {
     // $files = collect(Storage::cloud()->listContents($dir['path'], false))
     // ->where('type', '=', 'file');
     $files = collect(Storage::cloud()->listContents('/', false))
-        ->where('type', '=', 'file');
+    ->where('type', '=', 'file');
 
     return $files->mapWithKeys(function ($file) {
         $filename = $file['filename'] . '.' . $file['extension'];
@@ -73,16 +74,16 @@ Route::get('get', function () {
     $recursive = false; // Get subdirectories also?
     $contents = collect(Storage::cloud()->listContents($dir, $recursive));
     $file = $contents
-        ->where('type', '=', 'file')
-        ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
-        ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
+    ->where('type', '=', 'file')
+    ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
+    ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
         ->first(); // there can be duplicate file names!
     //return $file; // array with file info
-    $rawData = Storage::cloud()->get($file['path']);
-    return response($rawData, 200)
+        $rawData = Storage::cloud()->get($file['path']);
+        return response($rawData, 200)
         ->header('ContentType', $file['mimetype'])
         ->header('Content-Disposition', "attachment; filename='$filename'");
-});
+    });
 Route::get('put-get-stream', function () {
     // Use a stream to upload and download larger files
     // to avoid exceeding PHP's memory limit.
@@ -101,9 +102,9 @@ Route::get('put-get-stream', function () {
     $contents = collect(Storage::cloud()->listContents($dir, $recursive));
     // Get file details...
     $file = $contents
-        ->where('type', '=', 'file')
-        ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
-        ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
+    ->where('type', '=', 'file')
+    ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
+    ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
         ->first(); // there can be duplicate file names!
     //return $file; // array with file info
     // Store the file locally...
@@ -111,14 +112,14 @@ Route::get('put-get-stream', function () {
     //$targetFile = storage_path("downloaded-{$filename}");
     //file_put_contents($targetFile, stream_get_contents($readStream), FILE_APPEND);
     // Stream the file to the browser...
-    $readStream = Storage::cloud()->getDriver()->readStream($file['path']);
-    return response()->stream(function () use ($readStream) {
-        fpassthru($readStream);
-    }, 200, [
-        'Content-Type' => $file['mimetype'],
+        $readStream = Storage::cloud()->getDriver()->readStream($file['path']);
+        return response()->stream(function () use ($readStream) {
+            fpassthru($readStream);
+        }, 200, [
+            'Content-Type' => $file['mimetype'],
         //'Content-disposition' => 'attachment; filename="'.$filename.'"', // force download?
-    ]);
-});
+        ]);
+    });
 Route::get('create-dir', function () {
     Storage::cloud()->makeDirectory('Test Dir');
     return 'Directory was created in Google Drive';
@@ -131,39 +132,39 @@ Route::get('create-sub-dir', function () {
     $recursive = false; // Get subdirectories also?
     $contents = collect(Storage::cloud()->listContents($dir, $recursive));
     $dir = $contents->where('type', '=', 'dir')
-        ->where('filename', '=', 'Test Dir')
+    ->where('filename', '=', 'Test Dir')
         ->first(); // There could be duplicate directory names!
-    if (!$dir) {
-        return 'Directory does not exist!';
-    }
+        if (!$dir) {
+            return 'Directory does not exist!';
+        }
     // Create sub dir
-    Storage::cloud()->makeDirectory($dir['path'] . '/Sub Dir');
-    return 'Sub Directory was created in Google Drive';
-});
+        Storage::cloud()->makeDirectory($dir['path'] . '/Sub Dir');
+        return 'Sub Directory was created in Google Drive';
+    });
 Route::get('put-in-dir', function () {
     $dir = '/';
     $recursive = false; // Get subdirectories also?
     $contents = collect(Storage::cloud()->listContents($dir, $recursive));
     $dir = $contents->where('type', '=', 'dir')
-        ->where('filename', '=', 'Test Dir')
+    ->where('filename', '=', 'Test Dir')
         ->first(); // There could be duplicate directory names!
-    if (!$dir) {
-        return 'Directory does not exist!';
-    }
-    Storage::cloud()->put($dir['path'] . '/test.txt', 'Hello World');
-    return 'File was created in the sub directory in Google Drive';
-});
+        if (!$dir) {
+            return 'Directory does not exist!';
+        }
+        Storage::cloud()->put($dir['path'] . '/test.txt', 'Hello World');
+        return 'File was created in the sub directory in Google Drive';
+    });
 Route::get('newest', function () {
     $filename = 'test.txt';
     Storage::cloud()->put($filename, \Carbon\Carbon::now()->toDateTimeString());
     $dir = '/';
     $recursive = false; // Get subdirectories also?
     $file = collect(Storage::cloud()->listContents($dir, $recursive))
-        ->where('type', '=', 'file')
-        ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
-        ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
-        ->sortBy('timestamp')
-        ->last();
+    ->where('type', '=', 'file')
+    ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
+    ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
+    ->sortBy('timestamp')
+    ->last();
     return Storage::cloud()->get($file['path']);
 });
 Route::get('delete', function () {
@@ -175,13 +176,13 @@ Route::get('delete', function () {
     $recursive = false; // Get subdirectories also?
     $contents = collect(Storage::cloud()->listContents($dir, $recursive));
     $file = $contents
-        ->where('type', '=', 'file')
-        ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
-        ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
+    ->where('type', '=', 'file')
+    ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
+    ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
         ->first(); // there can be duplicate file names!
-    Storage::cloud()->delete($file['path']);
-    return 'File was deleted from Google Drive';
-});
+        Storage::cloud()->delete($file['path']);
+        return 'File was deleted from Google Drive';
+    });
 Route::get('delete-dir', function () {
     $directoryName = 'test';
     // First we need to create a directory to delete
@@ -191,12 +192,12 @@ Route::get('delete-dir', function () {
     $recursive = false; // Get subdirectories also?
     $contents = collect(Storage::cloud()->listContents($dir, $recursive));
     $directory = $contents
-        ->where('type', '=', 'dir')
-        ->where('filename', '=', $directoryName)
+    ->where('type', '=', 'dir')
+    ->where('filename', '=', $directoryName)
         ->first(); // there can be duplicate file names!
-    Storage::cloud()->deleteDirectory($directory['path']);
-    return 'Directory was deleted from Google Drive';
-});
+        Storage::cloud()->deleteDirectory($directory['path']);
+        return 'Directory was deleted from Google Drive';
+    });
 Route::get('rename-dir', function () {
     $directoryName = 'test';
     // First we need to create a directory to rename
@@ -206,12 +207,12 @@ Route::get('rename-dir', function () {
     $recursive = false; // Get subdirectories also?
     $contents = collect(Storage::cloud()->listContents($dir, $recursive));
     $directory = $contents
-        ->where('type', '=', 'dir')
-        ->where('filename', '=', $directoryName)
+    ->where('type', '=', 'dir')
+    ->where('filename', '=', $directoryName)
         ->first(); // there can be duplicate file names!
-    Storage::cloud()->move($directory['path'], 'new-test');
-    return 'Directory was renamed in Google Drive';
-});
+        Storage::cloud()->move($directory['path'], 'new-test');
+        return 'Directory was renamed in Google Drive';
+    });
 Route::get('share', function () {
     $filename = 'test.txt';
     // Store a demo file
@@ -221,15 +222,15 @@ Route::get('share', function () {
     $recursive = false; // Get subdirectories also?
     $contents = collect(Storage::cloud()->listContents($dir, $recursive));
     $file = $contents
-        ->where('type', '=', 'file')
-        ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
-        ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
+    ->where('type', '=', 'file')
+    ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
+    ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
         ->first(); // there can be duplicate file names!
     // Change permissions
-    $service = Storage::cloud()->getAdapter()->getService();
-    $permission = new \Google_Service_Drive_Permission();
-    $permission->setRole('reader');
-    $permission->setType('anyone');
-    $permission->setAllowFileDiscovery(false);
-    $permissions = $service->permissions->create($file['basename'], $permission);
-});
+        $service = Storage::cloud()->getAdapter()->getService();
+        $permission = new \Google_Service_Drive_Permission();
+        $permission->setRole('reader');
+        $permission->setType('anyone');
+        $permission->setAllowFileDiscovery(false);
+        $permissions = $service->permissions->create($file['basename'], $permission);
+    });

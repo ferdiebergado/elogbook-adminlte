@@ -29,7 +29,7 @@ class UsersComposer
      */
     public function compose(View $view)
     {
-        $users = Cache::remember('users', '60', function() {
+        $users = Cache::remember('users', '30', function() {
             return $this->users->orderBy('name')->get(['id', 'name']);
         });            
         $view->with(compact('users'));

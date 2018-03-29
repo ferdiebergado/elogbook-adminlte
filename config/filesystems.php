@@ -54,12 +54,14 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+
         'avatars' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/avatars'),
+            'root' => public_path('storage/avatars'),
             'url' => env('APP_URL').'/avatars',
             'visibility' => 'public',
         ],     
+
         'G' => [
             'driver' => 'google',
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
@@ -67,6 +69,7 @@ return [
             'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
             'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'),
         ],        
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

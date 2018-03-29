@@ -34,6 +34,14 @@ class User extends Authenticatable
         'password', 
         'remember_token',
     ];
+    protected $dates = [
+        'last_login'
+    ];
+    protected $casts = [
+        'jobtitle_id' => 'integer',
+        'office_id' => 'integer',
+        'role' => 'integer'
+    ];
     protected $dispatchesEvents = [
         'created' => UserAmended::class,
         'saved' => UserAmended::class,

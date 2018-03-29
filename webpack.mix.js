@@ -4,7 +4,7 @@ const JavaScriptObfuscator = require('webpack-obfuscator');
 
 mix.webpackConfig({
 	plugins: [
-        	// new JavaScriptObfuscator ({rotateUnicodeArray: true})
+        	new JavaScriptObfuscator ({rotateUnicodeArray: true})
         	]
         });
 
@@ -39,6 +39,6 @@ mix .js('resources/assets/js/app.js', 'public/js')
  	],
  	'public/js/plugins.js');
  
-if (mix.inProduction()) {
- 	mix.version();
-}
+// if (mix.inProduction()) {
+//  	mix.version();
+// }

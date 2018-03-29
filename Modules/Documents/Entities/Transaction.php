@@ -29,6 +29,14 @@ class Transaction extends BaseModel
     ];
     protected $dates = [
     	'date'
+    ];
+    protected $casts = [
+        'pending' => 'boolean',
+        'parent_id' => 'integer',
+        'office_id' => 'integer',
+        'from_to_office' => 'integer',
+        'doctype_id' => 'integer',
+        'document_id' => 'integer'
     ];   
     /**
      * All of the relationships to be touched.

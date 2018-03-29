@@ -161,7 +161,8 @@ class UsersController extends Controller
             $this->validate($request, [
                 'avatar' => 'required|file|image|mimes:jpeg,jpg,png|max:512'
             ]);
-            $file = $request->file('avatar')->store('/', 'avatars');
+            // $file = $request->file('avatar')->store('/', 'avatars');
+            $file = Storage::disk('avatars')->putFile('/', $request->file('avatar'));
             $avatar = $this->repository->find($id, ['avatar']);
             if (!empty($avatar)) {
                 Storage::disk('avatars')->delete($avatar);                
@@ -186,7 +187,7 @@ class UsersController extends Controller
             }
             return redirect()->back()->withErrors($e->errors());        
         } catch (Exception $e) {
-            throw $e;            
+            return redirect()->back()->withErrors($e->getMessage());     
         }
     }
 }

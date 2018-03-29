@@ -22,6 +22,10 @@ class Document extends BaseModel
             'persons_concerned'	,
             'office_id'
     ];
+    protected $casts = [
+        'doctype_id' => 'integer',
+        'office_id' => 'integer'
+    ];
     public function doctype()
     {
         return $this->belongsTo(Doctype::class)->withDefault(['name' => null]);

@@ -19,9 +19,10 @@ class AdminController extends Controller
     public function documents()
     {
         $request = app()->make('request');
-        $model = $this->documents->with(['doctype', 'creator']);
+        // $model = $this->documents->with(['doctype', 'creator']);
         $perPage = $this->getRequestLength($request); 
-        $documents = $this->sortFields($request, $model)->paginate($perPage);
+        // $documents = $this->sortFields($request, $model)->paginate($perPage);
+        $documents = $this->documents->with(['doctype', 'creator'])->paginate($perPage);
         if (request()->wantsJson()) {
             return response()->json([
                 'draw' => $request->draw,
@@ -33,9 +34,9 @@ class AdminController extends Controller
     public function transactions()
     {
         $request = app()->make('request');
-        $model = $this->transactions->with(['document', 'document.doctype', 'target_office']);
         $perPage = $this->getRequestLength($request); 
-        $transactions = $this->sortFields($request, $model)->paginate($perPage);
+        // $transactions = $this->sortFields($request, $model)->paginate($perPage);
+        $transactions = $this->transactions->with(['document', 'document.doctype', 'target_office'])->paginate($perPage);
         if (request()->wantsJson()) {
             return response()->json([
                 'draw' => $request->draw,

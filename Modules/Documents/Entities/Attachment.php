@@ -14,6 +14,9 @@ class Attachment extends BaseModel
         'url',
         'drive'
     ];
+    protected $casts = [
+        'transaction_id' => 'integer'
+    ];
     public function transaction()
     {
     	return $this->belongsTo(Transaction::class);
