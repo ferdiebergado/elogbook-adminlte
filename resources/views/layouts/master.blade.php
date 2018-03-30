@@ -233,8 +233,8 @@
   </form>
   <footer class="main-footer">
     <a href="{{ config('app.pages.github') }}"><b>{{ config('app.name') }}</b></a> <small> v. {{ config('app.version') . $version }} </small><small class="label label-info">{{ config('app.release') }}</small>
-    <div class="pull-right hidden-xs">
-      <small><strong>Copyright &copy; {{ \Carbon\Carbon::now()->year }} <a href="{{ config('app.pages.facebook') }}">{{ config('app.author') }}</a></strong>, <a href="{{ config('app.pages.msit') }}">MSITc</a></small>
+    <div class="hidden-xs">
+      <small><strong>&copy; {{ \Carbon\Carbon::now()->year }} <a href="{{ config('app.pages.facebook') }}">{{ config('app.author') }}</a></strongCopyright>, <a href="{{ config('app.pages.msit') }}">MSITc</a></small>
     </div>
   </footer>
 </div>
