@@ -1,5 +1,7 @@
 <?php
+
 namespace Modules\Documents\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Documents\Http\Requests\DocumentCreateRequest;
@@ -9,23 +11,23 @@ use Modules\Documents\Repositories\TransactionRepository;
 use Illuminate\Validation\ValidationException;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Modules\Documents\Criteria\DocumentRelationsCriteria;
-use Modules\Documents\Criteria\ByOfficeCriteria;
 use Modules\Documents\Criteria\MultiSortCriteria;
-use Modules\Documents\Entities\Office;
+
 /**
  * Class DocumentsController.
  *
  * @package namespace Modules\Documents\Http\Controllers;
  */
 class DocumentsController extends Controller
-{    
+{
     use \Modules\Documents\Http\Helpers\RequestParser, \App\Http\Helpers\DateHelper;
     // \Modules\Documents\Http\Helpers\TransactionHelper;
     /**
      * @var DocumentRepository
      */
-    protected $repository, $transaction_repository;
+    protected $repository;
+    protected $transaction_repository;
+
     /**
      * DocumentsController constructor.
      *
@@ -36,6 +38,7 @@ class DocumentsController extends Controller
         $this->repository = $repository;
         $this->transaction_repository = $transaction_repository;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,14 +50,14 @@ class DocumentsController extends Controller
         $request = app()->make('request');
         $this->validate($request, [
             'length' => [
-                'integer', 
+                'integer',
                 \Illuminate\Validation\Rule::in(config('documents.perPageRange'))
-            ], 
-            'sortBy' => 'string|nullable', 
+            ],
+            'sortBy' => 'string|nullable',
             'orderByMulti' => 'string|nullable'
         ]);
-        $perPage = $this->getRequestLength($request);    
-        // $this->pushCriteria(app('\Modules\Documents\Criteria\DocumentRequestCriteria'));   
+        $perPage = $this->getRequestLength($request);
+        // $this->pushCriteria(app('\Modules\Documents\Criteria\DocumentRequestCriteria'));
         $this->repository->with(['doctype', 'creator'])->getByOffice(auth()->user()->office_id);
         // Sort fields based on request orderBy (nested sorting)
         $this->repository->pushCriteria(new MultiSortCriteria($request));
@@ -68,6 +71,7 @@ class DocumentsController extends Controller
         }
         return view('documents::index', compact('documents'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -81,6 +85,7 @@ class DocumentsController extends Controller
         $transaction->pending = 0;
         return view('documents::create', compact('document', 'transaction'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -97,44 +102,45 @@ class DocumentsController extends Controller
         DB::beginTransaction();
         try {
             $document = $this->repository->create(array_merge($request->only('doctype_id', 'details', 'persons_concerned', 'additional_info'), ['office_id' => $office_id]));
-        } catch(ValidationException $e) {
+        } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
-                    'error'   => true,
+                    'error' => true,
                     'message' => $e->errorBag()
                 ]);
             }
             DB::rollback();
             return redirect()->back()->withErrors($e->errorBag())->withInput();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
-            throw $e;            
+            throw $e;
         }
         try {
             $transaction = $this->transaction_repository->store($request, $document->id, $document->doctype_id);
-        } catch(ValidationException $e) {
+        } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
-                    'error'   => true,
+                    'error' => true,
                     'message' => $e->errorBag()
                 ]);
             }
             DB::rollback();
             return redirect()->back()->withErrors($e->errorBag())->withInput();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             throw $e;
         }
         $response = [
             'message' => 'Document' . __('documents::messages.created'),
-            'data'    => collect($document)->merge($transaction),
+            'data' => collect($document)->merge($transaction),
         ];
         if ($request->wantsJson()) {
             return response()->json($response);
         }
         DB::commit();
-        return redirect()->route('documents.index')->with('message', $response['message']);        
+        return redirect()->route('documents.index')->with('message', $response['message']);
     }
+
     /**
      * Display the specified resource.
      *
@@ -153,6 +159,7 @@ class DocumentsController extends Controller
         }
         return view('documents::show', compact('document', 'transactions'));
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -162,9 +169,10 @@ class DocumentsController extends Controller
      */
     public function edit($id)
     {
-        $document = $this->repository->find($id);        
+        $document = $this->repository->find($id);
         return view('documents::edit', compact('document'));
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -181,7 +189,7 @@ class DocumentsController extends Controller
             $document = $this->repository->update($request->all(), $id);
             $response = [
                 'message' => 'Document updated.',
-                'data'    => $document->toArray(),
+                'data' => $document->toArray(),
             ];
             if ($request->wantsJson()) {
                 return response()->json($response);
@@ -190,15 +198,16 @@ class DocumentsController extends Controller
         } catch (ValidationException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
-                    'error'   => true,
+                    'error' => true,
                     'message' => $e->getMessageBag()
                 ]);
             }
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw $e;
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *
