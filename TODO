@@ -34,7 +34,9 @@
 - remove bold button text (OK)
 - segregate admin (OK)
 - External Links (OK)
+- fix change avatar (OK)
 - image compressor (not needed)
+- add filter on active offices re role=4 (OK)
 - replace transaction history table with datatable (na)
 - key up/down event on artisan prompt (Not implemented: Autocomplete is enough)
 - move url(storage/avatars) to users.config (STET)
@@ -50,8 +52,6 @@
 ### PENDING TASKS ###
 - gate define role = 4
 - add account readonly
-- add filter on active offices re role=4
-- fix change avatar
 - command buttons to purple
 - <br> class="hidden md:inline"
 - add filter on transactions search

@@ -4,9 +4,7 @@ namespace Modules\Documents\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Modules\Documents\Repositories\OfficeRepository;
 use Modules\Documents\Entities\Office;
-use Modules\Documents\Validators\OfficeValidator;
 
 /**
  * Class OfficeRepositoryEloquent.
@@ -25,8 +23,6 @@ class OfficeRepositoryEloquent extends BaseRepository implements OfficeRepositor
         return Office::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */
@@ -34,8 +30,11 @@ class OfficeRepositoryEloquent extends BaseRepository implements OfficeRepositor
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
     public function getActive()
     {
-        return $this->model->has('users')->select('id')->orderBy('id')->get();
-    }    
+        return $this->model->whereHas('users', function ($q) {
+            $q->where('role', 3)->where('confirmed', 1)->where('active', 1);
+        })->select('id')->orderBy('id')->get();
+    }
 }

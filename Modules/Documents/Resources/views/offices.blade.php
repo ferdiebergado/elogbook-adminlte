@@ -30,7 +30,7 @@ Offices where direct transaction (Receive/Release) is possible.
 					<td>{{ $office->strand->name }}</td>
 					<td>
 						@foreach ($office->users as $user)
-						@if (($user->active) && ($user->confirmed))
+						{{--  @if (($user->active) && ($user->confirmed))  --}}
 						{{-- <div class="container-fluid">			 --}}
 							<ul>
 								<li style="display: flex; align-items: center;">							
@@ -46,7 +46,7 @@ Offices where direct transaction (Receive/Release) is possible.
 								</li>
 							</ul>					
 						{{-- </div> --}}
-						@endif
+						{{--  @endif  --}}
 						@endforeach
 					</td>
 				</tr>
