@@ -57,7 +57,7 @@ return [
 
         'avatars' => [
             'driver' => 'local',
-            'root' => public_path('storage/avatars'),
+            'root' => base_path('public_html/storage/avatars'),
             'url' => env('APP_URL').'/avatars',
             'visibility' => 'public',
         ],     

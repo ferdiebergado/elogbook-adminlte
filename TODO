@@ -48,6 +48,10 @@
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
+- gate define role = 4
+- add account readonly
+- add filter on active offices re role=4
+- fix change avatar
 - command buttons to purple
 - <br> class="hidden md:inline"
 - add filter on transactions search
