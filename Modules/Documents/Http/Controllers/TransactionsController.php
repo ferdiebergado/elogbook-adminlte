@@ -200,9 +200,10 @@ class TransactionsController extends Controller
             $date = $this->formatDates($request->task_date, $request->task_time);
             $office_id = auth()->user()->office_id;
             $transaction = $this->repository->update(array_merge(
-                $request->only('task', 'document_id', 'doctype_id', 'from_to_office', 'action', 'action_to_be_taken', 'by', 'pending'),
+                $request->only('task', 'document_id', 'doctype_id', 'from_to_office', 'action', 'action_to_be_taken', 'by'),
                 ['date' => $date],
-                ['office_id' => $office_id]
+                ['office_id' => $office_id],
+                ['pending' => $request->pending ?? 0]
             ), $id);
             // Update the parent transaction with the name of the receiver.
             $this->repository->update(['by' => $request->by], $transaction->parent_id);
