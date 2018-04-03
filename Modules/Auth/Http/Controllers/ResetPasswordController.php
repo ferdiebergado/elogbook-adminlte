@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 // use Bestmomo\LaravelEmailConfirmation\Traits\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\EncryptionController;
+// use App\Http\Controllers\EncryptionController;
 use Illuminate\Auth\Events\PasswordReset;
 
 class ResetPasswordController extends Controller
@@ -21,9 +21,10 @@ class ResetPasswordController extends Controller
     | and uses a simple trait to include this behavior. You're free to
     | explore this trait and override any methods you wish to tweak.
     |
-    */
+     */
 
     use ResetsPasswords;
+    use \App\Http\Helpers\CryptoJs;
 
     /**
      * Where to redirect users after resetting their password.
@@ -41,7 +42,7 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');       
+        $this->middleware('guest');
     }
 
     /**
@@ -69,7 +70,10 @@ class ResetPasswordController extends Controller
     protected function credentials(Request $request)
     {
         return $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email',
+            'password',
+            'password_confirmation',
+            'token'
         );
     }
 
@@ -91,7 +95,8 @@ class ResetPasswordController extends Controller
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
         $response = $this->broker()->reset(
-            $this->credentials($request), function ($user, $password) {
+            $this->credentials($request),
+            function ($user, $password) {
                 $this->resetPassword($user, $password);
             }
         );
@@ -100,8 +105,8 @@ class ResetPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $response == Password::PASSWORD_RESET
-                    ? $this->sendResetResponse($response)
-                    : $this->sendResetFailedResponse($request, $response);
+            ? $this->sendResetResponse($response)
+            : $this->sendResetFailedResponse($request, $response);
     }
     /**
      * Reset the given user's password.
@@ -122,13 +127,13 @@ class ResetPasswordController extends Controller
         if ($user->confirmed) {
             $this->guard()->login($user);
         }
-    }    
+    }
 
     private function mergeRequest($request)
     {
-        $this->password = EncryptionController::cryptoJsAesDecrypt(config('app.salt'), $this->password);
-        $this->password_confirmation = EncryptionController::cryptoJsAesDecrypt(config('app.salt'), $this->password_confirmation);         
-        $request->merge(['password' => $this->password, 'password_confirmation' => $this->password_confirmation]);        
+        $this->password = $this->cryptoJsAesDecrypt(config('app.salt'), $this->password);
+        $this->password_confirmation = $this->cryptoJsAesDecrypt(config('app.salt'), $this->password_confirmation);
+        $request->merge(['password' => $this->password, 'password_confirmation' => $this->password_confirmation]);
     }
 
 }
