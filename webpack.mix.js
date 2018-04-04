@@ -39,6 +39,6 @@ mix .js('resources/assets/js/app.js', 'public/js')
  	],
  	'public/js/plugins.js');
  
-// if (mix.inProduction()) {
-//  	mix.version();
-// }
+if (mix.inProduction()) {
+ 	mix.version();
+}
