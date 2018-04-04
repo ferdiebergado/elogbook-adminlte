@@ -25,5 +25,27 @@ class DocumentsDatabaseSeeder extends Seeder
         // factory(\Modules\Documents\Entities\Transaction::class, 10)->states('mix1')->create();
         // factory(\Modules\Documents\Entities\Transaction::class, 10)->states('nonuser')->create();        
         // factory(\Modules\Documents\Entities\Transaction::class, 10)->states('mix2')->create();
+        // factory(\Modules\Users\Entities\User::class)->make([
+        //     'name' => 'Electronic Logbook',
+        //     'email' => 'elogbook@elogbook.com',
+        //     'password' => 'elogbook',
+        //     'jobtitle_id' => 30,
+        //     'office_id' => 7,
+        //     'role' => 1,
+        //     'active' => 1,
+        //     'confirmed' => 1
+        // ]);
+        // factory(\Modules\Users\Entities\User::class)->make([
+        //     'name' => 'ferdie bergado',
+        //     'email' => 'ferdie@bergado.com',
+        //     'password' => 'ferdiebergado',
+        //     'jobtitle_id' => 30,
+        //     'office_id' => 7,
+        //     'active' => 1,
+        //     'confirmed' => 1
+        // ]);        
+        // factory(\Modules\Documents\Entities\Document::class, 100)->create()->each(function($d) {
+        //     $d->transactions()->save(factory(\Modules\Documents\Entities\Transaction::class)->make());
+        // });
     }
 }
