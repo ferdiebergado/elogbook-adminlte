@@ -35,7 +35,9 @@ class ActiveOfficesComposer
     {
         $active_offices = $this->offices->with(['bureauservice', 'strand', 'users' => function ($q) {
             $q->where('role', 3)->where('confirmed', 1)->where('active', 1);
-        }])->has('users')->orderBy('name')->simplePaginate(5);
+        }])->whereHas('users', function ($q) {
+            $q->where('role', 3)->where('confirmed', 1)->where('active', 1);
+        })->orderBy('name')->simplePaginate(5);
         $view->with(compact('active_offices'));
     }
 }
