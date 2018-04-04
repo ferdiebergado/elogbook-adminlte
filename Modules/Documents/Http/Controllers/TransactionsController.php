@@ -200,7 +200,9 @@ class TransactionsController extends Controller
             $date = $this->formatDates($request->task_date, $request->task_time);
             $office_id = auth()->user()->office_id;
             $transaction = $this->repository->update(array_merge(
-                $request->only('task', 'document_id', 'doctype_id', 'from_to_office', 'action', 'action_to_be_taken', 'by'),
+                $request->only('task', 'from_to_office', 'action', 'action_to_be_taken', 'by'),
+                ['document_id' => $request->document_id],
+                ['doctype_id' => $request->transaction_doctype_id],
                 ['date' => $date],
                 ['office_id' => $office_id],
                 ['pending' => $request->pending ?? 0]

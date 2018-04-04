@@ -22,7 +22,7 @@ class TransactionUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'document_id'       => 'required|integer',     
+            'document_id'       => 'integer',     
             'task'              =>  [
                                        'required', 
                                         Rule::in(['I', 'O'])
@@ -33,7 +33,8 @@ class TransactionUpdateRequest extends FormRequest
             'action'            => 'required|max:250',
             'action_to_be_taken' => 'required|max:250',
             'by'                => 'filled|max:150',
-            'pending'           => 'required|boolean'
+            'pending'           => 'boolean',
+            'transaction_doctype_id' => 'integer'
         ];
     }
 }

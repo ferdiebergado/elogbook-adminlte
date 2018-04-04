@@ -49,7 +49,11 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
 
     public function getByOffice($id)
     {
-        return $this->model->where('transactions.office_id', $id);
+        if (auth()->user()->cannot('admin')) {
+            return $this->model->where('transactions.office_id', $id);
+        } else {
+            return $this->model;
+        }
     }
 
     public function getByTask($task)
@@ -101,7 +105,7 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
         // Create a new receive transaction if the destination office has registered users.
         if ($request->task === 'O') {
             $office = \Modules\Documents\Entities\Office::find($request->from_to_office);
-            if ($office->users()->where('name', '<>', null)->count() >= 1) {
+            if ($office->users()->where('active', 1)->where('confirmed', 1)->count() >= 1) {
                 $user = \Modules\Users\Entities\User::where('name', $transaction->by)->value('name');
                 if (!empty($user)) {
                     $by = $user;
