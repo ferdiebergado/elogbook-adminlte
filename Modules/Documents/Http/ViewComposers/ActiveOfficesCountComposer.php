@@ -8,15 +8,11 @@ use Illuminate\Contracts\Cache\Repository;
 
 class ActiveOfficesCountComposer
 {
-    /**
-    * The user repository implementation.
-    *
-    * @var UserRepository
-    */
-    protected $offices;
+    private $offices;
+    private $cache;
 
     /**
-    * Create a new profile composer.
+    * Create a new office count composer.
     *
     * @return void
     */
