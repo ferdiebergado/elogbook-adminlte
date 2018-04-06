@@ -7,6 +7,8 @@ use Illuminate\Contracts\Cache\Repository;
 
 class ClearUserId
 {
+    private $cache;
+
     /**
      * Create the event listener.
      *
