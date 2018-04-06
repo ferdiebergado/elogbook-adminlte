@@ -2,11 +2,8 @@
 
 namespace Modules\Users\Listeners;
 
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Users\Events\UserAmended;
 use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Support\Facades\Cache;
 
 class ClearUserId
 {
@@ -28,7 +25,8 @@ class ClearUserId
      */
     public function handle(UserAmended $event)
     {
-        $this->cache->forget('user_by_id_'.$event->model->id);        
-        Cache::forget('users');
+        $this->cache->forget('user_by_id_' . $event->model->id);
+        $this->cache->forget('users');
+        $this->cache->forget('active_offices_count');
     }
 }
