@@ -50,6 +50,12 @@
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
+- customize email verification template
+- include jobtitle and office in sign up
+- add refresh button on datatable 
+- add admin filter on datatable
+- users CRUD
+- create a trait for checking an office for active users
 - gate define role = 4
 - add account readonly
 - command buttons to purple

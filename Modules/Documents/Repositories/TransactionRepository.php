@@ -11,11 +11,19 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface TransactionRepository extends RepositoryInterface
 {
-	public function getByOffice($id);
-	public function getByTask($task);
-	public function getByDocument($id);
-	public function pending();
-	public function notPending();
+    public function getByOffice($id);
+
+    public function getByTask($task);
+
+    public function getByDocument($id);
+
+    public function pending();
+
+    public function notPending();
+
     public function latest();
+
     public function store($request, $document_id, $doctype_id);
+
+    public function addAttachments($transactId);
 }

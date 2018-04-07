@@ -10,7 +10,7 @@ use Modules\Documents\Repositories\DocumentRepository;
 use Modules\Documents\Repositories\TransactionRepository;
 use Illuminate\Validation\ValidationException;
 use Exception;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\DatabaseManager;
 use Modules\Documents\Criteria\MultiSortCriteria;
 
 /**
@@ -27,16 +27,18 @@ class DocumentsController extends Controller
      */
     protected $repository;
     protected $transaction_repository;
+    protected $db;
 
     /**
      * DocumentsController constructor.
      *
      * @param DocumentRepository $repository
      */
-    public function __construct(DocumentRepository $repository, TransactionRepository $transaction_repository)
+    public function __construct(DocumentRepository $repository, TransactionRepository $transaction_repository, DatabaseManager $db)
     {
         $this->repository = $repository;
         $this->transaction_repository = $transaction_repository;
+        $this->db = $db;
     }
 
     /**
@@ -82,7 +84,6 @@ class DocumentsController extends Controller
         $document = $this->repository->makeModel();
         $transaction = $this->transaction_repository->makeModel();
         $transaction->date = \Carbon\Carbon::now()->addMinute();
-        $transaction->pending = 0;
         return view('documents::create', compact('document', 'transaction'));
     }
 
@@ -99,7 +100,7 @@ class DocumentsController extends Controller
     {
         $date = $this->formatDates($request->task_date, $request->task_time);
         $office_id = auth()->user()->office_id;
-        DB::beginTransaction();
+        $this->db->beginTransaction();
         try {
             $document = $this->repository->create(array_merge($request->only('doctype_id', 'details', 'persons_concerned', 'additional_info'), ['office_id' => $office_id]));
         } catch (ValidationException $e) {
@@ -109,10 +110,10 @@ class DocumentsController extends Controller
                     'message' => $e->errorBag()
                 ]);
             }
-            DB::rollback();
+            $this->db->rollback();
             return redirect()->back()->withErrors($e->errorBag())->withInput();
         } catch (Exception $e) {
-            DB::rollback();
+            $this->db->rollback();
             throw $e;
         }
         try {
@@ -124,10 +125,10 @@ class DocumentsController extends Controller
                     'message' => $e->errorBag()
                 ]);
             }
-            DB::rollback();
+            $this->db->rollback();
             return redirect()->back()->withErrors($e->errorBag())->withInput();
         } catch (Exception $e) {
-            DB::rollback();
+            $this->db->rollback();
             throw $e;
         }
         $response = [
@@ -137,7 +138,7 @@ class DocumentsController extends Controller
         if ($request->wantsJson()) {
             return response()->json($response);
         }
-        DB::commit();
+        $this->db->commit();
         return redirect()->route('documents.index')->with('message', $response['message']);
     }
 

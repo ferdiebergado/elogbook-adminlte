@@ -18,8 +18,9 @@ use Modules\Documents\Criteria\TransactionsByTaskCriteria;
 use Modules\Documents\Criteria\TransactionRelationsCriteria;
 use Modules\Documents\Http\Requests\TransactionUpdateRequest;
 use Modules\Documents\Http\Requests\TransactionCreateRequest;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\Cache\Repository;
 use Modules\Documents\Entities\Attachment;
+use Illuminate\Database\DatabaseManager;
 /**
  * Class TransactionsController.
  *
@@ -27,23 +28,26 @@ use Modules\Documents\Entities\Attachment;
  */
 class TransactionsController extends Controller
 {
-    use \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\RequestParser;
-    // \Modules\Documents\Http\Helpers\TransactionHelper;
+    use \App\Http\Helpers\DateHelper, \Modules\Documents\Http\Helpers\RequestParser, \Modules\Documents\Http\Helpers\OfficeHelper;
     /**
      * @var TransactionRepository
      */
     protected $repository;
     protected $document_repository;
+    protected $cache;
+    protected $db;
 
     /**
      * TransactionsController constructor.
      *
      * @param TransactionRepository $repository
      */
-    public function __construct(TransactionRepository $repository, DocumentRepository $document_repository)
+    public function __construct(TransactionRepository $repository, DocumentRepository $document_repository,DatabaseManager $db, Repository $cache)
     {
         $this->repository = $repository;
         $this->document_repository = $document_repository;
+        $this->cache = $cache;
+        $this->db = $db;
     }
 
     public function home()
@@ -124,7 +128,7 @@ class TransactionsController extends Controller
      */
     public function store(TransactionCreateRequest $request)
     {
-        DB::beginTransaction();
+        $this->db->beginTransaction();
         try {
             $transaction = $this->repository->store($request, $request->document_id, $request->transaction_doctype_id);
             $response = [
@@ -134,10 +138,10 @@ class TransactionsController extends Controller
             if ($request->wantsJson()) {
                 return response()->json($response);
             }
-            DB::commit();
+            $this->db->commit();
             return redirect()->route('transactions.index')->with('message', $response['message']);
         } catch (ValidationException $e) {
-            DB::rollback();
+            $this->db->rollback();
             if ($request->wantsJson()) {
                 return response()->json([
                     'error' => true,
@@ -146,7 +150,7 @@ class TransactionsController extends Controller
             }
             return redirect()->back()->withErrors($e->errorBag())->withInput();
         } catch (Exception $e) {
-            DB::rollback();
+            $this->db->rollback();
             throw $e;
         }
     }
@@ -195,7 +199,7 @@ class TransactionsController extends Controller
      */
     public function update(TransactionUpdateRequest $request, $id)
     {
-        DB::beginTransaction();
+        $this->db->beginTransaction();
         try {
             $date = $this->formatDates($request->task_date, $request->task_time);
             $office_id = auth()->user()->office_id;
@@ -209,8 +213,8 @@ class TransactionsController extends Controller
             ), $id);
             // Update the parent transaction with the name of the receiver.
             $this->repository->update(['by' => $request->by], $transaction->parent_id);
-            $this->addAttachments($id);
-            DB::commit();
+            $this->repository->addAttachments($id);
+            $this->db->commit();
             $response = [
                 'message' => 'Transaction updated.',
                 'data' => $transaction,
@@ -218,9 +222,10 @@ class TransactionsController extends Controller
             if ($request->wantsJson()) {
                 return response()->json($response);
             }
+            $message = $response['message'];
             return redirect()->route('transactions.index')->with('message', $response['message']);
         } catch (ValidationException $e) {
-            DB::rollback();
+            $this->db->rollback();
             if ($request->wantsJson()) {
                 return response()->json([
                     'error' => true,
@@ -229,8 +234,9 @@ class TransactionsController extends Controller
             }
             return redirect()->back()->withErrors($e->errorBag())->withInput();
         } catch (Exception $e) {
-            DB::rollback();
+            $this->db->rollback();
             throw $e;
+            // return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
     }
 
@@ -287,32 +293,33 @@ class TransactionsController extends Controller
         $transaction->pending = 0;
         return view('documents::transactions.create', compact('transaction'));
     }
+
     public function storeAttachment(Request $request)
     {
-        try {    
+        try {
             $this->validate($request, [
                 'attachment' => 'required|file|mimes:jpeg,jpg,png,pdf'
-            ]);        
+            ]);
             $dir = (string) auth()->user()->office_id;
-            $folders = Cache::remember('folders', now()->addMonth(), function() {
+            $folders = $this->cache->rememberForever('folders', function () {
                 $contents = collect(Storage::disk(ACTIVE_DISK)->listContents('/', false));
-                return $contents->where('type', 'dir'); // directories                
+                return $contents->where('type', 'dir'); // directories
             });
             $base = $folders->where('filename', $dir);
             $folder = $base->first();
-            $count = $base->count();
-            if ($count === 0) {
-                Storage::disk(ACTIVE_DISK)->makeDirectory($dir);
-                Cache::forget('folders');
-            }
+            // $count = $base->count();
+            // if ($count === 0) {
+            //     Storage::disk(ACTIVE_DISK)->makeDirectory($dir);
+            //     $this->cache->forget('folders');
+            // }
             $file = $request->file('attachment');
             $name = $file->getClientOriginalName();
             // $filename = $file->store($folder['path'], ACTIVE_DISK);
             $filename = Storage::disk(ACTIVE_DISK)->putFile($folder['path'], $file);
             $fileurl = Storage::disk(ACTIVE_DISK)->url($folder['path'] . '/' . $filename);
             $path = explode('/', $filename);
-            $filepath = $path[1];            
-            $attachments = array(['filename' => $name, 'path' => $filepath, 'url' => $fileurl]);
+            $filepath = $path[1];
+            $attachments = [['filename' => $name, 'path' => $filepath, 'url' => $fileurl]];
             if (session()->has('attachments')) {
                 session()->put('attachments', array_merge(session()->get('attachments'), $attachments));
             } else {
@@ -321,31 +328,29 @@ class TransactionsController extends Controller
             $message = 'Attachment successfully uploaded.';
             return compact('fileurl', 'filepath', 'message');
         } catch (ValidationException $e) {
-            return ['message' => $e->errors()];        
+            return ['message' => $e->errors()];
         } catch (Exception $e) {
             return ['message' => $e->getMessage()];
-        }        
+        }
     }
+
     public function removeAttachment(Request $request)
     {
         try {
             $this->validate($request, [
                 'path' => 'required|string'
-            ]);            
-            $dirs = Cache::rememberForever('dirs', function() {
-                 $d = collect(Storage::disk(ACTIVE_DISK)->listContents('/'));
-                 return $d->where('type', 'dir');
-            });
-            $dir = $dirs->where('filename', (string) auth()->user()->office_id)->first();
+            ]);
+            $folders = $this->cache->get('folders');
+            $dir = $folders->where('filename', (string) auth()->user()->office_id)->first();
             $files = collect(Storage::disk(ACTIVE_DISK)->listContents($dir['path']));
             $f = explode('.', $request->path);
             $file = $files->where('type', 'file')->where('filename', $f[0])->first();
             $path = Storage::disk(ACTIVE_DISK)->delete($file['path']);
             return ['path' => $path];
-            } catch(ValidationException $e) {
-                return ['message' => $e->errors()];
-            } catch (Exception $e) {
-                return ['message' => $e->getMessage()];
-            }
+        } catch (ValidationException $e) {
+            return ['message' => $e->errors()];
+        } catch (Exception $e) {
+            return ['message' => $e->getMessage()];
         }
     }
+}

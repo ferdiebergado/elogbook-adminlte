@@ -1,8 +1,11 @@
 <?php
+
 namespace Modules\Documents\Http\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Documents\Policies\TransactionPolicy;
 use Illuminate\Validation\Rule;
+
 class TransactionCreateRequest extends FormRequest
 {
     /**
@@ -14,6 +17,7 @@ class TransactionCreateRequest extends FormRequest
     {
         return new TransactionPolicy;
     }
+
     /**
     * Get the validation rules that apply to the request.
     *
@@ -22,18 +26,17 @@ class TransactionCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'document_id'       => 'integer',     
-            'task'              =>  [
-                'required', 
+            'document_id' => 'integer',
+            'task' => [
+                'required',
                 Rule::in(['I', 'O'])
             ],
-            'from_to_office'    => 'required|integer',
-            'task_date'         => 'required|date',
-            'task_time'         => 'required',            
-            'action'            => 'required|max:250',
+            'from_to_office' => 'required|integer',
+            'task_date' => 'required|date',
+            'task_time' => 'required',
+            'action' => 'required|max:250',
             'action_to_be_taken' => 'required|max:250',
-            'by'                => 'filled|max:150',
-            'pending'           => 'boolean',
+            'by' => 'filled|max:150',
             'transaction_doctype_id' => 'integer'
         ];
     }

@@ -131,7 +131,7 @@ class TransactionRepositoryEloquent extends BaseRepository implements Transactio
         return collect($transaction)->merge($attachments);
     }
 
-    protected function addAttachments($transactId)
+    public function addAttachments($transactId)
     {
         if (session()->has('attachments')) {
             $attachments = session()->get('attachments');

@@ -5,6 +5,18 @@
 			{{ csrf_field() }}
 			<div class="form-group">
 				<label id="lblAttachment" for="attachment">Attachment(s):</label>
+				@if ($errors->any())
+				@if (Session::has('attachments'))
+				@php $attachments = session()->get('attachments');
+				for ($i = 0; $i < count($attachments) ; $i++) {
+				 $file=$attachments[$i]['filename']; 
+				 $path=$attachments[$i]['path']; 
+				 $url=$attachments[$i]['url']; 
+				 echo "<p><a href='" . $url . "'>" . $file . "</a></p>";
+				}
+				@endphp					
+				@endif
+				@endif
 				<p id="ajax-loader" style="display: none;">
 					Processing... 
 					<img src="{{ url('/storage') . '/' . 'ajax-loader-square.gif' }}">				

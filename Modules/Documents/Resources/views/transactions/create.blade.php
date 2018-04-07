@@ -16,5 +16,6 @@ CREATE NEW TRANSACTION
 		@include('documents::transactions.document')
 		@include('documents::transactions.partial')
 	</form>
+	@include('documents::transactions.attachment')
 </div>
 @endsection 
