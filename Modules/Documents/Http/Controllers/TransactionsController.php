@@ -5,7 +5,6 @@ namespace Modules\Documents\Http\Controllers;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -21,6 +20,7 @@ use Modules\Documents\Http\Requests\TransactionCreateRequest;
 use Illuminate\Contracts\Cache\Repository;
 use Modules\Documents\Entities\Attachment;
 use Illuminate\Database\DatabaseManager;
+
 /**
  * Class TransactionsController.
  *
@@ -42,7 +42,7 @@ class TransactionsController extends Controller
      *
      * @param TransactionRepository $repository
      */
-    public function __construct(TransactionRepository $repository, DocumentRepository $document_repository,DatabaseManager $db, Repository $cache)
+    public function __construct(TransactionRepository $repository, DocumentRepository $document_repository, DatabaseManager $db, Repository $cache)
     {
         $this->repository = $repository;
         $this->document_repository = $document_repository;
