@@ -50,6 +50,8 @@
 ### END OF FINISHED TASKS ###
 
 ### PENDING TASKS ###
+- remove receivedby/releasedby on transaction details
+- fix / redirect
 - include jobtitle and office in sign up
 - add refresh button on datatable 
 - add admin filter on datatable
