@@ -80,20 +80,23 @@ VIEW TRANSACTION
 			<p><span class="label label-{{ $transaction->pending ? 'warning' : 'success' }}">{{ $transaction->pending ? 'Pending' : 'OK' }}</p>
 			</div>
 		</div>	
-		<!-- RELEASED BY -->
+		
+		<!-- RECEIVED/RELEASED BY -->
 		<div class="row">
-			<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Received' : 'Released' }} By:</label>
+			<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Received by' : 'Released to' }}:</label>
 			<div class="col-sm-10">
-				<p>{{ $transaction->task === 'I' ? $transaction->by : $transaction->creator->name }}</p>
+				<p>{{ $transaction->by }}</p>
 			</div>
 		</div>	
+		<!-- END RECEIVED/RELEASED BY -->
+
 		<!-- RECEIVED BY -->
-		<div class="row">
+		{{--  <div class="row">
 			<label class="control-label col-sm-2">{{ $transaction->task === 'I' ? 'Released' : 'Received' }} By:</label>
 			<div class="col-sm-10">
 				<p>{{ $transaction->task ==='I' ? $transaction->creator->name : $transaction->by }}</p>
 			</div>
-		</div>	
+		</div>	  --}}
 		<!-- ATTACHMENTS -->
 		<div class="row">
 			<label class="control-label col-sm-2">Attachment(s):</label>
