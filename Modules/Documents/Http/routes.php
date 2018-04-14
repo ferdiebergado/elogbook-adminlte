@@ -1,6 +1,6 @@
 <?php
 Route::group(['middleware' => ['web', 'auth', 'user', 'prevent_back_history'], 'namespace' => 'Modules\Documents\Http\Controllers'], function () {
-    Route::get('/home', 'TransactionsController@home')->name('home');
+    Route::get('/', 'TransactionsController@home')->name('home');
     Route::resource('documents', 'DocumentsController')->except(['destroy']);
     Route::delete('documents/{documents}', 'DocumentsController@destroy')->name('documents.destroy')->middleware('admin');
     Route::get('transactions/{transactions}/receive', 'TransactionsController@receive')->name('transactions.receive');

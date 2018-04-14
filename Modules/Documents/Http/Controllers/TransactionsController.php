@@ -52,6 +52,9 @@ class TransactionsController extends Controller
 
     public function home()
     {
+        if (auth()->user()->can('admin')) {
+            return redirect()->route('admin.home');
+        }
         $documents = $this->document_repository->whereHas('transactions', function ($q) {
             $q->where('office_id', auth()->user()->office_id);
         })->all(['id']);
