@@ -4119,9 +4119,10 @@ javascript-obfuscator@0.13.0:
     string-template "1.0.0"
     tslib "1.8.1"
 
-jquery-highlight@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/jquery-highlight/-/jquery-highlight-3.4.0.tgz#05cc0e765477838a98c60f542e3d5dc319742f87"
+jquery-highlight@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jquery-highlight/-/jquery-highlight-3.5.0.tgz#354fb3a8b98c594525ec1ccc003fd3d1dc305815"
+  integrity sha512-5gzRomQyy3n/byb2G5zhbavdiXcPZ6rAWXtU5FgdEvguDEn90kMm9/QARY3zdKhH/+tfqqu9GNKocbMGf7ThNg==
   dependencies:
     jquery ">= 1.0.0"
 
