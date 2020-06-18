@@ -74,34 +74,34 @@ adjust-sourcemap-loader@^1.1.0:
     object-path "^0.9.2"
     regex-parser "^2.2.1"
 
-admin-lte@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/admin-lte/-/admin-lte-2.4.2.tgz#6a2928fa34715881eb69a09b64dbccc8d5fae539"
+admin-lte@^2.4.18:
+  version "2.4.18"
+  resolved "https://registry.yarnpkg.com/admin-lte/-/admin-lte-2.4.18.tgz#3e1ee4722e3c117d58a0a9aba2c594af21c22cf1"
+  integrity sha512-AfIdoUWdbQA0OmW7PnP8GJ3u6RMKNXefN3DRTBHCQXd7VeyJahUfZWtV62ppDxcdjpx0L08ypPV55ARmdGdOIw==
   dependencies:
-    bootstrap "^3.3.7"
-    bootstrap-colorpicker "^2.5.1"
-    bootstrap-datepicker "^1.7.0"
+    bootstrap "^3.4"
+    bootstrap-colorpicker "^2.5.3"
+    bootstrap-datepicker "^1.8"
     bootstrap-daterangepicker "^2.1.25"
-    bootstrap-slider "^9.8.0"
-    bootstrap-timepicker "^0.5.2"
-    chart.js "1.0.*"
-    ckeditor "^4.7.0"
-    datatables.net "^1.10.15"
-    datatables.net-bs "^1.10.15"
+    bootstrap-slider "^9.10.0"
+    chart.js "^1"
+    ckeditor "^4.11.2"
+    datatables.net "^1.10.19"
+    datatables.net-bs "^1.10.19"
     fastclick "^1.0.6"
-    flot "^0.8.0-alpha"
-    font-awesome "^4.7.0"
-    fullcalendar "^3.4.0"
+    flot "^0.8.3"
+    font-awesome "^4.7"
+    fullcalendar "^3.10"
     inputmask "^3.3.7"
-    ion-rangeslider "^2.2.0"
-    ionicons "^3.0.0"
-    jquery "^3.2.1"
+    ion-rangeslider "^2.3"
+    ionicons "^3"
+    jquery "^3.4.1"
     jquery-knob "^1.2.11"
-    jquery-sparkline "^2.4.0"
+    jquery-sparkline "^2.4"
     jquery-ui "^1.12.1"
     jvectormap "^1.2.2"
-    moment "^2.18.1"
-    morris.js "^0.5.0"
+    moment "^2.24"
+    morris.js "^0.5"
     pace "0.0.4"
     raphael "^2.2.7"
     select2 "^4.0.3"
@@ -1048,15 +1048,17 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
-bootstrap-colorpicker@^2.5.1:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-2.5.2.tgz#33bfb2043485f12dcb3df0f60ad171762cc3c0e4"
+bootstrap-colorpicker@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-2.5.3.tgz#b50aff8590fbaa6b5aa63a5624e4213f1659a49d"
+  integrity sha512-xdllX8LSMvKULs3b8JrgRXTvyvjkSMHHHVuHjjN5FNMqr6kRe5NPiMHFmeAFjlgDF73MspikudLuEwR28LbzLw==
   dependencies:
     jquery ">=1.10"
 
-bootstrap-datepicker@^1.7.0:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.7.1.tgz#4ee7faf34888dbec7834fbf9dbe7c4277e01ddaf"
+bootstrap-datepicker@^1.8:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.9.0.tgz#e4bfce3fcce1967876b21dc6833ec5994aaed090"
+  integrity sha512-9rYYbaVOheGYxjOr/+bJCmRPihfy+LkLSg4fIFMT9Od8WwWB/MB50w0JO1eBgKUMbb7PFHQD5uAfI3ArAxZRXA==
   dependencies:
     jquery ">=1.7.1 <4.0.0"
 
@@ -1071,17 +1073,15 @@ bootstrap-sass@^3.3.7:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz#6596c7ab40f6637393323ab0bc80d064fc630498"
 
-bootstrap-slider@^9.8.0:
+bootstrap-slider@^9.10.0:
   version "9.10.0"
   resolved "https://registry.yarnpkg.com/bootstrap-slider/-/bootstrap-slider-9.10.0.tgz#1103d6bc00cfbfa8cfc9a2599ab518c55643da3f"
+  integrity sha1-EQPWvADPv6jPyaJZmrUYxVZD2j8=
 
-bootstrap-timepicker@^0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-timepicker/-/bootstrap-timepicker-0.5.2.tgz#10ed9f2a2f0b8ccaefcde0fcf6a0738b919a3835"
-
-bootstrap@^3.3.7:
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
+bootstrap@^3.4:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
+  integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
 
 brace-expansion@^1.1.7:
   version "1.1.8"
@@ -1447,9 +1447,10 @@ charm@~0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/charm/-/charm-0.1.2.tgz#06c21eed1a1b06aeb67553cdc53e23274bac2296"
 
-chart.js@1.0.*:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-1.0.2.tgz#ad57d2229cfd8ccf5955147e8121b4911e69dfe7"
+chart.js@^1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-1.1.1.tgz#a9b17054220bd45cbdb176fd6bcb8783ef871a7d"
+  integrity sha1-qbFwVCIL1Fy9sXb9a8uHg++HGn0=
 
 chokidar@^1.7.0:
   version "1.7.0"
@@ -1494,9 +1495,10 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-ckeditor@^4.7.0:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/ckeditor/-/ckeditor-4.8.0.tgz#5d450fa02a68d5a143cf5619754fbf0c04cad426"
+ckeditor@^4.11.2:
+  version "4.12.1"
+  resolved "https://registry.yarnpkg.com/ckeditor/-/ckeditor-4.12.1.tgz#954a7b028dd611e44ba51cc7c2fe051cf1052186"
+  integrity sha512-pH2Su4oi0D4iN/3U8nUcwI7/lXHoOJi0aiN8e2zxnm4Ow5kq8eZP2ZGmpYyuqRyKZ2tHaU8+OyYi7laXcjiq9Q==
 
 clap@^1.0.9:
   version "1.2.3"
@@ -2023,16 +2025,18 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-datatables.net-bs@^1.10.15:
-  version "1.10.16"
-  resolved "https://registry.yarnpkg.com/datatables.net-bs/-/datatables.net-bs-1.10.16.tgz#b0854f5b374f713ae3db4156c7cea8a760c3de76"
+datatables.net-bs@^1.10.19:
+  version "1.10.21"
+  resolved "https://registry.yarnpkg.com/datatables.net-bs/-/datatables.net-bs-1.10.21.tgz#c80e655033787512423ad78a45e8164f25417dc5"
+  integrity sha512-4mpesFXNEkLlQET3IDLclLz95Xit4Kp/jHcOM2X0nc/ijDfO3qJk3ehZ+NSEAkXZDge6ZtY5Zxq2O90ISiIjwQ==
   dependencies:
-    datatables.net "1.10.16"
+    datatables.net "1.10.21"
     jquery ">=1.7"
 
-datatables.net@1.10.16, datatables.net@^1.10.15:
-  version "1.10.16"
-  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.16.tgz#4b052d1082824261b68eed9d22741b711d3d2469"
+datatables.net@1.10.21, datatables.net@^1.10.19:
+  version "1.10.21"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.21.tgz#f1d35c8e5c3eb7f5caef39e80cd5b836a8c77103"
+  integrity sha512-/bSZtxmf3GTpYcvEmwZ8q26I1yhSx8qklR2B+s1K8+/51UW/zc2zTYwJMqr/Z+iCYixAc00ildj4g2x0Qamolw==
   dependencies:
     jquery ">=1.7"
 
@@ -2891,9 +2895,10 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flot@^0.8.0-alpha:
-  version "0.8.0-alpha"
-  resolved "https://registry.yarnpkg.com/flot/-/flot-0.8.0-alpha.tgz#9cbbc7147c10a47d2549db90bd2987ec1ba784ba"
+flot@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/flot/-/flot-0.8.3.tgz#6d9b93c7aa2cfb30dfa1af9c1ec4c94070b1217f"
+  integrity sha512-xg2otcTJDvS+ERK+my4wxG/ASq90QURXtoM4LhacCq0jQW2jbyjdttbRNqU2cPykrpMvJ6b2uSp6SAgYAzj9tQ==
 
 flush-write-stream@^1.0.0:
   version "1.0.2"
@@ -2902,9 +2907,10 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-font-awesome@^4.7.0:
+font-awesome@^4.7:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
+  integrity sha1-j6jPBBGhoxr9B7BtKQK7n8gVoTM=
 
 for-in@^0.1.3:
   version "0.1.8"
@@ -3024,12 +3030,10 @@ fstream@^1.0.0, fstream@^1.0.10, fstream@^1.0.2:
     mkdirp ">=0.5 0"
     rimraf "2"
 
-fullcalendar@^3.4.0:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.8.2.tgz#ef7dc77b89134bbe6163e51136f7a1f8bfc1d807"
-  dependencies:
-    jquery "2 - 3"
-    moment "^2.9.0"
+fullcalendar@^3.10:
+  version "3.10.2"
+  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.2.tgz#9b1ba84bb02803621b761d1bba91a4f18affafb7"
+  integrity sha512-YWZaHdp8ZLBqhPz615PoXdA49ymsBTUF+MGDM6H3vyz71Pv/ZW9Pm9/Mj3x6n822k6bs2txFO7muRTSvBhsqKg==
 
 function-bind@^1.0.2, function-bind@^1.1.1:
   version "1.1.1"
@@ -3745,15 +3749,15 @@ invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
-ion-rangeslider@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/ion-rangeslider/-/ion-rangeslider-2.2.0.tgz#388f12cd70593a61b3368fad6c4f30a5da8b97c9"
-  dependencies:
-    jquery ">=1.8"
+ion-rangeslider@^2.3:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/ion-rangeslider/-/ion-rangeslider-2.3.1.tgz#92ade52cb56fc30b9162d0483ff02b6f9ed237c2"
+  integrity sha512-6V+24FD13/feliI485gnRHZYD9Ev64M5NAFTxnVib516ATHa9PlXQrC+nOiPngouRYTCLPJyokAJEi3e1Umi5g==
 
-ionicons@^3.0.0:
+ionicons@^3:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ionicons/-/ionicons-3.0.0.tgz#40b8daf4fd7a31150bd002160f66496e22a98c3c"
+  integrity sha1-QLja9P16MRUL0AIWD2ZJbiKpjDw=
 
 ip-regex@^1.0.1:
   version "1.0.3"
@@ -4139,17 +4143,23 @@ jquery-slimscroll@^1.3.8:
   dependencies:
     jquery ">= 1.7"
 
-jquery-sparkline@^2.4.0:
+jquery-sparkline@^2.4:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/jquery-sparkline/-/jquery-sparkline-2.4.0.tgz#1be8b7b704dd3857152708aefb1d4a4b3a69fb33"
+  integrity sha1-G+i3twTdOFcVJwiu+x1KSzpp+zM=
 
 jquery-ui@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
 
-"jquery@2 - 3", "jquery@>= 1.0.0", "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.5, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@>=1.8, jquery@^3.2, jquery@^3.2.1:
+"jquery@>= 1.0.0", "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.5, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@^3.2:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
+
+jquery@^3.4.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
+  integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.3"
@@ -4862,13 +4872,19 @@ module-deps@^5.0.1:
     through2 "^2.0.0"
     xtend "^4.0.0"
 
-moment@^2.18.1, moment@^2.9.0:
+moment@^2.24:
+  version "2.26.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.26.0.tgz#5e1f82c6bafca6e83e808b30c8705eed0dcbd39a"
+  integrity sha512-oIixUO+OamkUkwjhAVE18rAMfRJNsNe/Stid/gwHSOfHrOtw9EhAY2AHvdKZ/k/MggcYELFCJz/Sn2pL8b8JMw==
+
+moment@^2.9.0:
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
 
-morris.js@^0.5.0:
+morris.js@^0.5:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/morris.js/-/morris.js-0.5.0.tgz#725767135cfae059aae75999bb2ce6a1c5d1b44b"
+  integrity sha1-cldnE1z64Fmq51mZuyzmocXRtEs=
 
 move-concurrently@^1.0.1:
   version "1.0.1"
